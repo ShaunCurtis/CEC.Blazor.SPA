@@ -1,0 +1,10 @@
+﻿@namespace CEC.Blazor.SPA.Components.FormControls
+
+@inherits Component
+
+<div class="@this.BaseCss" role="group">
+    @foreach (var option in this.OptionList)
+    {
+        <button class="@ButtonCss" @onclick="() => this.ButtonClick(option.Key)">@option.Value</button>
+    }
+</div>

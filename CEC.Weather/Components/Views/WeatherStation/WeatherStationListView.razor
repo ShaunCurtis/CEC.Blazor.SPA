@@ -1,0 +1,31 @@
+﻿@using CEC.Blazor.SPA.Components
+@using CEC.Blazor.SPA.Components.Forms
+@using CEC.Blazor.SPA.Components.UIControls
+@using CEC.Weather.Data
+@using CEC.Weather.Components
+
+@namespace CEC.Weather.Components.Views
+
+@inherits ViewBase
+@implements IView
+
+<WeatherStationListForm  Properties="this.UIProperties"></WeatherStationListForm>
+
+@code {
+
+    public PropertyCollection UIProperties
+    {
+        get
+        {
+            var props = new PropertyCollection();
+            props.Add(PropertyConstants.RowNavigateToViewer, true);
+            props.Add(PropertyConstants.ShowButtons, true);
+            props.Add(PropertyConstants.ShowEdit, true);
+            props.Add(PropertyConstants.ShowAdd, true);
+            props.Add(PropertyConstants.UseModalViewer, true);
+            return props;
+        }
+    }
+
+
+}
