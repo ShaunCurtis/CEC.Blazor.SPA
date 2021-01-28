@@ -12,10 +12,28 @@ namespace CEC.Blazor.SPA.Components.Forms
         where TRecord : class, IDbRecord<TRecord>, new()
        where TDbContext : DbContext
     {
+
+        /// <summary>
+        /// Property for referencing to the RecordEditForm component when rendered
+        /// </summary>
+        protected RecordEditForm RecordEditForm { get; set; }
+
+
+        /// <summary>
+        /// RecordEditData object used for edit control and Validation
+        /// Should be assigned in defived classes at first render
+        /// </summary>
+        protected IRecordEditData RecordEditData { get; set; }
+
         /// <summary>
         /// Boolean Property exposing the Service Clean state
         /// </summary>
         public bool IsClean => this.Service?.IsClean ?? true;
+
+        /// <summary>
+        /// Boolean Validation checker for exposing last Validation check
+        /// </summary>
+        protected bool IsValidated => this.RecordEditData?.IsValid ?? true;
 
         /// <summary>
         /// EditContext for the component
@@ -30,8 +48,6 @@ namespace CEC.Blazor.SPA.Components.Forms
                     var old = this._EditContext;
                     this._EditContext = value;
                     this.EditContextChangedAsync(old);
-
-                    // Task.Run(() => this.EditContextChangedAsync(old));
                 }
             }
         }
@@ -112,6 +128,8 @@ namespace CEC.Blazor.SPA.Components.Forms
         }
 
         protected virtual void EditContextChangedAsync(EditContext oldcontext) { }
+
+        private void OnValidationStateChanged(object sender, ValidationStateChangedEventArgs e) => this.RenderAsync();
 
         /// <summary>
         /// Save Method called from the Button

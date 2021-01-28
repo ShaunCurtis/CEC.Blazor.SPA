@@ -15,11 +15,11 @@ namespace CEC.Weather.Data
     public class DbWeatherStation 
         :IDbRecord<DbWeatherStation>
     {
-        public static readonly string __ID = "WeatherStationID";
-        public static readonly string __Name = "Name";
-        public static readonly string __Latitude = "Latitude";
-        public static readonly string __Longitude = "Longitude";
-        public static readonly string __Elevation = "Elevation";
+        public static readonly RecordFieldInfo __ID = new RecordFieldInfo("WeatherStationID");
+        public static readonly RecordFieldInfo __Name = new RecordFieldInfo("Name");
+        public static readonly RecordFieldInfo __Latitude = new RecordFieldInfo("Latitude");
+        public static readonly RecordFieldInfo __Longitude = new RecordFieldInfo("Longitude");
+        public static readonly RecordFieldInfo __Elevation = new RecordFieldInfo("Elevation");
 
         [NotMapped]
         public Guid GUID => Guid.NewGuid();
@@ -51,7 +51,7 @@ namespace CEC.Weather.Data
         public string LatLong => $"{this.Latitude.AsLatitude()} {this.Longitude.AsLongitude()}";
 
         [NotMapped]
-        public DbRecordInfo RecordInfo => DbWeatherForecast.RecInfo;
+        public DbRecordInfo RecordInfo => DbWeatherStation.RecInfo;
 
         [NotMapped]
         public static DbRecordInfo RecInfo => new DbRecordInfo()

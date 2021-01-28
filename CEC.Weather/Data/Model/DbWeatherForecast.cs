@@ -13,16 +13,19 @@ namespace CEC.Weather.Data
     /// </summary>
     public class DbWeatherForecast :IDbRecord<DbWeatherForecast>
     {
-        public static readonly string __ID = "WeatherForecastID";
-        public static readonly string __Date = "WeatherForecastDate";
-        public static readonly string __TemperatureC = "TemperatureC";
-        public static readonly string __PostCode = "PostCode";
-        public static readonly string __Frost = "Frost";
-        public static readonly string __Summary = "Summary";
-        public static readonly string __SummaryValue = "SummaryValue";
-        public static readonly string __Outlook = "Outlook";
-        public static readonly string __OutlookValue = "OutlookValue";
-        public static readonly string __Description = "Description";
+        public static readonly RecordFieldInfo __ID = new RecordFieldInfo("WeatherForecastID");
+        public static readonly RecordFieldInfo __Date = new RecordFieldInfo("WeatherForecastDate");
+        public static readonly RecordFieldInfo __TemperatureC = new RecordFieldInfo("TemperatureC");
+        public static readonly RecordFieldInfo __TemperatureF = new RecordFieldInfo("TemperatureF");
+        public static readonly RecordFieldInfo __PostCode = new RecordFieldInfo("PostCode");
+        public static readonly RecordFieldInfo __Frost = new RecordFieldInfo("Frost");
+        public static readonly RecordFieldInfo __Summary = new RecordFieldInfo("Summary");
+        public static readonly RecordFieldInfo __SummaryValue = new RecordFieldInfo("SummaryValue");
+        public static readonly RecordFieldInfo __Outlook = new RecordFieldInfo("Outlook");
+        public static readonly RecordFieldInfo __OutlookValue = new RecordFieldInfo("OutlookValue");
+        public static readonly RecordFieldInfo __Description = new RecordFieldInfo("Description");
+        public static readonly RecordFieldInfo __Detail = new RecordFieldInfo("Detail");
+        public static readonly RecordFieldInfo __DisplayName = new RecordFieldInfo("DisplayName");
 
         [NotMapped]
         public Guid GUID => Guid.NewGuid();
@@ -97,13 +100,16 @@ namespace CEC.Weather.Data
                 { __ID, this.ID },
                 { __Date, this.Date },
                 { __TemperatureC, this.TemperatureC },
+                { __TemperatureF, this.TemperatureF },
                 { __PostCode, this.PostCode },
                 { __Frost, this.Frost },
                 { __Summary, this.Summary },
                 { __SummaryValue, this.SummaryValue },
                 { __Outlook, this.Outlook },
                 { __OutlookValue, this.OutlookValue },
-                { __Description, this.Description }
+                { __Description, this.Description },
+                { __Detail, this.Detail },
+                { __DisplayName, this.DisplayName },
         };
 
 
@@ -119,7 +125,10 @@ namespace CEC.Weather.Data
                 SummaryValue = recordvalues.GetEditValue<int>(__SummaryValue),
                 Outlook = recordvalues.GetEditValue<WeatherOutlook>(__Outlook),
                 OutlookValue = recordvalues.GetEditValue<int>(__OutlookValue),
-                Description = recordvalues.GetEditValue<string>(__Description)
+                Description = recordvalues.GetEditValue<string>(__Description),
+                Detail = recordvalues.GetEditValue<string>(__Detail),
+                DisplayName = recordvalues.GetEditValue<string>(__DisplayName),
+
             };
 
         public DbWeatherForecast GetFromProperties(RecordCollection recordvalues) => DbWeatherForecast.FromProperties(recordvalues);

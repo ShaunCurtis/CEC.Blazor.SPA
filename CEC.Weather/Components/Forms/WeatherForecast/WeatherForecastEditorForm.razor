@@ -10,21 +10,20 @@
 @namespace CEC.Weather.Components
 @inherits EditRecordFormBase<DbWeatherForecast, WeatherForecastDbContext>
 
-<UICard IsCollapsible="false">
-    <Header>
-        @this.PageTitle
-    </Header>
+<RecordEditForm @ref="this.RecordEditForm" Model="this.RecordEditData">
 
-    <Body>
-        <CascadingValue Value="@this.RecordFieldChanged" Name="OnRecordChange" TValue="Action<bool>">
+    <UICard IsCollapsible="false">
+        <Header>
+            @this.PageTitle
+        </Header>
 
-            <UIErrorHandler IsError="@this.IsError" IsLoading="this.Loading" ErrorMessage="@this.RecordErrorMessage">
+        <Body>
+            <CascadingValue Value="@this.RecordFieldChanged" Name="OnRecordChange" TValue="Action<bool>">
 
-                <UIContainer>
+                <UIErrorHandler IsError="@this.IsError" IsLoading="this.Loading" ErrorMessage="@this.RecordErrorMessage">
 
-                    <EditForm EditContext="this.EditContext">
 
-                        @*<FluentValidationValidator DisableAssemblyScanning="@true" />*@
+                    <UIContainer>
 
                         <UIFormRow>
 
@@ -133,7 +132,7 @@
                             </UILabelColumn>
 
                             <UIColumn Columns="8">
-                                @*<InputControlButtonGroup OptionList="this.ControllerService.OutlookOptionList" class="form-control" @bind-Value="@this.Service.Record.OutlookValue" RecordValue="@this.Service.ShadowRecord.OutlookValue"></InputControlButtonGroup>*@
+                                <InputControlButtonGroup OptionList="this.ControllerService.OutlookOptionList" class="form-control" @bind-Value="@this.Service.Record.OutlookValue"></InputControlButtonGroup>
                             </UIColumn>
 
                         </UIFormRow>
@@ -150,38 +149,39 @@
 
                         </UIFormRow>
 
-                    </EditForm>
+                    </UIContainer>
+
+
+                </UIErrorHandler>
+
+                <UIContainer>
+
+                    <UIRow>
+
+                        <UIColumn Columns="7">
+                            <UIAlert Alert="this.AlertMessage" SizeCode="Bootstrap.SizeCode.sm"></UIAlert>
+                        </UIColumn>
+                        <UIButtonColumn Columns="5">
+
+                            <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.SaveAndExit" ColourCode="Bootstrap.ColourCode.save">Save &amp; Exit</UIButton>
+
+                            <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.Save" ColourCode="Bootstrap.ColourCode.save">Save</UIButton>
+
+                            <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.ConfirmExit" ColourCode="Bootstrap.ColourCode.danger_exit">Exit Without Saving</UIButton>
+
+                            <UIButton Show="this.IsClean" ClickEvent="this.TryExit" ColourCode="Bootstrap.ColourCode.nav">Exit</UIButton>
+
+                        </UIButtonColumn>
+
+                    </UIRow>
 
                 </UIContainer>
 
-            </UIErrorHandler>
+            </CascadingValue>
 
-            <UIContainer>
-                <UIRow>
+        </Body>
 
-                    <UIColumn Columns="7">
-                        <UIAlert Alert="this.AlertMessage" SizeCode="Bootstrap.SizeCode.sm"></UIAlert>
-                    </UIColumn>
-                    <UIButtonColumn Columns="5">
+    </UICard>
 
-                        <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.SaveAndExit" ColourCode="Bootstrap.ColourCode.save">Save &amp; Exit</UIButton>
-
-                        <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.Save" ColourCode="Bootstrap.ColourCode.save">Save</UIButton>
-
-                        <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.ConfirmExit" ColourCode="Bootstrap.ColourCode.danger_exit">Exit Without Saving</UIButton>
-
-                        <UIButton Show="this.IsClean" ClickEvent="this.TryExit" ColourCode="Bootstrap.ColourCode.nav">Exit</UIButton>
-
-                    </UIButtonColumn>
-
-                </UIRow>
-
-            </UIContainer>
-
-        </CascadingValue>
-
-    </Body>
-
-</UICard>
-
+</RecordEditForm>
 

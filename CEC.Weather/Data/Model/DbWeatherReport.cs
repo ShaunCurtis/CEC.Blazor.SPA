@@ -15,18 +15,18 @@ namespace CEC.Weather.Data
     /// </summary>
     public class DbWeatherReport :IDbRecord<DbWeatherReport>
     {
-        public static readonly string __ID = "WeatherReportID";
-        public static readonly string __Date = "Date";
-        public static readonly string __TempMax = "TempMax";
-        public static readonly string __TempMin = "TempMin";
-        public static readonly string __FrostDays = "FrostDays";
-        public static readonly string __Rainfall = "Rainfall";
-        public static readonly string __SunHours = "SunHours";
-        public static readonly string __WeatherStationID = "WeatherStationID";
-        public static readonly string __WeatherStationName = "WeatherStationName";
-        public static readonly string __DisplayName = "DisplayName";
-        public static readonly string __Month = "Month";
-        public static readonly string __Year = "Year";
+        public static readonly RecordFieldInfo __ID = new RecordFieldInfo("WeatherReportID");
+        public static readonly RecordFieldInfo __Date = new RecordFieldInfo("Date");
+        public static readonly RecordFieldInfo __TempMax = new RecordFieldInfo("TempMax");
+        public static readonly RecordFieldInfo __TempMin = new RecordFieldInfo("TempMin");
+        public static readonly RecordFieldInfo __FrostDays = new RecordFieldInfo("FrostDays");
+        public static readonly RecordFieldInfo __Rainfall = new RecordFieldInfo("Rainfall");
+        public static readonly RecordFieldInfo __SunHours = new RecordFieldInfo("SunHours");
+        public static readonly RecordFieldInfo __WeatherStationID = new RecordFieldInfo("WeatherStationID");
+        public static readonly RecordFieldInfo __WeatherStationName = new RecordFieldInfo("WeatherStationName");
+        public static readonly RecordFieldInfo __DisplayName = new RecordFieldInfo("DisplayName");
+        public static readonly RecordFieldInfo __Month = new RecordFieldInfo("Month");
+        public static readonly RecordFieldInfo __Year = new RecordFieldInfo("Year");
 
         [NotMapped]
         public Guid GUID => Guid.NewGuid();
@@ -71,7 +71,7 @@ namespace CEC.Weather.Data
         public int Year { get; set; }
 
         [NotMapped]
-        public DbRecordInfo RecordInfo => DbWeatherForecast.RecInfo;
+        public DbRecordInfo RecordInfo => DbWeatherReport.RecInfo;
 
         [NotMapped]
         public string MonthName => CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(this.Month);
@@ -79,23 +79,6 @@ namespace CEC.Weather.Data
         [NotMapped]
         public string MonthYearName => $"{this.MonthName}-{this.Year}";
 
-        public void SetNew() => this.ID = 0;
-
-        public DbWeatherReport ShadowCopy()
-        {
-            return new DbWeatherReport() {
-                ID = this.ID,
-                Date = this.Date,
-                TempMax = this.TempMax,
-                TempMin = this.TempMin,
-                FrostDays = this.FrostDays,
-                Rainfall = this.Rainfall,
-                SunHours = this.SunHours,
-                DisplayName = this.DisplayName,
-                WeatherStationID = this.WeatherStationID,
-                WeatherStationName = this.WeatherStationName
-            };
-        }
 
         [NotMapped]
         public static DbRecordInfo RecInfo => new DbRecordInfo()

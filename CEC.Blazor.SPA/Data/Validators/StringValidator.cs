@@ -53,7 +53,7 @@ namespace CEC.Blazor.Data.Validators
         /// </summary>
         /// <param name="test"></param>
         /// <returns></returns>
-        public StringValidator RegexTest(string pattern, string message = null)
+        public StringValidator Matches(string pattern, string message = null)
         {
             if (!string.IsNullOrWhiteSpace(this.Value))
             {

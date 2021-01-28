@@ -52,6 +52,7 @@ namespace CEC.Blazor.Data
         {
             return new Enumerator(_items);
         }
+        public T Get<T>(RecordFieldInfo field) => Get<T>(field.FieldName);
 
         public T Get<T>(string FieldName) 
         {
@@ -60,12 +61,16 @@ namespace CEC.Blazor.Data
             return default;
         }
 
+        public T GetEditValue<T>(RecordFieldInfo field) => GetEditValue<T>(field.FieldName);
+
         public T GetEditValue<T>(string FieldName)
         {
             var x = _items.FirstOrDefault(item => item.Field.Equals(FieldName, StringComparison.CurrentCultureIgnoreCase));
             if (x != null && x.EditedValue is T t) return t;
             return default;
         }
+
+        public RecordValue GetRecordValue(RecordFieldInfo field) => GetRecordValue(field.FieldName);
 
         public RecordValue GetRecordValue(string FieldName)
         {
@@ -78,6 +83,8 @@ namespace CEC.Blazor.Data
             return x;
         }
 
+        public bool TryGet<T>(RecordFieldInfo field, out T value) => this.TryGet<T>(field.FieldName, out value);
+
         public bool TryGet<T>(string FieldName, out T value)
         {
             value = default;
@@ -85,6 +92,8 @@ namespace CEC.Blazor.Data
             if (x != null && x.Value is T t) value = t;
             return x.Value != default;
         }
+
+        public bool TryGetEditValue<T>(RecordFieldInfo field, out T value) => this.TryGetEditValue<T>(field.FieldName, out value);
 
         public bool TryGetEditValue<T>(string FieldName, out T value)
         {
@@ -94,12 +103,16 @@ namespace CEC.Blazor.Data
             return x.EditedValue != default;
         }
 
+        public bool HasField(RecordFieldInfo field) => this.HasField(field.FieldName);
+
         public bool HasField(string FieldName)
         {
             var x = _items.FirstOrDefault(item => item.Field.Equals(FieldName, StringComparison.CurrentCultureIgnoreCase));
             if (x is null | x == default) return false;
             return true;
         }
+
+        public bool SetField(RecordFieldInfo field, object value) => this.SetField(field.FieldName, value);
 
         public bool SetField(string FieldName, object value )
         {
@@ -110,6 +123,14 @@ namespace CEC.Blazor.Data
                 this.FieldValueChanged?.Invoke(this.IsDirty);
             }
             else _items.Add(new RecordValue(FieldName, value));
+            return true;
+        }
+
+        public bool Add(RecordFieldInfo field, object value)
+        {
+            var x = _items.FirstOrDefault(item => item.Field.Equals(field.FieldName, StringComparison.CurrentCultureIgnoreCase));
+            if (x != null && x != default) _items.Remove(x);
+            _items.Add(new RecordValue(field, value));
             return true;
         }
 
@@ -128,6 +149,8 @@ namespace CEC.Blazor.Data
             _items.Add(value);
             return true;
         }
+
+        public bool RemoveField(RecordFieldInfo field) => RemoveField(field.FieldName);
 
         public bool RemoveField(string FieldName)
         {

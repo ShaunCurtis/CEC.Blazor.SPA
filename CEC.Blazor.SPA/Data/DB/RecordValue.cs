@@ -1,9 +1,13 @@
 ﻿
+using System;
+
 namespace CEC.Blazor.Data
 {
     public class RecordValue
     {
         public string Field { get; }
+
+        public Guid GUID { get; }
 
         public object Value { get; }
 
@@ -24,6 +28,15 @@ namespace CEC.Blazor.Data
             this.Field = field;
             this.Value = value;
             this.EditedValue = value;
+            this.GUID = Guid.NewGuid();
+        }
+
+        public RecordValue(RecordFieldInfo field, object value)
+        {
+            this.Field = field.FieldName;
+            this.Value = value;
+            this.EditedValue = value;
+            this.GUID = field.FieldGUID;
         }
     }
 }

@@ -59,6 +59,21 @@ namespace CEC.Blazor.Data.Validators
             }
             return this;
         }
+
+        /// <summary>
+        /// Check of the value is default
+        /// </summary>
+        /// <param name="test"></param>
+        /// <returns></returns>
+        public DateTimeValidator NotDefault(string message = null)
+        {
+            if (this.Value == default(DateTime))
+            {
+                Trip = true;
+                LogMessage(message);
+            }
+            return this;
+        }
     }
 
     public static class DateTimeValidatorExtensions
