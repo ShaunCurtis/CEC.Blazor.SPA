@@ -23,7 +23,7 @@ namespace CEC.Blazor.Data.Validators
         /// <returns></returns>
         public LongValidator LessThan(long test, string message = null)
         {
-            if (!(this.Value > test))
+            if (!(this.Value < test))
             {
                 Trip = true;
                 LogMessage(message);
@@ -38,7 +38,7 @@ namespace CEC.Blazor.Data.Validators
         /// <returns></returns>
         public LongValidator GreaterThan(long test, string message = null)
         {
-            if (!(this.Value < test))
+            if (!(this.Value > test))
             {
                 Trip = true;
                 LogMessage(message);

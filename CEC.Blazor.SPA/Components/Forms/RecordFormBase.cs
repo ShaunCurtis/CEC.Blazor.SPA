@@ -86,7 +86,7 @@ namespace CEC.Blazor.SPA.Components.Forms
         /// Can be overridden for more complex loads - as in the Workflow Controller
         /// </summary>
         /// <returns></returns>
-        protected virtual async Task LoadRecordAsync(bool firstload = false, bool loadContext = true, bool setLoading = true )
+        protected virtual async Task LoadRecordAsync(bool firstload = false, bool setLoading = true )
         {
             if (this.IsService)
             {

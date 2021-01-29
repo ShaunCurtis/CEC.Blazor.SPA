@@ -42,8 +42,9 @@ namespace CEC.Blazor.Data.Validators
         {
             if (!this.IsValid)
             {
+                message ??= this.DefaultMessage;
                 // Check if we've logged specific messages.  If not add the default message
-                if (this.Messages.Count == 0) Messages.Add(this.DefaultMessage);
+                if (this.Messages.Count == 0) Messages.Add(message);
                 //set up a FieldIdentifier and add the message to the Edit Context ValidationMessageStore
                 var fi = new FieldIdentifier(this.Model, this.FieldName);
                 this.ValidationMessageStore.Add(fi, this.Messages);

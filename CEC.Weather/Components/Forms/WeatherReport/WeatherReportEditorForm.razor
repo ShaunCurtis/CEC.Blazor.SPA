@@ -18,13 +18,12 @@
     </Header>
 
     <Body>
-        <CascadingValue Value="@this.RecordFieldChanged" Name="OnRecordChange" TValue="Action<bool>">
 
             <UIErrorHandler IsError="@this.IsError" IsLoading="this.Loading" ErrorMessage="@this.RecordErrorMessage">
 
                 <UIContainer>
 
-                    <EditForm EditContext="this.EditContext">
+                    <EditForm EditContext="this.RecordEditorContext.EditContext">
 
 @*                        <FluentValidationValidator DisableAssemblyScanning="@true" />*@
 
@@ -171,8 +170,6 @@
                 </UIRow>
 
             </UIContainer>
-
-        </CascadingValue>
 
     </Body>
 

@@ -23,7 +23,7 @@ namespace CEC.Blazor.Data.Validators
         /// <returns></returns>
         public DecimalValidator LessThan(decimal test, string message = null)
         {
-            if (!(this.Value > test))
+            if (!(this.Value < test))
             {
                 Trip = true;
                 LogMessage(message);
@@ -37,7 +37,7 @@ namespace CEC.Blazor.Data.Validators
         /// <returns></returns>
         public DecimalValidator LessThanOrEqualTo(decimal test, string message = null)
         {
-            if (!(this.Value >= test))
+            if (!(this.Value <= test))
             {
                 Trip = true;
                 LogMessage(message);
@@ -52,7 +52,7 @@ namespace CEC.Blazor.Data.Validators
         /// <returns></returns>
         public DecimalValidator GreaterThan(decimal test, string message = null)
         {
-            if (!(this.Value < test))
+            if (!(this.Value > test))
             {
                 Trip = true;
                 LogMessage(message);
@@ -66,7 +66,7 @@ namespace CEC.Blazor.Data.Validators
         /// <returns></returns>
         public DecimalValidator GreaterThanOrEqualTo(decimal test, string message = null)
         {
-            if (!(this.Value <= test))
+            if (!(this.Value >= test))
             {
                 Trip = true;
                 LogMessage(message);

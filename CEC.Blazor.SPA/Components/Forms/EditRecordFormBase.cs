@@ -18,41 +18,21 @@ namespace CEC.Blazor.SPA.Components.Forms
         /// </summary>
         protected RecordEditForm RecordEditForm { get; set; }
 
-
         /// <summary>
         /// RecordEditData object used for edit control and Validation
         /// Should be assigned in defived classes at first render
         /// </summary>
-        protected IRecordEditData RecordEditData { get; set; }
+        protected IRecordEditContext RecordEditorContext { get; set; }
 
         /// <summary>
         /// Boolean Property exposing the Service Clean state
         /// </summary>
-        public bool IsClean => this.Service?.IsClean ?? true;
+        public bool IsClean => (this.RecordEditorContext?.IsClean ?? true);
 
         /// <summary>
         /// Boolean Validation checker for exposing last Validation check
         /// </summary>
-        protected bool IsValidated => this.RecordEditData?.IsValid ?? true;
-
-        /// <summary>
-        /// EditContext for the component
-        /// </summary>
-        protected EditContext EditContext
-        {
-            get => this._EditContext;
-            set
-            {
-                if (!value.Equals(_EditContext))
-                {
-                    var old = this._EditContext;
-                    this._EditContext = value;
-                    this.EditContextChangedAsync(old);
-                }
-            }
-        }
-
-        private EditContext _EditContext = null;
+        protected bool IsValidated => this.RecordEditorContext?.IsValid ?? true;
 
         /// <summary>
         /// Property to concatinate the Page Title
@@ -74,23 +54,17 @@ namespace CEC.Blazor.SPA.Components.Forms
         /// <summary>
         /// property used by the UIErrorHandler component
         /// </summary>
-        protected override bool IsError => !(this.IsRecord && this.EditContext != null);
+        protected override bool IsError => !(this.IsRecord);
 
         /// <summary>
         /// Inherited - Always call the base method first
         /// </summary>
-        protected async override Task LoadRecordAsync(bool firstLoad = false, bool setContext = true, bool setLoading = true)
+        protected async override Task LoadRecordAsync(bool firstLoad = false, bool setLoading = true)
         {
             await Task.Yield();
             this.Loading = true;
-            await base.LoadRecordAsync(firstLoad, false, setContext);
-            //set up the Edit Context
-            if (setContext) this.EditContext = new EditContext(this.Service.Record);
-            if (firstLoad)
-            {
-                this.Service.OnDirty += this.OnRecordDirty;
-                this.Service.OnClean += this.OnRecordClean;
-            }
+            await base.LoadRecordAsync(firstLoad, false);
+            this.RecordEditorContext.EditContextChanged += this.EditContextChanged;
             this.Loading = false;
         }
 
@@ -99,35 +73,29 @@ namespace CEC.Blazor.SPA.Components.Forms
             await base.OnAfterRenderAsync(firstRender);
         }
 
-        protected void OnRecordDirty(object sender, EventArgs e)
-        {
-            this.ViewManager.LockView();
-            this.AlertMessage.SetAlert("The Record isn't Saved", MessageType.Warning);
-            InvokeAsync(this.Render);
-        }
-
-        protected void OnRecordClean(object sender, EventArgs e)
-        {
-            this.ViewManager.UnLockView();
-            this.AlertMessage.ClearAlert();
-            InvokeAsync(this.Render);
-        }
-
         protected void onFieldChanged(object sender, EventArgs e)
         {
-            this.Service.SetDirtyState(this.Service.RecordValueCollection.IsDirty);
+            if (this.Service.RecordValueCollection.IsDirty)
+            {
+                this.ViewManager.LockView();
+                this.AlertMessage.SetAlert("The Record isn't Saved", MessageType.Warning);
+            }
+            else
+            {
+                this.ViewManager.UnLockView();
+                this.AlertMessage.ClearAlert();
+            }
+            this.RenderAsync();
         }
 
-        /// <summary>
-        /// Event handler for the RecordFromControls FieldChanged Event
-        /// </summary>
-        /// <param name="isdirty"></param>
-        protected virtual void RecordFieldChanged(bool isdirty)
+        protected virtual void EditContextChanged(object sender, EditContextEventArgs e) 
         {
-            if (this.EditContext != null) this.Service.SetDirtyState(isdirty);
+            //sort the field changed even handling - we need to lock the form if the RecordEditContect is dirty
+         if (e.OldContext != null) 
+                e.OldContext.OnFieldChanged -= onFieldChanged;
+            if (e.NewContext != null)
+                e.NewContext.OnFieldChanged += onFieldChanged;
         }
-
-        protected virtual void EditContextChangedAsync(EditContext oldcontext) { }
 
         private void OnValidationStateChanged(object sender, ValidationStateChangedEventArgs e) => this.RenderAsync();
 
@@ -138,14 +106,14 @@ namespace CEC.Blazor.SPA.Components.Forms
         {
             var ok = false;
             // Validate the EditContext
-            if (this.EditContext.Validate())
+            if (this.RecordEditorContext.EditContext.Validate())
             {
                 // Save the Record
                 ok = await this.Service.SaveRecordAsync();
                 if (ok)
                 {
                     // Set the EditContext State
-                    this.EditContext.MarkAsUnmodified();
+                    this.RecordEditorContext.EditContext.MarkAsUnmodified();
                 }
                 // Set the alert message to the return result
                 this.AlertMessage.SetAlert(this.Service.TaskResult);
@@ -182,16 +150,6 @@ namespace CEC.Blazor.SPA.Components.Forms
             this.Service.SetDirtyState(false);
             // Sort the exit strategy
             this.Exit();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (this.IsService)
-            {
-                this.Service.OnDirty -= this.OnRecordDirty;
-                this.Service.OnClean -= this.OnRecordClean;
-            }
-            base.Dispose(disposing);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace CEC.Blazor.Data.Validators
         /// <returns></returns>
         public IntValidator LessThan(int test, string message = null)
         {
-            if (!(this.Value > test))
+            if (!(this.Value < test))
             {
                 Trip = true;
                 LogMessage(message);
@@ -43,7 +43,7 @@ namespace CEC.Blazor.Data.Validators
         /// <returns></returns>
         public IntValidator GreaterThan(int test, string message = null)
         {
-            if (!(this.Value < test))
+            if (!(this.Value > test))
             {
                 Trip = true;
                 LogMessage(message);

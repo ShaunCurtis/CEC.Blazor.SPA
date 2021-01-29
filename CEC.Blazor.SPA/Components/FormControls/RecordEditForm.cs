@@ -42,26 +42,42 @@ namespace CEC.Blazor.SPA.Components
         /// <summary>
         /// Read only Property to get the Edit Context
         /// Only this component can change it
+        /// It's created from the Model
         /// </summary>
-        public EditContext EditContext { 
+        public EditContext EditContext
+        {
             get => _editContext;
             private set
             {
                 if (value != _editContext)
                 {
-                    if (_editContext != null) this.Model.NotifyEditContextChangedAsync(_editContext);
-                    this._editContext = value;
-                    this.EditContextChanged?.Invoke(value, EventArgs.Empty);
+                    if (this.Model != null)
+                    {
+                        this._editContext = value;
+                        this.Model.NotifyEditContextChangedAsync(_editContext);
+                        this.EditContextChanged?.Invoke(value, EventArgs.Empty);
+                    }
                 }
             }
         }
 
         /// <summary>
         /// Specifies the top-level model object for the form. An edit context will
-        /// be constructed for this model. If using this parameter, do not also supply
-        /// a value for <see cref="EditContext"/>.
+        /// be constructed for this model. It must implement IRecordEditData
         /// </summary>
-        [Parameter] public IRecordEditData Model { get; set; }
+        [Parameter]
+        public IRecordEditContext Model
+        {
+            get => this._Model;
+            set
+            {
+                if (value != null && value != _Model)
+                {
+                    _Model = value;
+                    EditContext = new EditContext(_Model);
+                }
+            }
+        }
 
         /// <summary>
         /// UIOptions object to cascade
@@ -107,7 +123,7 @@ namespace CEC.Blazor.SPA.Components
             this.RecordToken = recordToken;
             // Get an edit context on the model if don't already have one
             if (Model != null && Model != _editContext?.Model)
-                this.EditContext = new EditContext(Model!);
+                this.EditContext = new EditContext(Model);
             this.Model.NotifyEditContextChangedAsync(this._editContext);
             this.RenderAsync();
         }
@@ -125,10 +141,6 @@ namespace CEC.Blazor.SPA.Components
         {
             if (Model == null)
                 throw new InvalidOperationException($"{nameof(EditForm)} requires either a {nameof(Model)} " + $"parameter, or an {nameof(EditContext)} parameter, please provide one of these.");
-
-            // Update _editContext if we don't have one yet
-            if (Model != null && Model != _editContext?.Model)
-                this.EditContext = new EditContext(Model!);
             return Task.CompletedTask;
         }
 
@@ -141,19 +153,19 @@ namespace CEC.Blazor.SPA.Components
             {
 
                 // Only rebuild if the _editContext changes
-                builder.OpenRegion(_editContext.GetHashCode() + Model.GetHashCode());
+                builder.OpenRegion(_editContext.GetHashCode());
 
                 builder.OpenElement(0, "form");
                 builder.AddMultipleAttributes(1, AdditionalAttributes);
                 builder.OpenComponent<CascadingValue<RecordEditForm>>(2);
-                //builder.AddAttribute(3, "IsFixed", true);
+                builder.AddAttribute(3, "IsFixed", true);
                 builder.AddAttribute(4, "Value", this);
 
                 // Add the second cascade to the top element by buidling out a new render fragment
                 builder.AddAttribute(5, "ChildContent", (RenderFragment)((builder1) =>
                 {
                     builder1.OpenComponent<CascadingValue<EditContext>>(6);
-                    //builder1.AddAttribute(7, "IsFixed", true);
+                    builder1.AddAttribute(7, "IsFixed", true);
                     builder1.AddAttribute(8, "Value", _editContext);
                     builder1.AddAttribute(8, "ChildContent", ChildContent?.Invoke(_editContext));
                     builder1.CloseComponent();
@@ -174,7 +186,12 @@ namespace CEC.Blazor.SPA.Components
         /// <summary>
         /// Internal field for EditContext property
         /// </summary>
-        private EditContext _editContext;
+        private EditContext _editContext = null;
+
+        /// <summary>
+        /// Internal field for the Model property
+        /// </summary>
+        private IRecordEditContext _Model = null;
 
         #endregion
 

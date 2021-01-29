@@ -16,7 +16,7 @@ namespace CEC.Workflow.Components
     /// provides Validation and Edit State management for the Record Collection 
     /// The properties point to the data stored in the underlying RecordCollection
     /// </summary>
-    public class WeatherForecastEditData : RecordEditData, IRecordEditData
+    public class WeatherForecastEditContext : RecordEditContext, IRecordEditContext
     {
         #region Public
 
@@ -80,6 +80,16 @@ namespace CEC.Workflow.Components
             }
         }
 
+        public int OutlookValue
+        {
+            get => this.RecordValues.GetEditValue<int>(DbWeatherForecast.__OutlookValue);
+            set
+            {
+                this.RecordValues.SetField(DbWeatherForecast.__OutlookValue, value);
+                this.Validate();
+            }
+        }
+
         public decimal TemperatureC
         {
             get => this.RecordValues.GetEditValue<decimal>(DbWeatherForecast.__TemperatureC);
@@ -109,7 +119,7 @@ namespace CEC.Workflow.Components
         /// New Method to load base object
         /// </summary>
         /// <param name="collection"></param>
-        public WeatherForecastEditData(RecordCollection collection) : base(collection) { }
+        public WeatherForecastEditContext(RecordCollection collection) : base(collection) { }
 
         #endregion
 
@@ -117,7 +127,6 @@ namespace CEC.Workflow.Components
 
         protected override void LoadValidationActions()
         {
-            base.LoadValidationActions();
             this.ValidationActions.Add(ValidateDescription);
             this.ValidationActions.Add(ValidateTemperatureC);
             this.ValidationActions.Add(ValidateDate);

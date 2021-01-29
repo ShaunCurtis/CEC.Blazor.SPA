@@ -1,5 +1,4 @@
 ﻿using CEC.Weather.Data;
-using CEC.Weather.Data.Validators;
 using CEC.Weather.Services;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,10 +20,6 @@ namespace CEC.Blazor.WASM.Client.Extensions
             services.AddScoped<WeatherStationControllerService>();
             services.AddScoped<WeatherReportControllerService>();
             services.AddScoped<SalaryControllerService>();
-            // Transient service for the Fluent Validator for the WeatherForecast record
-            services.AddTransient<IValidator<DbWeatherForecast>, WeatherForecastValidator>();
-            services.AddTransient<IValidator<DbWeatherStation>, WeatherStationValidator>();
-            services.AddTransient<IValidator<DbWeatherReport>, WeatherReportValidator>();
             return services;
         }
     }

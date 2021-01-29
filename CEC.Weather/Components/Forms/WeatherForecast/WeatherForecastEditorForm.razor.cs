@@ -12,7 +12,7 @@ namespace CEC.Weather.Components
         [Inject]
         public WeatherForecastControllerService ControllerService { get; set; }
 
-        private WeatherForecastEditData EditData { get; set; }
+        private WeatherForecastEditContext WeatherForecastEditorContext { get; set; }
         
         protected override Task OnRenderAsync(bool firstRender)
         {
@@ -20,8 +20,8 @@ namespace CEC.Weather.Components
             if (firstRender)
             {
                 this.Service = this.ControllerService;
-                this.EditData = new WeatherForecastEditData(this.ControllerService.RecordValueCollection);
-                this.RecordEditData = this.EditData;
+                this.WeatherForecastEditorContext = new WeatherForecastEditContext(this.ControllerService.RecordValueCollection);
+                this.RecordEditorContext = this.WeatherForecastEditorContext;
             }
             return base.OnRenderAsync(firstRender);
         }

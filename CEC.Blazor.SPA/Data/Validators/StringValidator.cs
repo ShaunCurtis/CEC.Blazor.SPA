@@ -58,9 +58,10 @@ namespace CEC.Blazor.Data.Validators
             if (!string.IsNullOrWhiteSpace(this.Value))
             {
                 var match = Regex.Match(this.Value, pattern);
-                if (match.Success && match.Value.Equals(this.Value)) return this; 
+                if (match.Success && match.Value.Equals(this.Value)) return this;
             }
             this.Trip = true;
+            LogMessage(message);
             return this;
         }
 

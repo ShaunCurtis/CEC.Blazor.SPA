@@ -11,15 +11,20 @@ using System.Threading.Tasks;
 
 namespace CEC.Blazor.Data
 {
-
+    
     /// <summary>
     /// A class to surface data stored in the underlying RecordCollection
     /// Ufor theprovides an object with the data that the Editor uses and a Validator can be applied to
     /// The properties point to the data stored in the underlying RecordCollection
     /// </summary>
-    public abstract class RecordEditData : IRecordEditData
+    public abstract class RecordEditContext : IRecordEditContext
     {
         #region Public
+
+        /// <summary>
+        /// Edit context associated with the Context
+        /// </summary>
+        public EditContext EditContext { get; private set; }
 
         /// <summary>
         /// Public bool to expose Validation state of dataset
@@ -32,6 +37,11 @@ namespace CEC.Blazor.Data
         public bool IsDirty => this.RecordValues?.IsDirty ?? false;
 
         /// <summary>
+        /// Public bool to expose Edit State of dataset
+        /// </summary>
+        public bool IsClean => !this.IsDirty;
+
+        /// <summary>
         /// Public bool to expose Load state of the class instance
         /// </summary>
         public bool IsLoaded => this.EditContext != null && this.RecordValues != null;
@@ -40,14 +50,12 @@ namespace CEC.Blazor.Data
         /// New Method
         /// </summary>
         /// <param name="collection">Record Collection for the current record</param>
-        public RecordEditData(RecordCollection collection)
+        public RecordEditContext(RecordCollection collection)
         {
             Debug.Assert(collection != null);
 
             if (collection is null)
-            {
-                throw new InvalidOperationException($"{nameof(RecordEditData)} requires a valid {nameof(RecordCollection)} object");
-            }
+                throw new InvalidOperationException($"{nameof(RecordEditContext)} requires a valid {nameof(RecordCollection)} object");
             else
             {
                 this.RecordValues = collection;
@@ -73,7 +81,15 @@ namespace CEC.Blazor.Data
         /// <returns></returns>
         public Task NotifyEditContextChangedAsync(EditContext context)
         {
-            // assign the Edit Contexct and State internally
+            var oldcontext = this.EditContext;
+            if (context is null)
+                throw new InvalidOperationException($"{nameof(RecordEditContext)} - NotifyEditContextChangedAsync requires a valid {nameof(EditContext)} object");
+            // if we already have an edit context, we will have registered with OnValidationRequested, so we need to drop it before losing our reference to the editcontext object.
+            if (this.EditContext != null)
+            {
+                EditContext.OnValidationRequested -= ValidationRequested;
+            }
+            // assign the Edit Context internally
             this.EditContext = context;
             if (this.IsLoaded)
             {
@@ -82,9 +98,20 @@ namespace CEC.Blazor.Data
                 // Wire up to the Editcontext to service Validation Requests
                 EditContext.OnValidationRequested += ValidationRequested;
             }
+            // Call a validation on the current data set
             Validate();
+            this.EditContextChanged?.Invoke(this, new EditContextEventArgs() { OldContext = oldcontext, NewContext = context });
             return Task.CompletedTask;
         }
+
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// Event raised if the Edit Context is changed
+        /// </summary>
+        public event EditContextEventHandler EditContextChanged;
 
         #endregion
 
@@ -105,12 +132,14 @@ namespace CEC.Blazor.Data
 
         #region Private
 
-        private EditContext EditContext { get; set; }
+        private bool Validating;
 
         private void ValidationRequested(object sender, ValidationRequestedEventArgs args)
         {
-            if (ValidationMessageStore != null)
+            // using Validating to stop being called multiple times
+            if (ValidationMessageStore != null && !this.Validating)
             {
+                this.Validating = true;
                 // clear the message store and trip wire and check we have Validators to run
                 this.ValidationMessageStore.Clear();
                 this.Trip = false;
@@ -120,6 +149,7 @@ namespace CEC.Blazor.Data
                             if (!validator.Invoke()) this.Trip = true;
                     }
                 EditContext.NotifyValidationStateChanged();
+                this.Validating = false;
             }
         }
 

@@ -16,7 +16,7 @@ namespace CEC.Workflow.Components
     /// provides Validation and Edit State management for the Record Collection 
     /// The properties point to the data stored in the underlying RecordCollection
     /// </summary>
-    public class WeatherReportEditData : RecordEditData, IRecordEditData
+    public class WeatherReportEditContext : RecordEditContext, IRecordEditContext
     {
         #region Public
 
@@ -102,7 +102,7 @@ namespace CEC.Workflow.Components
         /// New Method to load base object
         /// </summary>
         /// <param name="collection"></param>
-        public WeatherReportEditData(RecordCollection collection) : base(collection) { }
+        public WeatherReportEditContext(RecordCollection collection) : base(collection) { }
 
         #endregion
 

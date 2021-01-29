@@ -40,6 +40,9 @@ namespace CEC.Blazor.SPA.Components.UIControls
         [Parameter]
         public RenderFragment AccessDeniedContent { get; set; }
 
+        [Parameter]
+        public RenderFragment AlwaysDisplayContent { get; set; }
+
         /// <summary>
         /// Control State
         /// </summary>
@@ -119,6 +122,8 @@ namespace CEC.Blazor.SPA.Components.UIControls
                     builder.AddContent(401, ChildContent);
                     break;
             };
+            if (this.AlwaysDisplayContent != null) builder.AddContent(200, this.AlwaysDisplayContent);
+
         }
 
     }

@@ -2,9 +2,10 @@
 
 @inherits InputBase<int>
 
-<div class="@this.BaseCss" role="group">
+<div class="@this.BaseCss">
     @foreach (var option in this.OptionList)
     {
-        <button class="@this.GetButtonCss(option.Key)" @onclick="() => this.Switch(option.Key)">@option.Value</button>
+    <a class="btn btn-info"  @onclick="() => this.Switch(option.Key)">@option.Value</a> 
+        @*<button class="@this.GetButtonCss(option.Key)" @onclick="() => this.Switch(option.Key)"> @option.Value</button>*@
     }
 </div>

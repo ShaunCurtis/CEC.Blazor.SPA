@@ -10,178 +10,183 @@
 @namespace CEC.Weather.Components
 @inherits EditRecordFormBase<DbWeatherForecast, WeatherForecastDbContext>
 
-<RecordEditForm @ref="this.RecordEditForm" Model="this.RecordEditData">
 
-    <UICard IsCollapsible="false">
-        <Header>
-            @this.PageTitle
-        </Header>
+<UICard IsCollapsible="false">
 
-        <Body>
-            <CascadingValue Value="@this.RecordFieldChanged" Name="OnRecordChange" TValue="Action<bool>">
+    <Header>
+        @this.PageTitle
+    </Header>
 
-                <UIErrorHandler IsError="@this.IsError" IsLoading="this.Loading" ErrorMessage="@this.RecordErrorMessage">
+    <Body>
 
+            <UIErrorHandler IsError="@this.IsError" IsLoading="this.Loading" ErrorMessage="@this.RecordErrorMessage">
+
+                <ChildContent>
+
+                    <RecordEditForm @ref="this.RecordEditForm" Model="this.WeatherForecastEditorContext">
+
+                        <UIContainer>
+
+                            <UIFormRow>
+
+                                <UILabelColumn Columns="4">
+                                    Record ID:
+                                </UILabelColumn>
+
+                                <UIColumn Columns="4">
+                                    <FormControlPlainText Value="@this.WeatherForecastEditorContext.WeatherForecastID.ToString()"></FormControlPlainText>
+                                </UIColumn>
+
+                            </UIFormRow>
+
+                            <UIFormRow>
+
+                                <UILabelColumn Columns="4">
+                                    Record Date:
+                                </UILabelColumn>
+
+                                <UIColumn Columns="4">
+                                    <InputDate class="form-control" @bind-Value="this.WeatherForecastEditorContext.Date"></InputDate>
+                                </UIColumn>
+
+                            </UIFormRow>
+
+                            <UIFormRow>
+
+                                <UILabelColumn Columns="4">
+                                    Temperature &deg; C:
+                                </UILabelColumn>
+
+                                <UIColumn Columns="2">
+                                    <InputNumber class="form-control" @bind-Value="this.WeatherForecastEditorContext.TemperatureC"></InputNumber>
+                                </UIColumn>
+
+                                <UIColumn Columns="6">
+                                    <ValidationMessage For=@(() => this.WeatherForecastEditorContext.TemperatureC) />
+                                </UIColumn>
+
+                            </UIFormRow>
+
+                            <UIFormRow>
+
+                                <UILabelColumn Columns="4">
+                                    Post Code:
+                                </UILabelColumn>
+
+                                <UIColumn Columns="4">
+                                    <InputText class="form-control" @bind-Value="this.WeatherForecastEditorContext.PostCode"></InputText>
+                                </UIColumn>
+
+                                <UIColumn Columns="4">
+                                    <ValidationMessage For=@(() => this.WeatherForecastEditorContext.PostCode) />
+                                </UIColumn>
+
+                            </UIFormRow>
+
+                            <UIFormRow>
+
+                                <UILabelColumn Columns="4">
+                                    Description:
+                                </UILabelColumn>
+
+                                <UIColumn Columns="8">
+                                    <InputText class="form-control" @bind-Value="this.WeatherForecastEditorContext.Description"></InputText>
+                                    <ValidationMessage For=@(() => this.WeatherForecastEditorContext.Description) />
+                                </UIColumn>
+
+                            </UIFormRow>
+
+                            <UIFormRow>
+
+                                <UILabelColumn Columns="4">
+                                    Frost?:
+                                </UILabelColumn>
+
+                                <UIColumn Columns="2">
+                                    <div class="form-check">
+                                        <InputCheckbox class="form-check-input position-static" @bind-Value="this.WeatherForecastEditorContext.Frost"></InputCheckbox>
+                                    </div>
+                                </UIColumn>
+
+                            </UIFormRow>
+
+                            <UIFormRow>
+
+                                <UILabelColumn Columns="4">
+                                    Summary:
+                                </UILabelColumn>
+
+                                <UIColumn Columns="4">
+                                    <InputSelect class="form-control" @bind-Value="this.WeatherForecastEditorContext.Summary">
+                                        @foreach (var value in Enum.GetValues(typeof(WeatherSummary)))
+                                        {
+                                            <option value="@value">@value</option>
+                                        }
+                                    </InputSelect>
+                                </UIColumn>
+
+                            </UIFormRow>
+
+                            <UIFormRow>
+
+                                <UILabelColumn Columns="4">
+                                    Outlook:
+                                </UILabelColumn>
+
+                                <UIColumn Columns="8">
+                                    <InputControlButtonGroup OptionList="this.ControllerService.OutlookOptionList" class="form-control" @bind-Value="@this.WeatherForecastEditorContext.OutlookValue"></InputControlButtonGroup>
+                                </UIColumn>
+
+                            </UIFormRow>
+
+                            <UIFormRow>
+
+                                <UILabelColumn Columns="4">
+                                    Detail:
+                                </UILabelColumn>
+
+                                <UIColumn Columns="8">
+                                    <InputTextArea class="form-control" rows="6" @bind-Value="this.WeatherForecastEditorContext.Detail"></InputTextArea>
+                                </UIColumn>
+
+                            </UIFormRow>
+
+                        </UIContainer>
+
+                    </RecordEditForm>
+                
+                </ChildContent>
+
+                <AlwaysDisplayContent>
 
                     <UIContainer>
 
-                        <UIFormRow>
+                        <UIRow>
 
-                            <UILabelColumn Columns="4">
-                                Record ID:
-                            </UILabelColumn>
-
-                            <UIColumn Columns="4">
-                                <FormControlPlainText Value="@this.Service.Record.ID.ToString()"></FormControlPlainText>
+                            <UIColumn Columns="7">
+                                <UIAlert Alert="this.AlertMessage" SizeCode="Bootstrap.SizeCode.sm"></UIAlert>
                             </UIColumn>
+                            <UIButtonColumn Columns="5">
 
-                        </UIFormRow>
+                                <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.SaveAndExit" ColourCode="Bootstrap.ColourCode.save">Save &amp; Exit</UIButton>
 
-                        <UIFormRow>
+                                <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.Save" ColourCode="Bootstrap.ColourCode.save">Save</UIButton>
 
-                            <UILabelColumn Columns="4">
-                                Record Date:
-                            </UILabelColumn>
+                                <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.ConfirmExit" ColourCode="Bootstrap.ColourCode.danger_exit">Exit Without Saving</UIButton>
 
-                            <UIColumn Columns="4">
-                                <InputDate class="form-control" @bind-Value="this.Service.Record.Date"></InputDate>
-                            </UIColumn>
+                                <UIButton Show="this.IsClean" ClickEvent="this.TryExit" ColourCode="Bootstrap.ColourCode.nav">Exit</UIButton>
 
-                        </UIFormRow>
+                            </UIButtonColumn>
 
-                        <UIFormRow>
-
-                            <UILabelColumn Columns="4">
-                                Temperature &deg; C:
-                            </UILabelColumn>
-
-                            <UIColumn Columns="2">
-                                <InputNumber class="form-control" @bind-Value="this.Service.Record.TemperatureC"></InputNumber>
-                            </UIColumn>
-
-                            <UIColumn Columns="6">
-                                <ValidationMessage For=@(() => this.Service.Record.TemperatureC) />
-                            </UIColumn>
-
-                        </UIFormRow>
-
-                        <UIFormRow>
-
-                            <UILabelColumn Columns="4">
-                                Post Code:
-                            </UILabelColumn>
-
-                            <UIColumn Columns="4">
-                                <InputText class="form-control" @bind-Value="this.Service.Record.PostCode"></InputText>
-                            </UIColumn>
-
-                            <UIColumn Columns="4">
-                                <ValidationMessage For=@(() => this.Service.Record.PostCode) />
-                            </UIColumn>
-
-                        </UIFormRow>
-
-                        <UIFormRow>
-
-                            <UILabelColumn Columns="4">
-                                Description:
-                            </UILabelColumn>
-
-                            <UIColumn Columns="8">
-                                <InputText class="form-control" @bind-Value="this.Service.Record.Description"></InputText>
-                                <ValidationMessage For=@(() => this.Service.Record.Description) />
-                            </UIColumn>
-
-                        </UIFormRow>
-
-                        <UIFormRow>
-
-                            <UILabelColumn Columns="4">
-                                Frost?:
-                            </UILabelColumn>
-
-                            <UIColumn Columns="2">
-                                <div class="form-check">
-                                    <InputCheckbox class="form-check-input position-static" @bind-Value="this.Service.Record.Frost"></InputCheckbox>
-                                </div>
-                            </UIColumn>
-
-                        </UIFormRow>
-
-                        <UIFormRow>
-
-                            <UILabelColumn Columns="4">
-                                Summary:
-                            </UILabelColumn>
-
-                            <UIColumn Columns="4">
-                                <InputSelect class="form-control" @bind-Value="this.Service.Record.Summary">
-                                    @foreach (var value in Enum.GetValues(typeof(WeatherSummary)))
-                                    {
-                                        <option value="@value">@value</option>
-                                    }
-                                </InputSelect>
-                            </UIColumn>
-
-                        </UIFormRow>
-
-                        <UIFormRow>
-
-                            <UILabelColumn Columns="4">
-                                Outlook:
-                            </UILabelColumn>
-
-                            <UIColumn Columns="8">
-                                <InputControlButtonGroup OptionList="this.ControllerService.OutlookOptionList" class="form-control" @bind-Value="@this.Service.Record.OutlookValue"></InputControlButtonGroup>
-                            </UIColumn>
-
-                        </UIFormRow>
-
-                        <UIFormRow>
-
-                            <UILabelColumn Columns="4">
-                                Detail:
-                            </UILabelColumn>
-
-                            <UIColumn Columns="8">
-                                <InputTextArea class="form-control" rows="6" @bind-Value="this.Service.Record.Detail"></InputTextArea>
-                            </UIColumn>
-
-                        </UIFormRow>
+                        </UIRow>
 
                     </UIContainer>
 
+                </AlwaysDisplayContent>
 
-                </UIErrorHandler>
+            </UIErrorHandler>
 
-                <UIContainer>
+    </Body>
 
-                    <UIRow>
-
-                        <UIColumn Columns="7">
-                            <UIAlert Alert="this.AlertMessage" SizeCode="Bootstrap.SizeCode.sm"></UIAlert>
-                        </UIColumn>
-                        <UIButtonColumn Columns="5">
-
-                            <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.SaveAndExit" ColourCode="Bootstrap.ColourCode.save">Save &amp; Exit</UIButton>
-
-                            <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.Save" ColourCode="Bootstrap.ColourCode.save">Save</UIButton>
-
-                            <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.ConfirmExit" ColourCode="Bootstrap.ColourCode.danger_exit">Exit Without Saving</UIButton>
-
-                            <UIButton Show="this.IsClean" ClickEvent="this.TryExit" ColourCode="Bootstrap.ColourCode.nav">Exit</UIButton>
-
-                        </UIButtonColumn>
-
-                    </UIRow>
-
-                </UIContainer>
-
-            </CascadingValue>
-
-        </Body>
-
-    </UICard>
-
-</RecordEditForm>
+</UICard>
 

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CEC.Blazor.SPA.Components.FormControls
 {
@@ -17,24 +18,18 @@ namespace CEC.Blazor.SPA.Components.FormControls
         public string ButtonCss { get; set; } = "btn btn-outline-secondary";
 
         [Parameter]
-        public string BaseCss { get; set; } = "btn-group btn-group-sm";
+        public string BaseCss { get; set; } = "";
         [Parameter]
         public SortedDictionary<int, string> OptionList { get; set; } = new SortedDictionary<int, string>();
-
-        protected override string FormatValueAsString(int value) => value.ToString();
-
-        protected override bool TryParseValueFromString(string value, out int result, out string validationErrorMessage)
-        {
-            if (!int.TryParse(value, out result)) result = 0;
-            validationErrorMessage = null;
-            return true;
-        }
 
         protected string GetButtonCss(int value) => value == this.Value ? this.SelectedButtonCss : this.ButtonCss;
 
         protected void Switch(int value)
-        {
-            this.CurrentValue = value;
-        }
+            => BaseCss = BaseCss;
+            //=> this.CurrentValue = value;
+
+        protected override bool TryParseValueFromString(string value, [MaybeNullWhen(false)] out int result, [NotNullWhen(false)] out string validationErrorMessage)
+            => throw new NotSupportedException($"This component does not parse string inputs. Bind to the '{nameof(CurrentValue)}' property, not '{nameof(CurrentValueAsString)}'.");
+
     }
 }
