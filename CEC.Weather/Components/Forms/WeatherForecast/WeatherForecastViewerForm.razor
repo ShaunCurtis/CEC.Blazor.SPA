@@ -1,10 +1,8 @@
 ﻿@namespace CEC.Weather.Components
-@using CEC.Blazor.SPA.Components
 @using CEC.Blazor.SPA.Components.Forms
 @using CEC.Blazor.SPA.Components.UIControls
 @using CEC.Weather.Data
 @using CEC.Blazor.Extensions
-@using CEC.FormControls.Components.FormControls
 
 @inherits RecordFormBase<DbWeatherForecast, WeatherForecastDbContext>
 
@@ -20,14 +18,14 @@
 
             <UIContainer>
 
-                <UIRow>
+                <UIFormRow>
 
                     <UILabelColumn Columns="2">
                         Date
                     </UILabelColumn>
 
                     <UIColumn Columns="2">
-                        <FormControlPlainText Value="@this.Service.Record.Date.AsShortDate()"></FormControlPlainText>
+                        <InputReadOnlyText Value="@this.Service.Record.Date.AsShortDate()"></InputReadOnlyText>
                     </UIColumn>
 
                     <UILabelColumn Columns="2">
@@ -35,7 +33,7 @@
                     </UILabelColumn>
 
                     <UIColumn Columns="2">
-                        <FormControlPlainText Value="@this.Service.Record.ID.ToString()"></FormControlPlainText>
+                        <InputReadOnlyText Value="@this.Service.Record.ID.ToString()"></InputReadOnlyText>
                     </UIColumn>
 
                     <UILabelColumn Columns="2">
@@ -43,74 +41,86 @@
                     </UILabelColumn>
 
                     <UIColumn Columns="2">
-                        <FormControlPlainText Value="@this.Service.Record.Frost.AsYesNo()"></FormControlPlainText>
+                        <InputReadOnlyText Value="@this.Service.Record.Frost.AsYesNo()"></InputReadOnlyText>
                     </UIColumn>
 
-                </UIRow>
+                </UIFormRow>
 
-                <UIRow>
+                <UIFormRow>
 
                     <UILabelColumn Columns="2">
                         Temperature &deg;C
                     </UILabelColumn>
 
-                    <UIColumn Columns="4">
-                        <FormControlPlainText Value="@this.Service.Record.TemperatureC.ToString()"></FormControlPlainText>
+                    <UIColumn Columns="2">
+                        <InputReadOnlyText Value="@this.Service.Record.TemperatureC.ToString()"></InputReadOnlyText>
+                    </UIColumn>
+
+                    <UIColumn Columns="2">
                     </UIColumn>
 
                     <UILabelColumn Columns="2">
                         Temperature &deg;F
                     </UILabelColumn>
 
-                    <UIColumn Columns="4">
-                        <FormControlPlainText Value="@this.Service.Record.TemperatureF.ToString()"></FormControlPlainText>
+                    <UIColumn Columns="2">
+                        <InputReadOnlyText Value="@this.Service.Record.TemperatureF.ToString()"></InputReadOnlyText>
                     </UIColumn>
 
-                </UIRow>
+                    <UIColumn Columns="2">
+                    </UIColumn>
 
-                <UIRow>
+                </UIFormRow>
+
+                <UIFormRow>
 
                     <UILabelColumn Columns="2">
                         Summary
                     </UILabelColumn>
 
-                    <UIColumn Columns="4">
-                        <FormControlPlainText Value="@this.Service.Record.Summary.ToString()"></FormControlPlainText>
+                    <UIColumn Columns="2">
+                        <InputReadOnlyText Value="@this.Service.Record.Summary.ToString()"></InputReadOnlyText>
+                    </UIColumn>
+
+                    <UIColumn Columns="2">
                     </UIColumn>
 
                     <UILabelColumn Columns="2">
                         Outlook
                     </UILabelColumn>
 
-                    <UIColumn Columns="4">
-                        <FormControlPlainText Value="@this.Service.Record.Outlook.ToString()"></FormControlPlainText>
+                    <UIColumn Columns="2">
+                        <InputReadOnlyText Value="@this.Service.Record.Outlook.ToString()"></InputReadOnlyText>
                     </UIColumn>
 
-                </UIRow>
+                    <UIColumn Columns="2">
+                    </UIColumn>
 
-                <UIRow>
+                </UIFormRow>
+
+                <UIFormRow>
 
                     <UILabelColumn Columns="2">
                         Description
                     </UILabelColumn>
 
                     <UIColumn Columns="10">
-                        <FormControlPlainText Value="@this.Service.Record.Description"></FormControlPlainText>
+                        <InputReadOnlyText Value="@this.Service.Record.Description"></InputReadOnlyText>
                     </UIColumn>
 
-                </UIRow>
+                </UIFormRow>
 
-                <UIRow>
+                <UIFormRow>
 
                     <UILabelColumn Columns="2">
                         Detail
                     </UILabelColumn>
 
                     <UIColumn Columns="10">
-                        <FormControlPlainText Value="@this.Service.Record.Detail"></FormControlPlainText>
+                        <InputReadOnlyText Value="@this.Service.Record.Detail"></InputReadOnlyText>
                     </UIColumn>
 
-                </UIRow>
+                </UIFormRow>
 
             </UIContainer>
 

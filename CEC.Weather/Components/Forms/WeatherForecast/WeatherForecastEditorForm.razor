@@ -1,29 +1,25 @@
 ﻿@using Microsoft.AspNetCore.Components.Forms
-@using CEC.Blazor.SPA.Components
 @using CEC.Blazor.SPA.Components.Forms
 @using CEC.Blazor.SPA.Components.UIControls
 @using CEC.Blazor.SPA.Components.FormControls
 @using CEC.Weather.Data
-@using CEC.FormControls.Components.FormControls
-@using Blazored.FluentValidation
 
 @namespace CEC.Weather.Components
 @inherits EditRecordFormBase<DbWeatherForecast, WeatherForecastDbContext>
 
+    <UICard IsCollapsible="false">
 
-<UICard IsCollapsible="false">
+        <Header>
+            @this.PageTitle
+        </Header>
 
-    <Header>
-        @this.PageTitle
-    </Header>
-
-    <Body>
+        <Body>
 
             <UIErrorHandler IsError="@this.IsError" IsLoading="this.Loading" ErrorMessage="@this.RecordErrorMessage">
 
                 <ChildContent>
 
-                    <RecordEditForm @ref="this.RecordEditForm" Model="this.WeatherForecastEditorContext">
+                    <CascadingValue Value="this.EditContext">
 
                         <UIContainer>
 
@@ -33,8 +29,8 @@
                                     Record ID:
                                 </UILabelColumn>
 
-                                <UIColumn Columns="4">
-                                    <FormControlPlainText Value="@this.WeatherForecastEditorContext.WeatherForecastID.ToString()"></FormControlPlainText>
+                                <UIColumn Columns="2">
+                                    <InputReadOnlyText Value="@this.WeatherForecastEditorContext.WeatherForecastID.ToString()"></InputReadOnlyText>
                                 </UIColumn>
 
                             </UIFormRow>
@@ -46,7 +42,7 @@
                                 </UILabelColumn>
 
                                 <UIColumn Columns="4">
-                                    <InputDate class="form-control" @bind-Value="this.WeatherForecastEditorContext.Date"></InputDate>
+                                    <InputDate class="form-control" @bind-Value="this.WeatherForecastEditorContext.WeatherForecastDate"></InputDate>
                                 </UIColumn>
 
                             </UIFormRow>
@@ -58,11 +54,11 @@
                                 </UILabelColumn>
 
                                 <UIColumn Columns="2">
-                                    <InputNumber class="form-control" @bind-Value="this.WeatherForecastEditorContext.TemperatureC"></InputNumber>
+                                    <InputNumber class="form-control" @bind-Value="this.WeatherForecastEditorContext.WeatherForecastTemperatureC"></InputNumber>
                                 </UIColumn>
 
                                 <UIColumn Columns="6">
-                                    <ValidationMessage For=@(() => this.WeatherForecastEditorContext.TemperatureC) />
+                                    <ValidationMessage For=@(() => this.WeatherForecastEditorContext.WeatherForecastTemperatureC) />
                                 </UIColumn>
 
                             </UIFormRow>
@@ -74,11 +70,11 @@
                                 </UILabelColumn>
 
                                 <UIColumn Columns="4">
-                                    <InputText class="form-control" @bind-Value="this.WeatherForecastEditorContext.PostCode"></InputText>
+                                    <InputText class="form-control" @bind-Value="this.WeatherForecastEditorContext.WeatherForecastPostCode"></InputText>
                                 </UIColumn>
 
                                 <UIColumn Columns="4">
-                                    <ValidationMessage For=@(() => this.WeatherForecastEditorContext.PostCode) />
+                                    <ValidationMessage For=@(() => this.WeatherForecastEditorContext.WeatherForecastPostCode) />
                                 </UIColumn>
 
                             </UIFormRow>
@@ -90,8 +86,8 @@
                                 </UILabelColumn>
 
                                 <UIColumn Columns="8">
-                                    <InputText class="form-control" @bind-Value="this.WeatherForecastEditorContext.Description"></InputText>
-                                    <ValidationMessage For=@(() => this.WeatherForecastEditorContext.Description) />
+                                    <InputText class="form-control" @bind-Value="this.WeatherForecastEditorContext.WeatherForecastDescription"></InputText>
+                                    <ValidationMessage For=@(() => this.WeatherForecastEditorContext.WeatherForecastDescription) />
                                 </UIColumn>
 
                             </UIFormRow>
@@ -104,7 +100,7 @@
 
                                 <UIColumn Columns="2">
                                     <div class="form-check">
-                                        <InputCheckbox class="form-check-input position-static" @bind-Value="this.WeatherForecastEditorContext.Frost"></InputCheckbox>
+                                        <InputCheckbox class="form-check-input position-static" @bind-Value="this.WeatherForecastEditorContext.WeatherForecastFrost"></InputCheckbox>
                                     </div>
                                 </UIColumn>
 
@@ -117,7 +113,7 @@
                                 </UILabelColumn>
 
                                 <UIColumn Columns="4">
-                                    <InputSelect class="form-control" @bind-Value="this.WeatherForecastEditorContext.Summary">
+                                    <InputSelect class="form-control" @bind-Value="this.WeatherForecastEditorContext.WeatherForecastSummary">
                                         @foreach (var value in Enum.GetValues(typeof(WeatherSummary)))
                                         {
                                             <option value="@value">@value</option>
@@ -134,7 +130,7 @@
                                 </UILabelColumn>
 
                                 <UIColumn Columns="8">
-                                    <InputControlButtonGroup OptionList="this.ControllerService.OutlookOptionList" class="form-control" @bind-Value="@this.WeatherForecastEditorContext.OutlookValue"></InputControlButtonGroup>
+                                    <InputButtonGroup OptionList="this.ControllerService.OutlookOptionList" class="form-control" @bind-Value="@this.WeatherForecastEditorContext.WeatherForecastOutlookValue"></InputButtonGroup>
                                 </UIColumn>
 
                             </UIFormRow>
@@ -146,15 +142,15 @@
                                 </UILabelColumn>
 
                                 <UIColumn Columns="8">
-                                    <InputTextArea class="form-control" rows="6" @bind-Value="this.WeatherForecastEditorContext.Detail"></InputTextArea>
+                                    <InputTextArea class="form-control" rows="6" @bind-Value="this.WeatherForecastEditorContext.WeatherForecastDetail"></InputTextArea>
                                 </UIColumn>
 
                             </UIFormRow>
 
                         </UIContainer>
 
-                    </RecordEditForm>
-                
+                    </CascadingValue>
+
                 </ChildContent>
 
                 <AlwaysDisplayContent>
@@ -184,9 +180,9 @@
 
                 </AlwaysDisplayContent>
 
+
             </UIErrorHandler>
 
-    </Body>
+        </Body>
 
-</UICard>
-
+    </UICard>

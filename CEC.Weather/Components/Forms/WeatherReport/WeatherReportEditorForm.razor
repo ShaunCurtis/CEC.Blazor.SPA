@@ -1,13 +1,10 @@
 ﻿@namespace CEC.Weather.Components
 
-@using CEC.Blazor.SPA.Components
 @using CEC.Blazor.SPA.Components.Forms
 @using CEC.Blazor.SPA.Components.UIControls
-@using CEC.Blazor.SPA.Components.FormControls
 @using CEC.Weather.Data
 @using CEC.FormControls.Components.FormControls
 @using Microsoft.AspNetCore.Components.Forms
-@using Blazored.FluentValidation
 
 
 @inherits EditRecordFormBase<DbWeatherReport, WeatherForecastDbContext>
@@ -19,13 +16,14 @@
 
     <Body>
 
-            <UIErrorHandler IsError="@this.IsError" IsLoading="this.Loading" ErrorMessage="@this.RecordErrorMessage">
+        <UIErrorHandler IsError="@this.IsError" IsLoading="this.Loading" ErrorMessage="@this.RecordErrorMessage">
+
+            <ChildContent>
 
                 <UIContainer>
 
-                    <EditForm EditContext="this.RecordEditorContext.EditContext">
+                    <CascadingValue Value="EditContext">
 
-@*                        <FluentValidationValidator DisableAssemblyScanning="@true" />*@
 
                         <UIFormRow>
 
@@ -34,7 +32,7 @@
                             </UILabelColumn>
 
                             <UIColumn Columns="4">
-                                <FormControlPlainText Value="@this.Service.Record.ID.ToString()"></FormControlPlainText>
+                                <InputReadOnlyText Value="@this.EditorContext.WeatherReportID.ToString()"></InputReadOnlyText>
                             </UIColumn>
 
                         </UIFormRow>
@@ -46,7 +44,7 @@
                             </UILabelColumn>
 
                             <UIColumn Columns="4">
-                                @*<InputControlSelect OptionList="this.StationLookupList" @bind-Value="this.Service.Record.WeatherStationID" RecordValue="@this.Service.ShadowRecord.WeatherStationID"></InputControlSelect>*@
+                                <InputControlSelect OptionList="this.StationLookupList" @bind-Value="this.EditorContext.WeatherStationID"></InputControlSelect>
                             </UIColumn>
 
                         </UIFormRow>
@@ -58,7 +56,7 @@
                             </UILabelColumn>
 
                             <UIColumn Columns="4">
-                                <InputDate class="form-control" @bind-Value="this.Service.Record.Date"></InputDate>
+                                <InputDate class="form-control" @bind-Value="this.EditorContext.WeatherReportDate"></InputDate>
                             </UIColumn>
 
                         </UIFormRow>
@@ -70,11 +68,11 @@
                             </UILabelColumn>
 
                             <UIColumn Columns="2">
-                                <InputNumber class="form-control" @bind-Value="this.Service.Record.TempMax"></InputNumber>
+                                <InputNumber class="form-control" @bind-Value="this.EditorContext.WeatherReportTempMax"></InputNumber>
                             </UIColumn>
 
                             <UIColumn Columns="6">
-                                <ValidationMessage For=@(() => this.Service.Record.TempMax) />
+                                <ValidationMessage For=@(() => this.EditorContext.WeatherReportTempMax) />
                             </UIColumn>
 
                         </UIFormRow>
@@ -86,11 +84,11 @@
                             </UILabelColumn>
 
                             <UIColumn Columns="2">
-                                <InputNumber class="form-control" @bind-Value="this.Service.Record.TempMin"></InputNumber>
+                                <InputNumber class="form-control" @bind-Value="this.EditorContext.WeatherReportTempMin"></InputNumber>
                             </UIColumn>
 
                             <UIColumn Columns="6">
-                                <ValidationMessage For=@(() => this.Service.Record.TempMin) />
+                                <ValidationMessage For=@(() => this.EditorContext.WeatherReportTempMin) />
                             </UIColumn>
 
                         </UIFormRow>
@@ -102,11 +100,11 @@
                             </UILabelColumn>
 
                             <UIColumn Columns="2">
-                                <InputNumber class="form-control" @bind-Value="this.Service.Record.FrostDays"></InputNumber>
+                                <InputNumber class="form-control" @bind-Value="this.EditorContext.WeatherReportFrostDays"></InputNumber>
                             </UIColumn>
 
                             <UIColumn Columns="6">
-                                <ValidationMessage For=@(() => this.Service.Record.FrostDays) />
+                                <ValidationMessage For=@(() => this.EditorContext.WeatherReportFrostDays) />
                             </UIColumn>
 
                         </UIFormRow>
@@ -118,11 +116,11 @@
                             </UILabelColumn>
 
                             <UIColumn Columns="2">
-                                <InputNumber class="form-control" @bind-Value="this.Service.Record.Rainfall"></InputNumber>
+                                <InputNumber class="form-control" @bind-Value="this.EditorContext.WeatherReportRainfall"></InputNumber>
                             </UIColumn>
 
                             <UIColumn Columns="6">
-                                <ValidationMessage For=@(() => this.Service.Record.Rainfall) />
+                                <ValidationMessage For=@(() => this.EditorContext.WeatherReportRainfall) />
                             </UIColumn>
 
                         </UIFormRow>
@@ -134,42 +132,48 @@
                             </UILabelColumn>
 
                             <UIColumn Columns="2">
-                                <InputNumber class="form-control" @bind-Value="this.Service.Record.SunHours"></InputNumber>
+                                <InputNumber class="form-control" @bind-Value="this.EditorContext.WeatherReportSunHours"></InputNumber>
                             </UIColumn>
 
                             <UIColumn Columns="6">
-                                <ValidationMessage For=@(() => this.Service.Record.SunHours) />
+                                <ValidationMessage For=@(() => this.EditorContext.WeatherReportSunHours) />
                             </UIColumn>
 
                         </UIFormRow>
 
-                    </EditForm>
+                    </CascadingValue>
 
                 </UIContainer>
 
-            </UIErrorHandler>
+            </ChildContent>
 
-            <UIContainer>
-                <UIRow>
+            <AlwaysDisplayContent>
 
-                    <UIColumn Columns="7">
-                        <UIAlert Alert="this.AlertMessage" SizeCode="Bootstrap.SizeCode.sm"></UIAlert>
-                    </UIColumn>
-                    <UIButtonColumn Columns="5">
+                <UIContainer>
+                    <UIRow>
 
-                        <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.SaveAndExit" ColourCode="Bootstrap.ColourCode.save">Save &amp; Exit</UIButton>
+                        <UIColumn Columns="7">
+                            <UIAlert Alert="this.AlertMessage" SizeCode="Bootstrap.SizeCode.sm"></UIAlert>
+                        </UIColumn>
+                        <UIButtonColumn Columns="5">
 
-                        <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.Save" ColourCode="Bootstrap.ColourCode.save">Save</UIButton>
+                            <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.SaveAndExit" ColourCode="Bootstrap.ColourCode.save">Save &amp; Exit</UIButton>
 
-                        <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.ConfirmExit" ColourCode="Bootstrap.ColourCode.danger_exit">Exit Without Saving</UIButton>
+                            <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.Save" ColourCode="Bootstrap.ColourCode.save">Save</UIButton>
 
-                        <UIButton Show="this.IsClean" ClickEvent="this.TryExit" ColourCode="Bootstrap.ColourCode.nav">Exit</UIButton>
+                            <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.ConfirmExit" ColourCode="Bootstrap.ColourCode.danger_exit">Exit Without Saving</UIButton>
 
-                    </UIButtonColumn>
+                            <UIButton Show="this.IsClean" ClickEvent="this.TryExit" ColourCode="Bootstrap.ColourCode.nav">Exit</UIButton>
 
-                </UIRow>
+                        </UIButtonColumn>
 
-            </UIContainer>
+                    </UIRow>
+
+                </UIContainer>
+
+            </AlwaysDisplayContent>
+
+        </UIErrorHandler>
 
     </Body>
 

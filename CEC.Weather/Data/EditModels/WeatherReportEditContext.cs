@@ -6,9 +6,8 @@
 using System;
 using CEC.Blazor.Data;
 using CEC.Blazor.Data.Validators;
-using CEC.Weather.Data;
 
-namespace CEC.Workflow.Components
+namespace CEC.Weather.Data
 {
 
     /// <summary>
@@ -20,64 +19,64 @@ namespace CEC.Workflow.Components
     {
         #region Public
 
-        public DateTime Date
+        public DateTime WeatherReportDate
         {
-            get => this.RecordValues.GetEditValue<DateTime>(DbWeatherReport.__Date);
+            get => this.RecordValues.GetEditValue<DateTime>(DataDictionary.__WeatherReportDate);
             set
             {
-                this.RecordValues.SetField(DbWeatherReport.__Date, value);
+                this.RecordValues.SetField(DataDictionary.__WeatherReportDate, value);
                 this.Validate();
             }
         }
 
-        public decimal TempMax
+        public decimal WeatherReportTempMax
         {
-            get => this.RecordValues.GetEditValue<decimal>(DbWeatherReport.__TempMax);
+            get => this.RecordValues.GetEditValue<decimal>(DataDictionary.__WeatherReportTempMax);
             set
             {
-                this.RecordValues.SetField(DbWeatherReport.__TempMax, value);
+                this.RecordValues.SetField(DataDictionary.__WeatherReportTempMax, value);
                 this.Validate();
             }
         }
 
-        public decimal TempMin
+        public decimal WeatherReportTempMin
         {
-            get => this.RecordValues.GetEditValue<decimal>(DbWeatherReport.__TempMin);
+            get => this.RecordValues.GetEditValue<decimal>(DataDictionary.__WeatherReportTempMin);
             set
             {
-                this.RecordValues.SetField(DbWeatherReport.__TempMin, value);
+                this.RecordValues.SetField(DataDictionary.__WeatherReportTempMin, value);
                 this.Validate();
             }
         }
 
-        public int FrostDays
+        public int WeatherReportFrostDays
         {
-            get => this.RecordValues.GetEditValue<int>(DbWeatherReport.__FrostDays);
+            get => this.RecordValues.GetEditValue<int>(DataDictionary.__WeatherReportFrostDays);
             set
             {
-                this.RecordValues.SetField(DbWeatherReport.__FrostDays, value);
-                this.Validate();
-            }
-        }
-
-
-        public decimal Rainfall
-        {
-            get => this.RecordValues.GetEditValue<decimal>(DbWeatherReport.__Rainfall);
-            set
-            {
-                this.RecordValues.SetField(DbWeatherReport.__Rainfall, value);
+                this.RecordValues.SetField(DataDictionary.__WeatherReportFrostDays, value);
                 this.Validate();
             }
         }
 
 
-        public decimal SunHours
+        public decimal WeatherReportRainfall
         {
-            get => this.RecordValues.GetEditValue<decimal>(DbWeatherReport.__SunHours);
+            get => this.RecordValues.GetEditValue<decimal>(DataDictionary.__WeatherReportRainfall);
             set
             {
-                this.RecordValues.SetField(DbWeatherReport.__SunHours, value);
+                this.RecordValues.SetField(DataDictionary.__WeatherReportRainfall, value);
+                this.Validate();
+            }
+        }
+
+
+        public decimal WeatherReportSunHours
+        {
+            get => this.RecordValues.GetEditValue<decimal>(DataDictionary.__WeatherReportSunHours);
+            set
+            {
+                this.RecordValues.SetField(DataDictionary.__WeatherReportSunHours, value);
                 this.Validate();
             }
         }
@@ -85,17 +84,17 @@ namespace CEC.Workflow.Components
 
         public int WeatherStationID
         {
-            get => this.RecordValues.GetEditValue<int>(DbWeatherReport.__WeatherStationID);
+            get => this.RecordValues.GetEditValue<int>(DataDictionary.__WeatherStationID);
             set
             {
-                this.RecordValues.SetField(DbWeatherReport.__WeatherStationID, value);
+                this.RecordValues.SetField(DataDictionary.__WeatherStationID, value);
                 this.Validate();
             }
         }
 
         public bool WeatherReportID
         {
-            get => this.RecordValues.GetEditValue<bool>(DbWeatherForecast.__ID);
+            get => this.RecordValues.GetEditValue<bool>(DataDictionary.__WeatherReportID);
         }
 
         /// <summary>
@@ -125,14 +124,14 @@ namespace CEC.Workflow.Components
 
         private bool ValidateDate()
         {
-            return this.Date.Validation(DbWeatherReport.__Date.FieldName, this, ValidationMessageStore)
+            return this.WeatherReportDate.Validation(DataDictionary.__WeatherReportDate.FieldName, this, ValidationMessageStore)
                 .NotDefault("You must select a date")
                 .Validate();
         }
 
         private bool ValidateTempMax()
         {
-            return this.TempMax.Validation(DbWeatherReport.__TempMax.FieldName, this, ValidationMessageStore)
+            return this.WeatherReportTempMax.Validation(DataDictionary.__WeatherReportTempMax.FieldName, this, ValidationMessageStore)
                 .LessThan(70, "The temperature must be less than 70C")
                 .GreaterThan(-60, "The temperature must be greater than -60C")
                 .Validate();
@@ -140,7 +139,7 @@ namespace CEC.Workflow.Components
 
         private bool ValidateTempMin()
         {
-            return this.TempMin.Validation(DbWeatherReport.__TempMax.FieldName, this, ValidationMessageStore)
+            return this.WeatherReportTempMin.Validation(DataDictionary.__WeatherReportTempMin.FieldName, this, ValidationMessageStore)
                 .LessThan(70, "The temperature must be less than 70C")
                 .GreaterThan(-60, "The temperature must be greater than -60C")
                 .Validate();
@@ -148,7 +147,7 @@ namespace CEC.Workflow.Components
 
         private bool ValidateFrostDays()
         {
-            return this.TempMin.Validation(DbWeatherReport.__FrostDays.FieldName, this, ValidationMessageStore)
+            return this.WeatherReportTempMin.Validation(DataDictionary.__WeatherReportFrostDays.FieldName, this, ValidationMessageStore)
                 .LessThan(32)
                 .GreaterThan(-1)
                 .Validate("There are between 0 and 31 frost days in a month");
@@ -157,14 +156,14 @@ namespace CEC.Workflow.Components
 
         private bool ValidateRainfall()
         {
-            return this.Rainfall.Validation(DbWeatherReport.__Rainfall.FieldName, this, ValidationMessageStore)
+            return this.WeatherReportRainfall.Validation(DataDictionary.__WeatherReportRainfall.FieldName, this, ValidationMessageStore)
                 .GreaterThanOrEqualTo(0, "Rainfall can't be a negative amount")
                 .Validate();
         }
 
         private bool ValidateSunHours()
         {
-            return this.SunHours.Validation(DbWeatherReport.__SunHours.FieldName, this, ValidationMessageStore)
+            return this.WeatherReportSunHours.Validation(DataDictionary.__WeatherReportSunHours.FieldName, this, ValidationMessageStore)
                 .GreaterThanOrEqualTo(0, "Sun hours per month can't be a negative amount")
                 .Validate();
         }

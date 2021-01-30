@@ -1,106 +1,100 @@
-﻿@using CEC.Blazor.SPA.Components
-@using CEC.Blazor.SPA.Components.Forms
+﻿@using CEC.Blazor.SPA.Components.Forms
 @using CEC.Blazor.SPA.Components.UIControls
 @using CEC.Weather.Data
 @using CEC.FormControls.Components.FormControls
 @using Microsoft.AspNetCore.Components.Forms
-@using Blazored.FluentValidation
 
 @namespace CEC.Weather.Components
 @inherits EditRecordFormBase<DbWeatherStation, WeatherForecastDbContext>
 
-<UICard IsCollapsible="false">
-    <Header>
-        @this.PageTitle
-    </Header>
+<CascadingValue Value="this.EditContext">
 
-    <Body>
+    <UICard IsCollapsible="false">
+        <Header>
+            @this.PageTitle
+        </Header>
+
+        <Body>
 
             <UIErrorHandler IsError="@this.IsError" IsLoading="this.Loading" ErrorMessage="@this.RecordErrorMessage">
 
                 <UIContainer>
 
-                    <EditForm EditContext="this.RecordEditorContext.EditContext">
+                    <UIFormRow>
 
-                        <FluentValidationValidator DisableAssemblyScanning="@true" />
+                        <UILabelColumn Columns="4">
+                            Record ID:
+                        </UILabelColumn>
 
-                        <UIFormRow>
+                        <UIColumn Columns="2">
+                            <InputReadOnlyText Value="@this.Service.Record.ID.ToString()"></InputReadOnlyText>
+                        </UIColumn>
 
-                            <UILabelColumn Columns="4">
-                                Record ID:
-                            </UILabelColumn>
+                    </UIFormRow>
 
-                            <UIColumn Columns="4">
-                                <FormControlPlainText Value="@this.Service.Record.ID.ToString()"></FormControlPlainText>
-                            </UIColumn>
+                    <UIFormRow>
 
-                        </UIFormRow>
+                        <UILabelColumn Columns="4">
+                            Name:
+                        </UILabelColumn>
 
-                        <UIFormRow>
+                        <UIColumn Columns="4">
+                            <InputText class="form-control" @bind-Value="this.Service.Record.Name"></InputText>
+                        </UIColumn>
 
-                            <UILabelColumn Columns="4">
-                                Name:
-                            </UILabelColumn>
+                        <UIColumn Columns="4">
+                            <ValidationMessage For=@(() => this.Service.Record.Name) />
+                        </UIColumn>
 
-                            <UIColumn Columns="4">
-                                <InputText class="form-control" @bind-Value="this.Service.Record.Name"></InputText>
-                            </UIColumn>
+                    </UIFormRow>
 
-                            <UIColumn Columns="4">
-                                <ValidationMessage For=@(() => this.Service.Record.Name) />
-                            </UIColumn>
+                    <UIFormRow>
 
-                        </UIFormRow>
+                        <UILabelColumn Columns="4">
+                            Latitude
+                        </UILabelColumn>
 
-                        <UIFormRow>
+                        <UIColumn Columns="2">
+                            <InputNumber class="form-control" @bind-Value="this.Service.Record.Latitude"></InputNumber>
+                        </UIColumn>
 
-                            <UILabelColumn Columns="4">
-                                Latitude
-                            </UILabelColumn>
+                        <UIColumn Columns="6">
+                            <ValidationMessage For=@(() => this.Service.Record.Latitude) />
+                        </UIColumn>
 
-                            <UIColumn Columns="2">
-                                <InputNumber class="form-control" @bind-Value="this.Service.Record.Latitude"></InputNumber>
-                            </UIColumn>
+                    </UIFormRow>
 
-                            <UIColumn Columns="6">
-                                <ValidationMessage For=@(() => this.Service.Record.Latitude) />
-                            </UIColumn>
+                    <UIFormRow>
 
-                        </UIFormRow>
+                        <UILabelColumn Columns="4">
+                            Longitude
+                        </UILabelColumn>
 
-                        <UIFormRow>
+                        <UIColumn Columns="2">
+                            <InputNumber class="form-control" @bind-Value="this.Service.Record.Longitude"></InputNumber>
+                        </UIColumn>
 
-                            <UILabelColumn Columns="4">
-                                Longitude
-                            </UILabelColumn>
+                        <UIColumn Columns="6">
+                            <ValidationMessage For=@(() => this.Service.Record.Longitude) />
+                        </UIColumn>
 
-                            <UIColumn Columns="2">
-                                <InputNumber class="form-control" @bind-Value="this.Service.Record.Longitude"></InputNumber>
-                            </UIColumn>
+                    </UIFormRow>
 
-                            <UIColumn Columns="6">
-                                <ValidationMessage For=@(() => this.Service.Record.Longitude) />
-                            </UIColumn>
+                    <UIFormRow>
 
-                        </UIFormRow>
+                        <UILabelColumn Columns="4">
+                            Elevation
+                        </UILabelColumn>
 
-                        <UIFormRow>
+                        <UIColumn Columns="2">
+                            <InputNumber class="form-control" @bind-Value="this.Service.Record.Elevation"></InputNumber>
+                        </UIColumn>
 
-                            <UILabelColumn Columns="4">
-                                Elevation
-                            </UILabelColumn>
+                        <UIColumn Columns="6">
+                            <ValidationMessage For=@(() => this.Service.Record.Elevation) />
+                        </UIColumn>
 
-                            <UIColumn Columns="2">
-                                <InputNumber class="form-control" @bind-Value="this.Service.Record.Elevation"></InputNumber>
-                            </UIColumn>
-
-                            <UIColumn Columns="6">
-                                <ValidationMessage For=@(() => this.Service.Record.Elevation) />
-                            </UIColumn>
-
-                        </UIFormRow>
-
-                    </EditForm>
+                    </UIFormRow>
 
                 </UIContainer>
 
@@ -128,8 +122,9 @@
 
             </UIContainer>
 
-    </Body>
+        </Body>
 
-</UICard>
+    </UICard>
 
+</CascadingValue>
 

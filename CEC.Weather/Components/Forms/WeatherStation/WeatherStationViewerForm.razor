@@ -1,10 +1,7 @@
 ﻿@namespace CEC.Weather.Components
-@using CEC.Blazor.SPA.Components
 @using CEC.Blazor.SPA.Components.Forms
 @using CEC.Blazor.SPA.Components.UIControls
 @using CEC.Weather.Data
-@using CEC.Weather.Extensions
-@using CEC.FormControls.Components.FormControls
 
 @inherits RecordFormBase<DbWeatherStation, WeatherForecastDbContext>
 
@@ -20,45 +17,48 @@
 
             <UIContainer>
 
-                <UIRow>
+                <UIFormRow>
 
                     <UILabelColumn Columns="2">
                         ID
                     </UILabelColumn>
 
                     <UIColumn Columns="2">
-                        <FormControlPlainText Value="@this.Service.Record.ID.ToString()"></FormControlPlainText>
+                        <InputReadOnlyText Value="@this.Service.Record.ID.ToString()"></InputReadOnlyText>
                     </UIColumn>
 
                     <UILabelColumn Columns="2">
                         Name
                     </UILabelColumn>
 
-                    <UIColumn Columns="2">
-                        <FormControlPlainText Value="@this.Service.Record.Name"></FormControlPlainText>
+                    <UIColumn Columns="6">
+                        <InputReadOnlyText Value="@this.Service.Record.Name"></InputReadOnlyText>
                     </UIColumn>
 
-                </UIRow>
+                </UIFormRow>
 
-                <UIRow>
+                <UIFormRow>
 
                     <UILabelColumn Columns="2">
                         Latitude/Longitude
                     </UILabelColumn>
 
-                    <UIColumn Columns="4">
-                        <FormControlPlainText Value="@this.Service.Record.LatLong"></FormControlPlainText>
+                    <UIColumn Columns="2">
+                        <InputReadOnlyText Value="@this.Service.Record.LatLong"></InputReadOnlyText>
                     </UIColumn>
 
                     <UILabelColumn Columns="2">
                         Elevation (m)
                     </UILabelColumn>
 
-                    <UIColumn Columns="4">
-                        <FormControlPlainText Value="@this.Service.Record.Elevation.ToString()"></FormControlPlainText>
+                    <UIColumn Columns="2">
+                        <InputReadOnlyText Value="@this.Service.Record.Elevation.ToString()"></InputReadOnlyText>
                     </UIColumn>
 
-                </UIRow>
+                    <UIColumn Columns="2">
+                    </UIColumn>
+
+                </UIFormRow>
 
             </UIContainer>
 

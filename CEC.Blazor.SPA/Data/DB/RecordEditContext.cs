@@ -100,18 +100,8 @@ namespace CEC.Blazor.Data
             }
             // Call a validation on the current data set
             Validate();
-            this.EditContextChanged?.Invoke(this, new EditContextEventArgs() { OldContext = oldcontext, NewContext = context });
             return Task.CompletedTask;
         }
-
-        #endregion
-
-        #region Events
-
-        /// <summary>
-        /// Event raised if the Edit Context is changed
-        /// </summary>
-        public event EditContextEventHandler EditContextChanged;
 
         #endregion
 

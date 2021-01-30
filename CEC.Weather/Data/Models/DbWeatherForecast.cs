@@ -1,5 +1,9 @@
+/// =================================
+/// Author: Shaun Curtis, Cold Elm
+/// License: MIT
+/// ==================================
+
 using CEC.Blazor.Data;
-using CEC.Blazor.Extensions;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
@@ -11,21 +15,8 @@ namespace CEC.Weather.Data
     /// Data validation is handled by the Fluent Validator
     /// Custom Attributes are for building the EF strored procedures
     /// </summary>
-    public class DbWeatherForecast :IDbRecord<DbWeatherForecast>
+    public class DbWeatherForecast : IDbRecord<DbWeatherForecast>
     {
-        public static readonly RecordFieldInfo __ID = new RecordFieldInfo("WeatherForecastID");
-        public static readonly RecordFieldInfo __Date = new RecordFieldInfo("WeatherForecastDate");
-        public static readonly RecordFieldInfo __TemperatureC = new RecordFieldInfo("TemperatureC");
-        public static readonly RecordFieldInfo __TemperatureF = new RecordFieldInfo("TemperatureF");
-        public static readonly RecordFieldInfo __PostCode = new RecordFieldInfo("PostCode");
-        public static readonly RecordFieldInfo __Frost = new RecordFieldInfo("Frost");
-        public static readonly RecordFieldInfo __Summary = new RecordFieldInfo("Summary");
-        public static readonly RecordFieldInfo __SummaryValue = new RecordFieldInfo("SummaryValue");
-        public static readonly RecordFieldInfo __Outlook = new RecordFieldInfo("Outlook");
-        public static readonly RecordFieldInfo __OutlookValue = new RecordFieldInfo("OutlookValue");
-        public static readonly RecordFieldInfo __Description = new RecordFieldInfo("Description");
-        public static readonly RecordFieldInfo __Detail = new RecordFieldInfo("Detail");
-        public static readonly RecordFieldInfo __DisplayName = new RecordFieldInfo("DisplayName");
 
         [NotMapped]
         public Guid GUID => Guid.NewGuid();
@@ -97,37 +88,37 @@ namespace CEC.Weather.Data
         public RecordCollection AsProperties() =>
             new RecordCollection()
             {
-                { __ID, this.ID },
-                { __Date, this.Date },
-                { __TemperatureC, this.TemperatureC },
-                { __TemperatureF, this.TemperatureF },
-                { __PostCode, this.PostCode },
-                { __Frost, this.Frost },
-                { __Summary, this.Summary },
-                { __SummaryValue, this.SummaryValue },
-                { __Outlook, this.Outlook },
-                { __OutlookValue, this.OutlookValue },
-                { __Description, this.Description },
-                { __Detail, this.Detail },
-                { __DisplayName, this.DisplayName },
+                { DataDictionary.__WeatherForecastID, this.ID },
+                { DataDictionary.__WeatherForecastDate, this.Date },
+                { DataDictionary.__WeatherForecastTemperatureC, this.TemperatureC },
+                { DataDictionary.__WeatherForecastTemperatureF, this.TemperatureF },
+                { DataDictionary.__WeatherForecastPostCode, this.PostCode },
+                { DataDictionary.__WeatherForecastFrost, this.Frost },
+                { DataDictionary.__WeatherForecastSummary, this.Summary },
+                { DataDictionary.__WeatherForecastSummaryValue, this.SummaryValue },
+                { DataDictionary.__WeatherForecastOutlook, this.Outlook },
+                { DataDictionary.__WeatherForecastOutlookValue, this.OutlookValue },
+                { DataDictionary.__WeatherForecastDescription, this.Description },
+                { DataDictionary.__WeatherForecastDetail, this.Detail },
+                { DataDictionary.__WeatherForecastDisplayName, this.DisplayName },
         };
 
 
         public static DbWeatherForecast FromProperties(RecordCollection recordvalues) =>
             new DbWeatherForecast()
             {
-                ID = recordvalues.GetEditValue<int>(__ID),
-                Date = recordvalues.GetEditValue<DateTime>(__Date),
-                TemperatureC = recordvalues.GetEditValue<decimal>(__TemperatureC),
-                PostCode = recordvalues.GetEditValue<string>(__PostCode),
-                Frost = recordvalues.GetEditValue<bool>(__Frost),
-                Summary = recordvalues.GetEditValue<WeatherSummary>(__Summary),
-                SummaryValue = recordvalues.GetEditValue<int>(__SummaryValue),
-                Outlook = recordvalues.GetEditValue<WeatherOutlook>(__Outlook),
-                OutlookValue = recordvalues.GetEditValue<int>(__OutlookValue),
-                Description = recordvalues.GetEditValue<string>(__Description),
-                Detail = recordvalues.GetEditValue<string>(__Detail),
-                DisplayName = recordvalues.GetEditValue<string>(__DisplayName),
+                ID = recordvalues.GetEditValue<int>(DataDictionary.__WeatherForecastID),
+                Date = recordvalues.GetEditValue<DateTime>(DataDictionary.__WeatherForecastDate),
+                TemperatureC = recordvalues.GetEditValue<decimal>(DataDictionary.__WeatherForecastTemperatureC),
+                PostCode = recordvalues.GetEditValue<string>(DataDictionary.__WeatherForecastPostCode),
+                Frost = recordvalues.GetEditValue<bool>(DataDictionary.__WeatherForecastFrost),
+                Summary = recordvalues.GetEditValue<WeatherSummary>(DataDictionary.__WeatherForecastSummary),
+                SummaryValue = recordvalues.GetEditValue<int>(DataDictionary.__WeatherForecastSummaryValue),
+                Outlook = recordvalues.GetEditValue<WeatherOutlook>(DataDictionary.__WeatherForecastOutlook),
+                OutlookValue = recordvalues.GetEditValue<int>(DataDictionary.__WeatherForecastOutlookValue),
+                Description = recordvalues.GetEditValue<string>(DataDictionary.__WeatherForecastDescription),
+                Detail = recordvalues.GetEditValue<string>(DataDictionary.__WeatherForecastDetail),
+                DisplayName = recordvalues.GetEditValue<string>(DataDictionary.__WeatherForecastDisplayName),
 
             };
 

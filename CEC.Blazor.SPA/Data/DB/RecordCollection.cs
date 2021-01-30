@@ -6,10 +6,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CEC.Blazor.Data
 {
@@ -47,6 +44,9 @@ namespace CEC.Blazor.Data
                 }
             }
         }
+
+        public void ResetValues()
+            => _items.ForEach(item => item.Reset());
 
         public IEnumerator GetEnumerator()
         {

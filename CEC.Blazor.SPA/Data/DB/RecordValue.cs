@@ -38,5 +38,8 @@ namespace CEC.Blazor.Data
             this.EditedValue = value;
             this.GUID = field.FieldGUID;
         }
+
+        public void Reset()
+            => this.EditedValue = this.Value;
     }
 }

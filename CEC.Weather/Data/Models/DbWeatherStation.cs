@@ -1,3 +1,8 @@
+/// =================================
+/// Author: Shaun Curtis, Cold Elm
+/// License: MIT
+/// ==================================
+
 using CEC.Blazor.Data;
 using CEC.Blazor.Extensions;
 using CEC.Weather.Extensions;
@@ -15,11 +20,6 @@ namespace CEC.Weather.Data
     public class DbWeatherStation 
         :IDbRecord<DbWeatherStation>
     {
-        public static readonly RecordFieldInfo __ID = new RecordFieldInfo("WeatherStationID");
-        public static readonly RecordFieldInfo __Name = new RecordFieldInfo("Name");
-        public static readonly RecordFieldInfo __Latitude = new RecordFieldInfo("Latitude");
-        public static readonly RecordFieldInfo __Longitude = new RecordFieldInfo("Longitude");
-        public static readonly RecordFieldInfo __Elevation = new RecordFieldInfo("Elevation");
 
         [NotMapped]
         public Guid GUID => Guid.NewGuid();
@@ -68,21 +68,21 @@ namespace CEC.Weather.Data
         public RecordCollection AsProperties() =>
             new RecordCollection()
             {
-                { __ID, this.ID },
-                { __Name, this.Name },
-                { __Latitude, this.Latitude },
-                { __Longitude, this.Longitude },
-                { __Elevation, this.Elevation }
+                { DataDictionary.__WeatherStationID, this.ID },
+                { DataDictionary.__WeatherStationName, this.Name },
+                { DataDictionary.__WeatherStationLatitude, this.Latitude },
+                { DataDictionary.__WeatherStationLongitude, this.Longitude },
+                { DataDictionary.__WeatherStationElevation, this.Elevation }
         };
 
         public static DbWeatherStation FromProperties(RecordCollection recordvalues) =>
             new DbWeatherStation()
             {
-                ID = recordvalues.GetEditValue<int>(__ID),
-                Name = recordvalues.GetEditValue<string>(__Name),
-                Latitude = recordvalues.GetEditValue<decimal>(__Latitude),
-                Longitude = recordvalues.GetEditValue<decimal>(__Longitude),
-                Elevation = recordvalues.GetEditValue<decimal>(__Elevation)
+                ID = recordvalues.GetEditValue<int>(DataDictionary.__WeatherStationID),
+                Name = recordvalues.GetEditValue<string>(DataDictionary.__WeatherStationName),
+                Latitude = recordvalues.GetEditValue<decimal>(DataDictionary.__WeatherStationLatitude),
+                Longitude = recordvalues.GetEditValue<decimal>(DataDictionary.__WeatherStationLongitude),
+                Elevation = recordvalues.GetEditValue<decimal>(DataDictionary.__WeatherStationElevation)
             };
 
         public DbWeatherStation GetFromProperties(RecordCollection recordvalues) => DbWeatherStation.FromProperties(recordvalues);

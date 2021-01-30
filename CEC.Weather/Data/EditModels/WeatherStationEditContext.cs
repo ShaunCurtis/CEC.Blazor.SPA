@@ -6,9 +6,8 @@
 using System;
 using CEC.Blazor.Data;
 using CEC.Blazor.Data.Validators;
-using CEC.Weather.Data;
 
-namespace CEC.Workflow.Components
+namespace CEC.Weather.Data
 {
 
     /// <summary>
@@ -22,40 +21,40 @@ namespace CEC.Workflow.Components
 
         public string WeatherStationName
         {
-            get => this.RecordValues.GetEditValue<string>(DbWeatherStation.__Name);
+            get => this.RecordValues.GetEditValue<string>(DataDictionary.__WeatherStationName);
             set
             {
-                this.RecordValues.SetField(DbWeatherStation.__Name, value);
+                this.RecordValues.SetField(DataDictionary.__WeatherStationName, value);
                 this.Validate();
             }
         }
 
-        public decimal Latitude
+        public decimal WeatherStationLatitude
         {
-            get => this.RecordValues.GetEditValue<decimal>(DbWeatherStation.__Latitude);
+            get => this.RecordValues.GetEditValue<decimal>(DataDictionary.__WeatherStationLatitude);
             set
             {
-                this.RecordValues.SetField(DbWeatherStation.__Latitude, value);
+                this.RecordValues.SetField(DataDictionary.__WeatherStationLatitude, value);
                 this.Validate();
             }
         }
 
-        public decimal Longitude
+        public decimal WeatherStationLongitude
         {
-            get => this.RecordValues.GetEditValue<decimal>(DbWeatherStation.__Longitude);
+            get => this.RecordValues.GetEditValue<decimal>(DataDictionary.__WeatherStationLongitude);
             set
             {
-                this.RecordValues.SetField(DbWeatherStation.__Longitude, value);
+                this.RecordValues.SetField(DataDictionary.__WeatherStationLongitude, value);
                 this.Validate();
             }
         }
 
-        public decimal Elevation
+        public decimal WeatherStationElevation
         {
-            get => this.RecordValues.GetEditValue<decimal>(DbWeatherStation.__Elevation);
+            get => this.RecordValues.GetEditValue<decimal>(DataDictionary.__WeatherStationElevation);
             set
             {
-                this.RecordValues.SetField(DbWeatherStation.__Elevation, value);
+                this.RecordValues.SetField(DataDictionary.__WeatherStationElevation, value);
                 this.Validate();
             }
         }
@@ -85,14 +84,14 @@ namespace CEC.Workflow.Components
 
         private bool ValidateName()
         {
-            return this.WeatherStationName.Validation(DbWeatherStation.__Name.FieldName, this, ValidationMessageStore)
+            return this.WeatherStationName.Validation(DataDictionary.__WeatherStationName.FieldName, this, ValidationMessageStore)
                 .LongerThan(6, "Name must be longer than 6 letters")
                 .Validate();
         }
 
         private bool ValidateLatitude()
         {
-            return this.Latitude.Validation(DbWeatherStation.__Latitude.FieldName, this, ValidationMessageStore)
+            return this.WeatherStationLatitude.Validation(DataDictionary.__WeatherStationLatitude.FieldName, this, ValidationMessageStore)
                 .GreaterThanOrEqualTo(-90)
                 .LessThanOrEqualTo(90)
                 .Validate("Latitude should be in the range -90 to 90");
@@ -100,7 +99,7 @@ namespace CEC.Workflow.Components
 
         private bool ValidateLongitude()
         {
-            return this.Longitude.Validation(DbWeatherStation.__Longitude.FieldName, this, ValidationMessageStore)
+            return this.WeatherStationLongitude.Validation(DataDictionary.__WeatherStationLongitude.FieldName, this, ValidationMessageStore)
                 .GreaterThanOrEqualTo(-180)
                 .LessThanOrEqualTo(180)
                 .Validate("Longitude should be in the range -180 to 180");
@@ -108,7 +107,7 @@ namespace CEC.Workflow.Components
 
         private bool ValidateElevation()
         {
-            return this.Longitude.Validation(DbWeatherStation.__Elevation.FieldName, this, ValidationMessageStore)
+            return this.WeatherStationLongitude.Validation(DataDictionary.__WeatherStationElevation.FieldName, this, ValidationMessageStore)
                 .GreaterThanOrEqualTo(-1000)
                 .LessThanOrEqualTo(10000)
                 .Validate("Elevation should be in the range -1000 to 10000");

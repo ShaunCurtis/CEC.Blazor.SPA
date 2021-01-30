@@ -1,4 +1,4 @@
-﻿@namespace CEC.Blazor.SPA.Components
+﻿@namespace CEC.Blazor.SPA.Components.FormControls
 
 @inherits Component
 
@@ -12,19 +12,4 @@ else
         <a href="@this.HtmlLink" class="@this.LinkCss" role="button" aria-pressed="true">@((MarkupString)this.Value) </a>
     </div>
 
-}
-
-@code {
-
-    [Parameter]
-    public string Value { get; set; }
-
-    [Parameter]
-    public string HtmlLink { get; set; } = string.Empty;
-
-    [Parameter]
-    public string LinkCss { get; set; } = string.Empty;
-
-    [Parameter]
-    public bool UsePre { get; set; } = false;
 }

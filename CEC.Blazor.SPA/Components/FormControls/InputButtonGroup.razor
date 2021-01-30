@@ -1,0 +1,13 @@
+﻿@namespace CEC.Blazor.SPA.Components.FormControls
+
+@inherits InputBase<int>
+    @*
+        Uses a formatted as a button as strange behaviour in modal with buttons - probably Bootstrap bug
+    *@
+
+    <div class="@this.BaseCss">
+        @foreach (var option in this.OptionList)
+        {
+            <a class="@this.GetButtonCss(option.Key)" @onclick="() => this.SwitchValue(option.Key)" role="button">@option.Value</a>
+        }
+    </div>

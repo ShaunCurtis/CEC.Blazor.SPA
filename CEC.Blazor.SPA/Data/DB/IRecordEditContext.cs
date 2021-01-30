@@ -8,12 +8,6 @@ using System.Threading.Tasks;
 
 namespace CEC.Blazor.Data
 {
-    /// <summary>
-    /// Event Handler delegate for EditContext Changes
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    public delegate void EditContextEventHandler(object sender, EditContextEventArgs e);
 
     /// <summary>
     /// Interface for RecordEditData objects
@@ -44,11 +38,6 @@ namespace CEC.Blazor.Data
         /// Property to indicate if the object has been loaded and is read to work
         /// </summary>
         public bool IsLoaded { get; }
-
-        /// <summary>
-        /// EditContext Changed Event
-        /// </summary>
-        public event EditContextEventHandler EditContextChanged;
 
         /// <summary>
         /// Method to call to notify the class that the Edit Context has changed

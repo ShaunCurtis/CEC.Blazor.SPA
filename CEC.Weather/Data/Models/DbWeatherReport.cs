@@ -15,19 +15,6 @@ namespace CEC.Weather.Data
     /// </summary>
     public class DbWeatherReport :IDbRecord<DbWeatherReport>
     {
-        public static readonly RecordFieldInfo __ID = new RecordFieldInfo("WeatherReportID");
-        public static readonly RecordFieldInfo __Date = new RecordFieldInfo("Date");
-        public static readonly RecordFieldInfo __TempMax = new RecordFieldInfo("TempMax");
-        public static readonly RecordFieldInfo __TempMin = new RecordFieldInfo("TempMin");
-        public static readonly RecordFieldInfo __FrostDays = new RecordFieldInfo("FrostDays");
-        public static readonly RecordFieldInfo __Rainfall = new RecordFieldInfo("Rainfall");
-        public static readonly RecordFieldInfo __SunHours = new RecordFieldInfo("SunHours");
-        public static readonly RecordFieldInfo __WeatherStationID = new RecordFieldInfo("WeatherStationID");
-        public static readonly RecordFieldInfo __WeatherStationName = new RecordFieldInfo("WeatherStationName");
-        public static readonly RecordFieldInfo __DisplayName = new RecordFieldInfo("DisplayName");
-        public static readonly RecordFieldInfo __Month = new RecordFieldInfo("Month");
-        public static readonly RecordFieldInfo __Year = new RecordFieldInfo("Year");
-
         [NotMapped]
         public Guid GUID => Guid.NewGuid();
 
@@ -95,35 +82,35 @@ namespace CEC.Weather.Data
         public RecordCollection AsProperties() =>
             new RecordCollection()
             {
-                { __ID, this.ID },
-                { __Date, this.Date },
-                { __TempMax, this.TempMax },
-                { __TempMin, this.TempMin },
-                { __FrostDays, this.FrostDays },
-                { __Rainfall, this.Rainfall },
-                { __SunHours, this.SunHours },
-                { __DisplayName, this.DisplayName },
-                { __WeatherStationID, this.WeatherStationID },
-                { __WeatherStationName, this.WeatherStationName },
-                { __Month, this.Month },
-                { __Year, this.Year }
+                { DataDictionary.__WeatherReportID, this.ID },
+                { DataDictionary.__WeatherReportDate, this.Date },
+                { DataDictionary.__WeatherReportTempMax, this.TempMax },
+                { DataDictionary.__WeatherReportTempMin, this.TempMin },
+                { DataDictionary.__WeatherReportFrostDays, this.FrostDays },
+                { DataDictionary.__WeatherReportRainfall, this.Rainfall },
+                { DataDictionary.__WeatherReportSunHours, this.SunHours },
+                { DataDictionary.__WeatherReportDisplayName, this.DisplayName },
+                { DataDictionary.__WeatherStationID, this.WeatherStationID },
+                { DataDictionary.__WeatherStationName, this.WeatherStationName },
+                { DataDictionary.__WeatherReportMonth, this.Month },
+                { DataDictionary.__WeatherReportYear, this.Year }
         };
 
         public static DbWeatherReport FromProperties(RecordCollection recordvalues) =>
             new DbWeatherReport()
             {
-                ID = recordvalues.GetEditValue<int>(__ID),
-                Date = recordvalues.GetEditValue<DateTime>(__Date),
-                TempMax = recordvalues.GetEditValue<decimal>(__TempMax),
-                TempMin = recordvalues.GetEditValue<decimal>(__TempMin),
-                FrostDays = recordvalues.GetEditValue<int>(__FrostDays),
-                Rainfall = recordvalues.GetEditValue<decimal>(__Rainfall),
-                SunHours = recordvalues.GetEditValue<decimal>(__SunHours),
-                DisplayName = recordvalues.GetEditValue<string>(__DisplayName),
-                WeatherStationID = recordvalues.GetEditValue<int>(__WeatherStationID),
-                WeatherStationName = recordvalues.GetEditValue<string>(__WeatherStationName),
-                Month = recordvalues.GetEditValue<int>(__Month),
-                Year = recordvalues.GetEditValue<int>(__Year),
+                ID = recordvalues.GetEditValue<int>(DataDictionary.__WeatherReportID),
+                Date = recordvalues.GetEditValue<DateTime>(DataDictionary.__WeatherReportDate),
+                TempMax = recordvalues.GetEditValue<decimal>(DataDictionary.__WeatherReportTempMax),
+                TempMin = recordvalues.GetEditValue<decimal>(DataDictionary.__WeatherReportTempMin),
+                FrostDays = recordvalues.GetEditValue<int>(DataDictionary.__WeatherReportFrostDays),
+                Rainfall = recordvalues.GetEditValue<decimal>(DataDictionary.__WeatherReportRainfall),
+                SunHours = recordvalues.GetEditValue<decimal>(DataDictionary.__WeatherReportSunHours),
+                DisplayName = recordvalues.GetEditValue<string>(DataDictionary.__WeatherReportDisplayName),
+                WeatherStationID = recordvalues.GetEditValue<int>(DataDictionary.__WeatherStationID),
+                WeatherStationName = recordvalues.GetEditValue<string>(DataDictionary.__WeatherStationName),
+                Month = recordvalues.GetEditValue<int>(DataDictionary.__WeatherReportMonth),
+                Year = recordvalues.GetEditValue<int>(DataDictionary.__WeatherReportYear),
             };
 
         public DbWeatherReport GetFromProperties(RecordCollection recordvalues) => DbWeatherReport.FromProperties(recordvalues);
