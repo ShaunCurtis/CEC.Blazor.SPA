@@ -59,6 +59,9 @@ namespace CEC.Weather.Data
             }
         }
 
+        public int WeatherStationID 
+            => this.RecordValues.GetEditValue<int>(DataDictionary.__WeatherStationID);
+
         /// <summary>
         /// New Method to load base object
         /// </summary>
@@ -107,7 +110,7 @@ namespace CEC.Weather.Data
 
         private bool ValidateElevation()
         {
-            return this.WeatherStationLongitude.Validation(DataDictionary.__WeatherStationElevation.FieldName, this, ValidationMessageStore)
+            return this.WeatherStationElevation.Validation(DataDictionary.__WeatherStationElevation.FieldName, this, ValidationMessageStore)
                 .GreaterThanOrEqualTo(-1000)
                 .LessThanOrEqualTo(10000)
                 .Validate("Elevation should be in the range -1000 to 10000");

@@ -91,13 +91,6 @@ namespace CEC.Blazor.Services
         public virtual async Task<List<string>> GetDistinctListAsync(DbDistinctRequest req) => await this.DBContext.CreateDbContext().GetDistinctListAsync(req);
 
         /// <summary>
-        /// Inherited IDataService Method
-        /// </summary>
-        /// <typeparam name="TLookup"></typeparam>
-        /// <returns></returns>
-        public virtual async Task<List<DbBaseRecord>> GetBaseRecordListAsync<TLookup>() where TLookup : class, IDbRecord<TLookup>, new() => await this.DBContext.CreateDbContext().GetBaseRecordListAsync<TLookup>();
-
-        /// <summary>
         /// Method to execute a stored procedure against the dataservice
         /// </summary>
         /// <param name="record"></param>

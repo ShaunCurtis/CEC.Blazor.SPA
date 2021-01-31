@@ -39,12 +39,11 @@ namespace CEC.Blazor.Services
         /// Inherited IDataService Method
         /// </summary>
         /// <returns></returns>
-        public async Task<List<TRecord>> GetRecordListAsync() => await this.HttpClient.GetFromJsonAsync<List<TRecord>>($"{RecordInfo.RecordName}/list");
-
-        public virtual async Task<List<DbBaseRecord>> GetBaseRecordListAsync<TLookup>() where TLookup : class, IDbRecord<TLookup>, new()
+        public async Task<SortedDictionary<int, string>> GetLookupListAsync<TLookup>() where TLookup : class, IDbRecord<TLookup>, new()
         {
+
             var recordname = typeof(TLookup).Name.Replace("Db", "", System.StringComparison.CurrentCultureIgnoreCase);
-            return await this.HttpClient.GetFromJsonAsync<List<DbBaseRecord>>($"{recordname}/base");
+            return await this.HttpClient.GetFromJsonAsync<SortedDictionary<int, string>>($"{recordname}/lookuplist");
         }
 
         /// <summary>

@@ -16,7 +16,7 @@ namespace CEC.Weather.Components
         [Inject]
         public WeatherStationControllerService ControllerService { get; set; }
 
-        private WeatherStationEditContext WeatherStationEditorContext { get; set; }
+        private WeatherStationEditContext EditorContext { get; set; }
 
 
         protected override Task OnRenderAsync(bool firstRender)
@@ -25,8 +25,8 @@ namespace CEC.Weather.Components
             if (firstRender)
             {
                 this.Service = this.ControllerService;
-                this.WeatherStationEditorContext = new WeatherStationEditContext(this.ControllerService.RecordValueCollection);
-                this.RecordEditorContext = this.WeatherStationEditorContext;
+                this.EditorContext = new WeatherStationEditContext(this.ControllerService.RecordValueCollection);
+                this.RecordEditorContext = this.EditorContext;
             }
             return base.OnRenderAsync(firstRender);
         }

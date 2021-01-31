@@ -18,26 +18,12 @@ namespace CEC.Blazor.SPA.Components.Forms
         where TRecord : class, IDbRecord<TRecord>, new()
        where TDbContext : DbContext
     {
-
-        #region Public Parameters
-
-        /// <summary>
-        /// Specifies the content to be rendered.
-        /// </summary>
-        [Parameter] public RenderFragment<EditContext> ChildContent { get; set; }
-
-        /// <summary>
-        /// Gets or sets a collection of additional attributes that will be applied to the created <c>form</c> element.
-        /// </summary>
-        [Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object> AdditionalAttributes { get; set; }
-
-        #endregion
         #region Public Properties
 
         /// <summary>
         /// Read only Property to get the Edit Context
         /// Only this component can change it
-        /// It's created from the Model
+        /// It's created from the RecordEditorContext which implements <see cref="IRecordEditContext"/>
         /// </summary>
         public EditContext EditContext
         {

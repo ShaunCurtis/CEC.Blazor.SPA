@@ -25,65 +25,47 @@ namespace CEC.Weather.Data
         public int WeatherForecastID { get => this.ID; }
 
         [SPParameter(IsID = true, DataType = SqlDbType.Int)]
-        public int ID { get; set; } = -1;
+        public int ID { get; init; } = -1;
 
-        [SPParameter(DataType = SqlDbType.SmallDateTime)]
-        public DateTime Date { get; set; } = DateTime.Now.Date;
+        [SPParameter(DataType = SqlDbType.SmallDateTime, ParameterName ="Date")]
+        public DateTime Date { get; init; } = DateTime.Now.Date;
 
         [SPParameter(DataType = SqlDbType.Decimal)]
-        public decimal TemperatureC { get; set; } = 20;
+        public decimal TemperatureC { get; init; } = 20;
 
         [SPParameter(DataType = SqlDbType.VarChar)]
-        public string PostCode { get; set; } = string.Empty;
+        public string PostCode { get; init; } = string.Empty;
 
         [SPParameter(DataType = SqlDbType.Bit)]
-        public bool Frost { get; set; }
+        public bool Frost { get; init; }
 
         [SPParameter(DataType = SqlDbType.Int)]
-        public int SummaryValue
-        {
-            get => (int)this.Summary;
-            set => this.Summary = (WeatherSummary)value;
-        }
+        public int SummaryValue { get; init; }
 
         [SPParameter(DataType = SqlDbType.Int)]
-        public int OutlookValue
-        {
-            get => (int)this.Outlook;
-            set => this.Outlook = (WeatherOutlook)value;
-        }
+        public int OutlookValue { get; init; }
 
         [SPParameter(DataType = SqlDbType.VarChar)]
-        public string Description { get; set; } = string.Empty;
+        public string Description { get; init; } = string.Empty;
 
         [SPParameter(DataType = SqlDbType.VarChar)]
-        public string Detail { get; set; } = string.Empty;
+        public string Detail { get; init; } = string.Empty;
 
-        public string DisplayName { get; set; }
+        public string DisplayName { get; init; }
 
         [NotMapped]
         public decimal TemperatureF => decimal.Round(32 + (TemperatureC / 0.5556M), 2);
 
         [NotMapped]
-        public WeatherSummary Summary { get; set; } = WeatherSummary.Unknown;
+        public WeatherSummary Summary => (WeatherSummary)this.SummaryValue;
 
         [NotMapped]
-        public WeatherOutlook Outlook { get; set; } = WeatherOutlook.Sunny;
+        public WeatherOutlook Outlook => (WeatherOutlook)this.OutlookValue;
 
         [NotMapped]
         public DbRecordInfo RecordInfo => DbWeatherForecast.RecInfo;
 
-        [NotMapped]
-        public static DbRecordInfo RecInfo => new DbRecordInfo()
-        {
-            CreateSP = "sp_Create_WeatherForecast",
-            UpdateSP = "sp_Update_WeatherForecast",
-            DeleteSP = "sp_Delete_WeatherForecast",
-            RecordDescription = "Weather Forecast",
-            RecordName = "WeatherForecast",
-            RecordListDescription = "Weather Forecasts",
-            RecordListName = "WeatherForecasts"
-        };
+        public DbWeatherForecast GetFromProperties(RecordCollection recordvalues) => DbWeatherForecast.FromProperties(recordvalues);
 
         public RecordCollection AsProperties() =>
             new RecordCollection()
@@ -103,6 +85,16 @@ namespace CEC.Weather.Data
                 { DataDictionary.__WeatherForecastDisplayName, this.DisplayName },
         };
 
+        public static DbRecordInfo RecInfo => new DbRecordInfo()
+        {
+            CreateSP = "sp_Create_WeatherForecast",
+            UpdateSP = "sp_Update_WeatherForecast",
+            DeleteSP = "sp_Delete_WeatherForecast",
+            RecordDescription = "Weather Forecast",
+            RecordName = "WeatherForecast",
+            RecordListDescription = "Weather Forecasts",
+            RecordListName = "WeatherForecasts"
+        };
 
         public static DbWeatherForecast FromProperties(RecordCollection recordvalues) =>
             new DbWeatherForecast()
@@ -112,17 +104,11 @@ namespace CEC.Weather.Data
                 TemperatureC = recordvalues.GetEditValue<decimal>(DataDictionary.__WeatherForecastTemperatureC),
                 PostCode = recordvalues.GetEditValue<string>(DataDictionary.__WeatherForecastPostCode),
                 Frost = recordvalues.GetEditValue<bool>(DataDictionary.__WeatherForecastFrost),
-                Summary = recordvalues.GetEditValue<WeatherSummary>(DataDictionary.__WeatherForecastSummary),
                 SummaryValue = recordvalues.GetEditValue<int>(DataDictionary.__WeatherForecastSummaryValue),
-                Outlook = recordvalues.GetEditValue<WeatherOutlook>(DataDictionary.__WeatherForecastOutlook),
                 OutlookValue = recordvalues.GetEditValue<int>(DataDictionary.__WeatherForecastOutlookValue),
                 Description = recordvalues.GetEditValue<string>(DataDictionary.__WeatherForecastDescription),
                 Detail = recordvalues.GetEditValue<string>(DataDictionary.__WeatherForecastDetail),
                 DisplayName = recordvalues.GetEditValue<string>(DataDictionary.__WeatherForecastDisplayName),
-
             };
-
-        public DbWeatherForecast GetFromProperties(RecordCollection recordvalues) => DbWeatherForecast.FromProperties(recordvalues);
-
     }
 }

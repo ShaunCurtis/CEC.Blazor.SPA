@@ -1,4 +1,9 @@
-﻿using System;
+﻿/// =================================
+/// Author: Shaun Curtis, Cold Elm
+/// License: MIT
+/// ==================================
+
+using System;
 using System.Data;
 using System.Reflection;
 

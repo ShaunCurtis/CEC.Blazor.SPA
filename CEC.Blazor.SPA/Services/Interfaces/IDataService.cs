@@ -30,18 +30,6 @@ namespace CEC.Blazor.Services
         public DbRecordInfo RecordInfo { get; set; }
 
         /// <summary>
-        /// Method to get the Record List
-        /// </summary>
-        /// <returns></returns>
-        public Task<List<TRecord>> GetRecordListAsync() => Task.FromResult(new List<TRecord>());
-
-        /// <summary>
-        /// Method to get a filtered Record List
-        /// </summary>
-        /// <returns></returns>
-        public Task<List<TRecord>> GetFilteredRecordListAsync(IFilterList filterList) => Task.FromResult(new List<TRecord>());
-
-        /// <summary>
         /// Method to get a Record
         /// </summary>
         /// <param name="id"></param>
@@ -83,6 +71,18 @@ namespace CEC.Blazor.Services
         public Task<DbTaskResult> DeleteRecordAsync(TRecord record) => Task.FromResult(new DbTaskResult() { IsOK = false, Type = MessageType.NotImplemented, Message = "Method not implemented" });
 
         /// <summary>
+        /// Method to get the Record List
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<TRecord>> GetRecordListAsync() => Task.FromResult(new List<TRecord>());
+
+        /// <summary>
+        /// Method to get a filtered Record List
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<TRecord>> GetFilteredRecordListAsync(IFilterList filterList) => Task.FromResult(new List<TRecord>());
+
+        /// <summary>
         /// Method to get a dictionary of id/name for a record type
         /// Used in Lookup Lists
         /// </summary>
@@ -97,12 +97,7 @@ namespace CEC.Blazor.Services
         /// <typeparam name="TLookup"></typeparam>
         /// <returns></returns>
         public Task<List<string>> GetDistinctListAsync(DbDistinctRequest req) => Task.FromResult(new List<string>());
-        
-        /// <summary>
-        /// Method to get a base record set from an IDbRecord record
-        /// </summary>
-        /// <returns></returns>
-        public Task<List<DbBaseRecord>> GetBaseRecordListAsync<TLookup>() where TLookup : class, IDbRecord<TLookup>, new() => Task.FromResult(new List<DbBaseRecord>());
+     
 
         /// <summary>
         /// Method to build the a list of SqlParameters for a CUD Stored Procedure

@@ -14,18 +14,21 @@
 
     @code {
 
-        [CascadingParameter]
-        public ViewManager ViewManager { get; set; }
+            [CascadingParameter]
+            public ViewManager ViewManager { get; set; }
 
         public PropertyCollection UIProperties
         {
             get
             {
                 var props = new PropertyCollection();
-                props.Add(PropertyConstants.RowNavigateToViewer, true);
-                props.Add(PropertyConstants.ShowButtons, true);
-                props.Add(PropertyConstants.ShowEdit, true);
-                props.Add(PropertyConstants.ShowAdd, true);
+                {
+                    props.Add(PropertyConstants.RowNavigateToViewer, true);
+                    props.Add(PropertyConstants.ShowButtons, true);
+                    props.Add(PropertyConstants.ShowEdit, true);
+                    props.Add(PropertyConstants.ShowAdd, true);
+                    props.Add(PropertyConstants.UseModalViewer, true);
+                }
                 return props;
             }
         }

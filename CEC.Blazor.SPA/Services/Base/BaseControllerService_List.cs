@@ -193,12 +193,10 @@ namespace CEC.Blazor.Services
         /// </summary>
         /// <typeparam name="TLookup"></typeparam>
         /// <returns></returns>
-        public async Task<SortedDictionary<long, string>> GetLookUpListAsync<TLookup>(string selectAllText = null) where TLookup : class, IDbRecord<TLookup>, new()
+        public async Task<SortedDictionary<int, string>> GetLookUpListAsync<TLookup>(string selectAllText = null) where TLookup : class, IDbRecord<TLookup>, new()
         {
-            var list = await this.Service.GetBaseRecordListAsync<TLookup>();
-            var LookupList = new SortedDictionary<long, string>();
+            var LookupList = await this.Service.GetLookupListAsync<TLookup>();
             if (!string.IsNullOrEmpty(selectAllText)) LookupList.Add(0, selectAllText);
-            list.ForEach(item => LookupList.Add(item.ID, item.DisplayName));
             return LookupList;
         }
 
@@ -208,12 +206,6 @@ namespace CEC.Blazor.Services
         /// <typeparam name="TLookup"></typeparam>
         /// <returns></returns>
         public async Task<List<string>> GetDistinctListAsync(DbDistinctRequest req) => await this.Service.GetDistinctListAsync(req);
-
-        /// <summary>
-        /// Method to get a base record set from an IDbRecord record
-        /// </summary>
-        /// <returns></returns>
-        public async Task<List<DbBaseRecord>> GetBaseRecordListAsync<TLookup>() where TLookup : class, IDbRecord<TLookup>, new() => await this.Service.GetBaseRecordListAsync<TLookup>();
 
         #endregion
 
