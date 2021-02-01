@@ -49,7 +49,8 @@ namespace CEC.Blazor.Extensions
                 {
                     await cmd.ExecuteNonQueryAsync();
                 }
-                catch(Exception e) {
+                catch (Exception e)
+                {
                     Debug.WriteLine(e.Message);
                 }
                 finally
@@ -71,7 +72,7 @@ namespace CEC.Blazor.Extensions
         public async static Task<List<TRecord>> GetRecordListAsync<TRecord>(this DbContext context, string dbSetName = null) where TRecord : class, IDbRecord<TRecord>, new()
         {
             var dbset = GetDbSet<TRecord>(context, dbSetName);
-            return await dbset.ToListAsync();
+            return await dbset.ToListAsync() ?? new List<TRecord>();
         }
 
         /// <summary>
@@ -87,12 +88,8 @@ namespace CEC.Blazor.Extensions
         /// <returns></returns>
         public async static Task<List<TRecord>> GetRecordFilteredListAsync<TRecord>(this DbContext context, IFilterList filterList, string dbSetName = null) where TRecord : class, IDbRecord<TRecord>, new()
         {
-            var firstrun = true;
-            var rec = new TRecord();
-            // Get the PropertInfo object for the record DbSet
-            var propertyInfo = context.GetType().GetProperty(dbSetName ?? rec.RecordInfo.RecordName);
-            // Get the actual value and cast it correctly
-            var dbset = (DbSet<TRecord>)(propertyInfo.GetValue(context));
+            // Get the DbSet
+            var dbset = GetDbSet<TRecord>(context, null);
             // Get a empty list
             var list = new List<TRecord>();
             // if we have a filter go through each filter
@@ -104,15 +101,18 @@ namespace CEC.Blazor.Extensions
                 {
                     // Get the filter propertyinfo object
                     var x = typeof(TRecord).GetProperty(filter.Key);
-                    // if we have a list already apply the filter to the list
-                    if (list.Count > 0) list = list.Where(item => x.GetValue(item).Equals(filter.Value)).ToList();
-                    // If this is the first run we query the database directly
-                    else if (firstrun) list = await dbset.FromSqlRaw($"SELECT * FROM vw_{ propertyInfo.Name} WHERE {filter.Key} = {filter.Value}").ToListAsync();
-                    firstrun = false;
+                    // We have records so need to filter on the list
+                    if (list.Count > 0)
+                        list = list.Where(item => x.GetValue(item).Equals(filter.Value)).ToList();
+                    // We don't have any records so can query the DbSet directly
+                    else
+                        list = await dbset.Where(item => x.GetValue(item).Equals(filter.Value)).ToListAsync();
                 }
             }
-            //  No list, just get the full recordset
-            else list = await dbset.ToListAsync();
+            //  No list, just get the full recordset if allowed by filterlist
+            else if (!filterList.OnlyLoadIfFilters)
+                list = await dbset.ToListAsync();
+            // otherwise return an empty list
             return list;
         }
 
@@ -124,24 +124,23 @@ namespace CEC.Blazor.Extensions
         /// <param name="context">DBContext</param>
         /// <param name="dbSetName">DbSet Name</param>
         /// <returns></returns>
-        public async static Task<List<string>> GetDistinctListAsync(this DbContext context, DbDistinctRequest req)
+        public async static Task<List<string>> GetDistinctListAsync<TRecord>(this DbContext context, string fieldName) where TRecord : class, IDbRecord<TRecord>, new()
         {
+            // Get the DbSet
+            var dbset = GetDbSet<TRecord>(context, null);
+            // Get an empty list
             var list = new List<string>();
-            // wrap in a try as there are many things that can go wrong
-            try
+            // Get the filter propertyinfo object
+            var x = typeof(TRecord).GetProperty(fieldName);
+            if (dbset != null && x != null)
             {
-                //get the DbDistinct DB Set so we can load the query data into it
-                var dbset = GetDbSet<DbDistinct>(context, req.DistinctSetName);
-                // Get the data by building the SQL query to run against the view
-                var dlist = await dbset.FromSqlRaw($"SELECT DISTINCT(CONVERT(varchar(max), {req.FieldName})) as Value FROM vw_{req.QuerySetName} ORDER BY Value").ToListAsync();
-                // Load the results into a string list
-                dlist.ForEach(item => list.Add(item.Value));
+                // we get the full list and then run a distinct because we can't run a distinct directly on the dbSet
+                var fulllist = await dbset.Select(item => x.GetValue(item).ToString()).ToListAsync();
+                list = fulllist.Distinct().ToList();
+                // old way using SQL
+                //list = await dbset.FromSqlRaw($"SELECT * FROM vw_{ propertyInfo.Name} WHERE {filter.Key} = {filter.Value}").ToListAsync();
             }
-            catch
-            {
-                throw new ArgumentException("The SQL Query did not complete.  The most likely cause is one of the DbDistinctRequest parameters is incorrect;");
-            }
-            return list;
+            return list ?? new List<string>();
         }
 
         /// <summary>
@@ -168,7 +167,7 @@ namespace CEC.Blazor.Extensions
         public async static Task<TRecord> GetRecordAsync<TRecord>(this DbContext context, int id, string dbSetName = null) where TRecord : class, IDbRecord<TRecord>, new()
         {
             var dbset = GetDbSet<TRecord>(context, dbSetName);
-            return await dbset.FirstOrDefaultAsync(item => ((IDbRecord<TRecord>)item).ID == id);
+            return await dbset.FirstOrDefaultAsync(item => ((IDbRecord<TRecord>)item).ID == id) ?? default;
         }
 
         /// <summary>
@@ -182,14 +181,7 @@ namespace CEC.Blazor.Extensions
         public async static Task<TRecord> GetRecordAsync<TRecord>(this DbContext context, Guid guid, string dbSetName = null) where TRecord : class, IDbRecord<TRecord>, new()
         {
             var dbset = GetDbSet<TRecord>(context, dbSetName);
-            try
-            {
-                return await dbset.FirstOrDefaultAsync(item => ((IDbRecord<TRecord>)item).GUID == guid);
-            }
-            catch
-            {
-                throw new InvalidOperationException("The record does not have a database defined GUID Field that can be queried by SQL");
-            }
+            return await dbset.FirstOrDefaultAsync(item => ((IDbRecord<TRecord>)item).GUID == guid) ?? default;
         }
 
         /// <summary>
@@ -198,11 +190,11 @@ namespace CEC.Blazor.Extensions
         /// <typeparam name="TRecord">Record Type</typeparam>
         /// <param name="context">DbContext</param>
         /// <returns></returns>
-        public async static Task<List<DbBaseRecord>> GetBaseRecordListAsync<TRecord>(this DbContext context) where TRecord : class, IDbRecord<TRecord>, new()
+        public async static Task<SortedDictionary<int, string>> GetLookupListAsync<TRecord>(this DbContext context) where TRecord : class, IDbRecord<TRecord>, new()
         {
-            var list = new List<DbBaseRecord>();
+            var list = new SortedDictionary<int, string>();
             var dbset = GetDbSet<TRecord>(context, null);
-            await dbset.ForEachAsync(item => list.Add(new DbBaseRecord() { ID = item.ID, DisplayName = item.DisplayName }));
+            if (dbset != null) await dbset.ForEachAsync(item => list.Add(item.ID, item.DisplayName));
             return list;
         }
 

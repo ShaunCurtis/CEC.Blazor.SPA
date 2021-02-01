@@ -49,18 +49,6 @@ namespace CEC.Blazor.Services
         /// <summary>
         /// Inherited IDataService Method
         /// </summary>
-        /// <typeparam name="TLookup"></typeparam>
-        /// <returns></returns>
-        public async Task<List<string>> GetDistinctListAsync(DbDistinctRequest req)
-        {
-            var response = await this.HttpClient.PostAsJsonAsync($"{RecordInfo.RecordName}/distinctlist", req);
-            var result = await response.Content.ReadFromJsonAsync<List<string>>();
-            return result;
-        }
-
-        /// <summary>
-        /// Inherited IDataService Method
-        /// </summary>
         /// <returns></returns>
         public async Task<List<TRecord>> GetFilteredRecordListAsync(IFilterList filterList)
         {

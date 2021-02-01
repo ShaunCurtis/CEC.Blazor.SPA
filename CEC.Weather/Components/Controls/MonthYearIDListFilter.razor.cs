@@ -1,5 +1,8 @@
-﻿using CEC.Blazor.SPA.Components;
-using CEC.Blazor.Data;
+﻿/// =================================
+/// Author: Shaun Curtis, Cold Elm
+/// License: MIT
+/// ==================================
+
 using CEC.Weather.Data;
 using CEC.Weather.Services;
 using Microsoft.AspNetCore.Components;
@@ -87,12 +90,12 @@ namespace CEC.Weather.Components
         {
             this.IdLookupList = await this.Service.GetLookUpListAsync<DbWeatherStation>("-- ALL STATIONS --");
             this.MonthLookupList = new SortedDictionary<int, string> { { 0, "-- ALL MONTHS --" } };
-            for (int i = 1; i < 13; i++) this.MonthLookupList.Add(i, CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i));
-            {
-                var list = await this.Service.GetDistinctListAsync(new DbDistinctRequest() { FieldName = "Year", QuerySetName = "WeatherReport", DistinctSetName = "DistinctList" });
-                this.YearLookupList = new SortedDictionary<int, string> { { 0, "-- ALL YEARS --" } };
-                list.ForEach(item => this.YearLookupList.Add(int.Parse(item), item));
-            }
+            for (int i = 1; i < 13; i++) 
+                this.MonthLookupList.Add(i, CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i));
+            var yearLookupList = await this.Service.GetDistinctListAsync<DbWeatherReport>("Year");
+            yearLookupList ??= new List<string>();
+            this.YearLookupList = new SortedDictionary<int, string> { { 0, "-- ALL YEARS --" } };
+            yearLookupList.ForEach(item => this.YearLookupList.Add(int.Parse(item), item));
 
         }
     }

@@ -31,13 +31,6 @@ namespace CEC.Weather.Data
             => _id = Guid.NewGuid();
 
         /// <summary>
-        /// Generic DbSet to hold distinct Values of a specific value for lists
-        /// used in conjuction with <see cref="DbDistinctRequest"/> 
-        /// Not created in OnModelCreating.  Built directly from a SQL query
-        /// </summary>
-        public DbSet<DbDistinct> DistinctList { get; set; }
-
-        /// <summary>
         /// DbSet for the <see cref="DbWeatherForecast"/> record
         /// </summary>
         public DbSet<DbWeatherForecast> WeatherForecast { get; set; }

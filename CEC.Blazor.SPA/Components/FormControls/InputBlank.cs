@@ -17,12 +17,6 @@ namespace CEC.Blazor.SPA.Components.FormControls
         [CascadingParameter]
         public EditContext EContext { get; set; }
 
-        protected override Task OnRenderAsync(bool firstRender)
-        {
-            var x = true;
-            return base.OnRenderAsync(firstRender);
-        }
-
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             builder.OpenElement(0, "div");

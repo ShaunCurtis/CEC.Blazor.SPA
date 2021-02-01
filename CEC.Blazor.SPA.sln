@@ -19,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Building-Application-Framew
 		Chapters\Chapter-2-Databases.md = Chapters\Chapter-2-Databases.md
 		Chapters\Chapter-3-Database-Access-Layer.md = Chapters\Chapter-3-Database-Access-Layer.md
 		Chapters\Chapter-4-Data-Controller-Layer.md = Chapters\Chapter-4-Data-Controller-Layer.md
+		Chapter-X-Data-Records.md = Chapter-X-Data-Records.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{16B11109-979E-4224-ADE3-301A1709C45B}"

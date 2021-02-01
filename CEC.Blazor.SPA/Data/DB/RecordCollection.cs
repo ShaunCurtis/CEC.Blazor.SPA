@@ -50,7 +50,7 @@ namespace CEC.Blazor.Data
 
         public IEnumerator GetEnumerator()
         {
-            return new Enumerator(_items);
+            return new RecordCollectionEnumerator(_items);
         }
         public T Get<T>(RecordFieldInfo field) => Get<T>(field.FieldName);
 
@@ -164,7 +164,7 @@ namespace CEC.Blazor.Data
         }
     }
 
-    public class Enumerator : IEnumerator
+    public class RecordCollectionEnumerator : IEnumerator
     {
         private List<RecordValue> _items = new List<RecordValue>();
         private int _cursor;
@@ -178,15 +178,14 @@ namespace CEC.Blazor.Data
                 return _items[_cursor];
             }
         }
-        public Enumerator(List<RecordValue> items)
+        public RecordCollectionEnumerator(List<RecordValue> items)
         {
             this._items = items;
             _cursor = -1;
         }
         void IEnumerator.Reset()
-        {
-            _cursor = -1;
-        }
+            => _cursor = -1;
+
         bool IEnumerator.MoveNext()
         {
             if (_cursor < _items.Count)
@@ -194,6 +193,5 @@ namespace CEC.Blazor.Data
 
             return (!(_cursor == _items.Count));
         }
-
     }
 }

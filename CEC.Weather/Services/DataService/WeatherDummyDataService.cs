@@ -52,17 +52,20 @@ namespace CEC.Weather.Services
             {
                 var rng = new Random();
                 var temperatureC = rng.Next(-5, 35);
+                var date = DateTime.Now.AddDays(-(recordcount - i));
+                var summaryValue = rng.Next(11);
+                var outlookValue = rng.Next(3);
                 var rec = new DbWeatherForecast()
                 {
                     ID = i,
-                    Date = DateTime.Now.AddDays(-(recordcount - i)),
+                    Date = date,
                     TemperatureC = temperatureC,
-                    Summary = (WeatherSummary)rng.Next(11),
-                    Outlook = (WeatherOutlook)rng.Next(3),
+                    SummaryValue = summaryValue,
+                    OutlookValue = outlookValue,
                     Frost = temperatureC < 0,
-                    PostCode = "GL2 5TP"
+                    PostCode = "GL2 5TP",
+                    Description = $"The Weather forecast for {date.DayOfWeek} {date.ToLongDateString()} is mostly {(WeatherOutlook)outlookValue} and {(WeatherSummary)summaryValue}"
                 };
-                rec.Description = $"The Weather forecast for {rec.Date.DayOfWeek} {rec.Date.ToLongDateString()} is mostly {rec.Outlook} and {rec.Summary}";
                 WeatherForecastRecords.Add(rec);
             }
         }

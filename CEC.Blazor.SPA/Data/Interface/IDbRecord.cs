@@ -13,7 +13,8 @@ namespace CEC.Blazor.Data
     /// <summary>
     /// Common Interface definition for any DbRecord
     /// </summary>
-    public interface IDbRecord<TRecord> where TRecord : class, IDbRecord<TRecord>, new()
+    public interface IDbRecord<TRecord> 
+        where TRecord : class, IDbRecord<TRecord>, new()
     {
         /// <summary>
         /// ID to ensure we have a unique key
@@ -83,6 +84,5 @@ namespace CEC.Blazor.Data
             var attribute = (SPParameterAttribute)attrs.FirstOrDefault(item => item.GetType() == typeof(SPParameterAttribute));
             return attribute != null;
         }
-
     }
 }

@@ -200,13 +200,6 @@ namespace CEC.Blazor.Services
             return LookupList;
         }
 
-        /// <summary>
-        /// Method to get a lookup list of values for a Field in TLookup record
-        /// </summary>
-        /// <typeparam name="TLookup"></typeparam>
-        /// <returns></returns>
-        public async Task<List<string>> GetDistinctListAsync(DbDistinctRequest req) => await this.Service.GetDistinctListAsync(req);
-
         #endregion
 
         #region Protected Methods

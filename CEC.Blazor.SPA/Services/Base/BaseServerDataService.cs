@@ -84,13 +84,6 @@ namespace CEC.Blazor.Services
         public virtual async Task<DbTaskResult> DeleteRecordAsync(TRecord record) => await this.RunStoredProcedure(record, SPType.Delete);
 
         /// <summary>
-        /// Inherited IDataService Method
-        /// </summary>
-        /// <typeparam name="TLookup"></typeparam>
-        /// <returns></returns>
-        public virtual async Task<List<string>> GetDistinctListAsync(DbDistinctRequest req) => await this.DBContext.CreateDbContext().GetDistinctListAsync(req);
-
-        /// <summary>
         /// Method to execute a stored procedure against the dataservice
         /// </summary>
         /// <param name="record"></param>

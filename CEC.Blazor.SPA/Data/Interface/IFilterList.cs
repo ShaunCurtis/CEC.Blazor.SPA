@@ -18,14 +18,9 @@ namespace CEC.Blazor.Data
         }
 
         /// <summary>
-        /// Guid to Identify object instance
-        /// </summary>
-        public Guid GUID { get => Guid.NewGuid(); }
-
-        /// <summary>
         /// Boolean to determine if the filter should be shown in the UI
         /// </summary>
-        public bool Show { get => this.ShowState == 0; }
+        public bool Show => this.ShowState == 0;
 
         /// <summary>
         /// Current state of the Filter
@@ -46,15 +41,13 @@ namespace CEC.Blazor.Data
         /// <summary>
         /// Boolean to tell the list loader if it need to load
         /// </summary>
-        public bool Load { get => this.Filters.Count > 0 || !this.OnlyLoadIfFilters; }
+        public bool Load => this.Filters.Count > 0 || !this.OnlyLoadIfFilters;
 
         /// <summary>
         /// Method to reset the filter
         /// </summary>
         public void Reset()
-        {
-            this.ShowState = IFilterList.FilterViewState.NotSet;
-        }
+            => this.ShowState = IFilterList.FilterViewState.NotSet;
 
         /// <summary>
         /// Method to get a Filter value

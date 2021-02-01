@@ -17,6 +17,16 @@ namespace CEC.Blazor.Data.Validators
         public bool IsValid => !Trip;
 
         /// <summary>
+        /// Tripwire for validation failure
+        /// </summary>
+        public bool Trip = false;
+
+        /// <summary>
+        /// Messages to display if validation fails
+        /// </summary>
+        public List<string> Messages { get; } = new List<string>();
+
+        /// <summary>
         /// Class Contructor
         /// </summary>
         /// <param name="value"></param>
@@ -77,13 +87,6 @@ namespace CEC.Blazor.Data.Validators
         protected ValidationMessageStore ValidationMessageStore { get; set; }
 
         protected object Model { get; set; }
-
-        /// <summary>
-        /// Tripwire for validation failure
-        /// </summary>
-        protected bool Trip = false;
-
-        protected List<string> Messages = new List<string>();
 
         /// <summary>
         /// Method to add a message to the log
