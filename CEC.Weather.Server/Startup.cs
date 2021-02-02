@@ -21,6 +21,7 @@ namespace CEC.Blazor.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddServerSideBlazor();
             // the Services for the CEC.Blazor Library
@@ -44,6 +45,7 @@ namespace CEC.Blazor.Server
             }
 
             app.UseHttpsRedirection();
+            app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -51,6 +53,8 @@ namespace CEC.Blazor.Server
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapBlazorHub();
+                endpoints.MapRazorPages();
+                endpoints.MapControllers();
                 endpoints.MapFallbackToPage("/_Host");
             });
         }

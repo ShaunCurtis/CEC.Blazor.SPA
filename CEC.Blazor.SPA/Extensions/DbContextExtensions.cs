@@ -207,8 +207,8 @@ namespace CEC.Blazor.Extensions
         /// <returns></returns>
         private static DbSet<TRecord> GetDbSet<TRecord>(this DbContext context, string dbSetName = null) where TRecord : class, IDbRecord<TRecord>, new()
         {
-            // Get the property info object for the DbSet 
             var rec = new TRecord();
+            // Get the property info object for the DbSet 
             var pinfo = context.GetType().GetProperty(dbSetName ?? rec.RecordInfo.RecordName);
             // Get the property DbSet
             return (DbSet<TRecord>)pinfo.GetValue(context);

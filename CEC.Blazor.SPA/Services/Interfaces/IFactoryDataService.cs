@@ -99,6 +99,15 @@ namespace CEC.Blazor.Services
             => Task.FromResult(new SortedDictionary<int,string>());
 
         /// <summary>
+        /// Method to get a dictionary of id/name for a record type
+        /// Used in Lookup Lists
+        /// </summary>
+        /// <typeparam name="TLookup"></typeparam>
+        /// <returns></returns>
+        public Task<SortedDictionary<int, string>> GetLookupListAsync(string recordName)
+            => Task.FromResult(new SortedDictionary<int, string>());
+
+        /// <summary>
         /// Method to get a dictionary of distinct values for a field in a record type
         /// Used in Lookup Lists
         /// </summary>

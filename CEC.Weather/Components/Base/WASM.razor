@@ -1,0 +1,10 @@
+﻿@namespace CEC.Weather.Components
+
+<ViewManager DefaultViewData="this.viewData" ModalType="typeof(CEC.Blazor.SPA.Components.UIControls.BootstrapModal)" DefaultLayout="typeof(WASMLayout)">
+</ViewManager>
+
+@code {
+
+    public ViewData viewData = new ViewData(typeof(CEC.Weather.Components.Views.Index), null);
+}
+

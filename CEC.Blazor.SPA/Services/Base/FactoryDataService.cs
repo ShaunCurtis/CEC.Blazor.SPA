@@ -33,5 +33,30 @@ namespace CEC.Blazor.Services
 
         public FactoryDataService(IConfiguration configuration) => this.AppConfiguration = configuration;
 
+        /// <summary>
+        /// Gets the Record Name from TRecord
+        /// </summary>
+        /// <typeparam name="TRecord"></typeparam>
+        /// <returns></returns>
+        protected string GetRecordName<TRecord>() where TRecord : class, IDbRecord<TRecord>, new()
+        {
+            var rec = new TRecord();
+            return rec.RecordInfo.RecordName ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Gets the Record Name from TRecord
+        /// </summary>
+        /// <typeparam name="TRecord"></typeparam>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        protected bool TryGetRecordName<TRecord>(out string name) where TRecord : class, IDbRecord<TRecord>, new()
+        {
+            var rec = new TRecord();
+            name = rec.RecordInfo.RecordName ?? string.Empty;
+            return !string.IsNullOrWhiteSpace(name);
+
+        }
+
     }
 }

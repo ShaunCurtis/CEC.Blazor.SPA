@@ -4,10 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using CEC.Blazor.WASM.Client.Extensions;
-using CEC.Weather.Components;
-using System.Linq;
-using Microsoft.EntityFrameworkCore.Storage;
-using CEC.Blazor.SPA;
 
 namespace CEC.Blazor.WASM.Client
 {
