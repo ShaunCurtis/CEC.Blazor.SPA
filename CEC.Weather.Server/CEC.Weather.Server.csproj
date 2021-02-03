@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CEC.Blazor.SPA\CEC.Blazor.SPA.csproj" />
+    <ProjectReference Include="..\CEC.Weather.WASM.Client\CEC.Weather.WASM.Client.csproj" />
     <ProjectReference Include="..\CEC.Weather\CEC.Weather.csproj" />
   </ItemGroup>
 

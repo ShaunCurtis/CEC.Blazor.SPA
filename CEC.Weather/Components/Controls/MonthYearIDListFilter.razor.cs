@@ -83,6 +83,7 @@ namespace CEC.Weather.Components
         {
             this.OldYear = this.Year;
             this.OldMonth = this.Month;
+            this.Service.FilterList.OnlyLoadIfFilters = true;
             await GetLookupsAsync();
         }
 

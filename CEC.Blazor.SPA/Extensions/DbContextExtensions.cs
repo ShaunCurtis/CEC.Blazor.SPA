@@ -110,7 +110,7 @@ namespace CEC.Blazor.Extensions
                 }
             }
             //  No list, just get the full recordset if allowed by filterlist
-            else if (!filterList.OnlyLoadIfFilters)
+            else if (filterList != null && !filterList.OnlyLoadIfFilters)
                 list = await dbset.ToListAsync();
             // otherwise return an empty list
             return list;

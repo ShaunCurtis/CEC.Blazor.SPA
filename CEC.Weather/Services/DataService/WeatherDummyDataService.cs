@@ -28,12 +28,12 @@ namespace CEC.Weather.Services
         private List<DbWeatherReport> WeatherReportRecords { get; set; }
 
         public HttpClient HttpClient { get; set; }
-        
+
         public IDbContextFactory<WeatherForecastDbContext> DBContext { get; set; }
 
         public IConfiguration AppConfiguration { get; set; }
 
-        public WeatherDummyDataService(IConfiguration configuration) 
+        public WeatherDummyDataService(IConfiguration configuration)
         {
             this.AppConfiguration = configuration;
             this.GetWeatherForecastRecords(100);
@@ -79,6 +79,7 @@ namespace CEC.Weather.Services
                 Name = "Tiree",
                 Longitude = -1.5m,
                 Latitude = 54.2m,
+                DisplayName = "Tiree",
                 Elevation = 28
 
             };
@@ -89,6 +90,7 @@ namespace CEC.Weather.Services
                 Name = "Ross-on-Wye",
                 Longitude = -1.2m,
                 Latitude = 52.2m,
+                DisplayName = "Ross-on-Wye",
                 Elevation = 120
 
             };
@@ -130,6 +132,84 @@ namespace CEC.Weather.Services
             }
         }
 
+        /// <summary>
+        /// Inherited IDataService Method
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<TRecord>> GetRecordListAsync<TRecord>() where TRecord : class, IDbRecord<TRecord>, new()
+        {
+            var list = new List<TRecord>();
+
+            var recordname = this.GetRecordType<TRecord>();
+            switch (this.GetRecordType<TRecord>())
+            {
+                case "WeatherForecast":
+                    this.WeatherForecastRecords.ForEach(item => list.Add((TRecord)Convert.ChangeType(item, typeof(TRecord))));
+                    break;
+                case "WeatherStation":
+                    this.WeatherStationRecords.ForEach(item => list.Add((TRecord)Convert.ChangeType(item, typeof(TRecord))));
+                    break;
+                case "WeatherReport":
+                    this.WeatherReportRecords.ForEach(item => list.Add((TRecord)Convert.ChangeType(item, typeof(TRecord))));
+                    break;
+                default:
+                    list = new List<TRecord>();
+                    break;
+            };
+
+            // Delay to demonstrate Async Programming
+            await Task.Delay(200);
+            return list; ;
+        }
+
+        public async Task<List<TRecord>> GetFilteredRecordListAsync<TRecord>(IFilterList filterList) where TRecord : class, IDbRecord<TRecord>, new()
+        {
+            var list = await this.GetRecordListAsync<TRecord>();
+            if (filterList != null && filterList.Filters.Count > 0)
+            {
+                foreach (var filter in filterList.Filters)
+                {
+                    var x = typeof(TRecord).GetProperty(filter.Key);
+                    list = list.Where(item => x.GetValue(item).Equals(filter.Value)).ToList();
+                }
+            }
+            else if (filterList is null || filterList.OnlyLoadIfFilters)
+                list = new List<TRecord>();
+            return list;
+        }
+
+        public Task<int> GetRecordListCountAsync<TRecord>() where TRecord : class, IDbRecord<TRecord>, new()
+        {
+            var count = this.GetRecordType<TRecord>() switch
+            {
+                "WeatherForecast" => this.WeatherForecastRecords.Count,
+                "WeatherStation" => this.WeatherStationRecords.Count,
+                "WeatherReport" => this.WeatherReportRecords.Count,
+                _ => 0
+            };
+            return Task.FromResult(count);
+        }
+
+        public async Task<List<string>> GetDistinctListAsync<TLookup>(string fieldName) where TLookup : class, IDbRecord<TLookup>, new()
+        {
+            var list = new List<string>();
+            var baselist = await this.GetRecordListAsync<TLookup>();
+            var x = typeof(TLookup).GetProperty(fieldName);
+            if (baselist != null && x != null)
+            {
+                var fulllist = baselist.Select(item => x.GetValue(item).ToString()).ToList();
+                list = fulllist.Distinct().ToList();
+            }
+            return list ?? new List<string>();
+        }
+
+        public async Task<SortedDictionary<int, string>> GetLookupListAsync<TLookup>() where TLookup : class, IDbRecord<TLookup>, new()
+        {
+            var list = new SortedDictionary<int, string>();
+            var baselist = await this.GetRecordListAsync<TLookup>();
+            baselist.ForEach(item => list.Add(item.ID, item.DisplayName));
+            return list;
+        }
 
 
         /// <summary>
@@ -139,69 +219,28 @@ namespace CEC.Weather.Services
         /// <returns></returns>
         public Task<TRecord> GetRecordAsync<TRecord>(int id) where TRecord : class, IDbRecord<TRecord>, new()
         {
-            if (typeof(DbWeatherForecast).GetTypeInfo().IsAssignableFrom(typeof(TRecord).GetTypeInfo()))
+            switch (this.GetRecordType<TRecord>())
             {
-                var rec = this.WeatherForecastRecords.FirstOrDefault(item => item.ID == id);
-                return Task.FromResult((TRecord)Convert.ChangeType(rec, typeof(TRecord)));
-            }
-            else if (typeof(DbWeatherStation).GetTypeInfo().IsAssignableFrom(typeof(TRecord).GetTypeInfo()))
-            {
-                var rec = this.WeatherStationRecords.FirstOrDefault(item => item.ID == id);
-                return Task.FromResult((TRecord)Convert.ChangeType(rec, typeof(TRecord)));
-            }
-            else if (typeof(DbWeatherReport).GetTypeInfo().IsAssignableFrom(typeof(TRecord).GetTypeInfo()))
-            {
-                var rec = this.WeatherReportRecords.FirstOrDefault(item => item.ID == id);
-                return Task.FromResult((TRecord)Convert.ChangeType(rec, typeof(TRecord)));
-            }
-            else
-                return Task.FromResult(default(TRecord));
+                case "WeatherForecast":
+                    {
+                        var rec = this.WeatherForecastRecords.FirstOrDefault(item => item.ID == id);
+                        return Task.FromResult((TRecord)Convert.ChangeType(rec, typeof(TRecord)));
+                    }
+                case "WeatherStation":
+                    {
+                        var rec = this.WeatherStationRecords.FirstOrDefault(item => item.ID == id);
+                        return Task.FromResult((TRecord)Convert.ChangeType(rec, typeof(TRecord)));
+                    }
+                case "WeatherReport":
+                    {
+                        var rec = this.WeatherReportRecords.FirstOrDefault(item => item.ID == id);
+                        return Task.FromResult((TRecord)Convert.ChangeType(rec, typeof(TRecord)));
+                    }
+                default:
+                    return Task.FromResult(default(TRecord));
+            };
         }
 
-        /// <summary>
-        /// Inherited IDataService Method
-        /// </summary>
-        /// <returns></returns>
-        public async Task<List<TRecord>> GetRecordListAsync<TRecord>() where TRecord : class, IDbRecord<TRecord>, new()
-        {
-            var list = new List<TRecord>();
-            if (typeof(DbWeatherForecast).GetTypeInfo().IsAssignableFrom(typeof(TRecord).GetTypeInfo()))
-            {
-                this.WeatherForecastRecords.ForEach(item => list.Add((TRecord)Convert.ChangeType(item, typeof(TRecord))));
-            }
-            else if (typeof(DbWeatherStation).GetTypeInfo().IsAssignableFrom(typeof(TRecord).GetTypeInfo()))
-            {
-                this.WeatherStationRecords.ForEach(item => list.Add((TRecord)Convert.ChangeType(item, typeof(TRecord))));
-            }
-            else if (typeof(DbWeatherReport).GetTypeInfo().IsAssignableFrom(typeof(TRecord).GetTypeInfo()))
-            {
-                this.WeatherReportRecords.ForEach(item => list.Add((TRecord)Convert.ChangeType(item, typeof(TRecord))));
-            }
-
-            // Delay to demonstrate Async Programming
-            await Task.Delay(200);
-            return list; ;
-        }
-
-        public async Task<List<TRecord>> GetFilteredRecordListAsync<TRecord>(IFilterList filterList) where TRecord : class, IDbRecord<TRecord>, new() => await GetRecordListAsync<TRecord>();
-
-        public Task<int> GetRecordListCountAsync<TRecord>() where TRecord : class, IDbRecord<TRecord>, new()
-        {
-            int count = 0;
-            if (typeof(DbWeatherForecast).GetTypeInfo().IsAssignableFrom(typeof(TRecord).GetTypeInfo()))
-            {
-                count = this.WeatherForecastRecords.Count;
-            }
-            else if (typeof(DbWeatherStation).GetTypeInfo().IsAssignableFrom(typeof(TRecord).GetTypeInfo()))
-            {
-                count = this.WeatherStationRecords.Count;
-            }
-            else if (typeof(DbWeatherReport).GetTypeInfo().IsAssignableFrom(typeof(TRecord).GetTypeInfo()))
-            {
-                count = this.WeatherReportRecords.Count;
-            }
-            return Task.FromResult(count);
-        }
         /// <summary>
         /// Inherited IDataService Method
         /// </summary>
@@ -210,6 +249,35 @@ namespace CEC.Weather.Services
         public Task<DbTaskResult> UpdateRecordAsync<TRecord>(TRecord record)
             where TRecord : class, IDbRecord<TRecord>, new()
         {
+            switch (this.GetRecordType<TRecord>())
+            {
+                case "WeatherForecast":
+                    {
+                        var delrec = this.WeatherForecastRecords.FirstOrDefault(item => item.ID == record.ID);
+                        this.WeatherForecastRecords.Remove(delrec);
+                        var rec = (DbWeatherForecast)Convert.ChangeType(record, typeof(DbWeatherForecast));
+                        this.WeatherForecastRecords.Add(rec);
+                        break;
+                    }
+                case "WeatherStation":
+                    {
+                        var delrec = this.WeatherStationRecords.FirstOrDefault(item => item.ID == record.ID);
+                        this.WeatherStationRecords.Remove(delrec);
+                        var rec = (DbWeatherStation)Convert.ChangeType(record, typeof(DbWeatherStation));
+                        this.WeatherStationRecords.Add(rec);
+                        break;
+                    }
+                case "WeatherReport":
+                    {
+                        var delrec = this.WeatherReportRecords.FirstOrDefault(item => item.ID == record.ID);
+                        this.WeatherReportRecords.Remove(delrec);
+                        var rec = (DbWeatherReport)Convert.ChangeType(record, typeof(DbWeatherReport));
+                        this.WeatherReportRecords.Add(rec);
+                        break;
+                    }
+                default:
+                    break;
+            };
             return Task.FromResult(new DbTaskResult());
         }
 
@@ -221,6 +289,29 @@ namespace CEC.Weather.Services
         public Task<DbTaskResult> CreateRecordAsync<TRecord>(TRecord record)
             where TRecord : class, IDbRecord<TRecord>, new()
         {
+            switch (this.GetRecordType<TRecord>())
+            {
+                case "WeatherForecast":
+                    {
+                        var rec = (DbWeatherForecast)Convert.ChangeType(record, typeof(DbWeatherForecast));
+                        this.WeatherForecastRecords.Add(rec);
+                        break;
+                    }
+                case "WeatherStation":
+                    {
+                        var rec = (DbWeatherStation)Convert.ChangeType(record, typeof(DbWeatherStation));
+                        this.WeatherStationRecords.Add(rec);
+                        break;
+                    }
+                case "WeatherReport":
+                    {
+                        var rec = (DbWeatherReport)Convert.ChangeType(record, typeof(DbWeatherReport));
+                        this.WeatherReportRecords.Add(rec);
+                        break;
+                    }
+                default:
+                    break;
+            };
             return Task.FromResult(new DbTaskResult());
         }
 
@@ -229,10 +320,40 @@ namespace CEC.Weather.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<DbTaskResult> DeleteRecordAsync<TRecord>(int id) 
+        public Task<DbTaskResult> DeleteRecordAsync<TRecord>(int id)
             where TRecord : class, IDbRecord<TRecord>, new()
         {
+            switch (this.GetRecordType<TRecord>())
+            {
+                case "WeatherForecast":
+                    {
+                        var delrec = this.WeatherForecastRecords.FirstOrDefault(item => item.ID == id);
+                        this.WeatherForecastRecords.Remove(delrec);
+                        break;
+                    }
+                case "WeatherStation":
+                    {
+                        var delrec = this.WeatherStationRecords.FirstOrDefault(item => item.ID == id);
+                        this.WeatherStationRecords.Remove(delrec);
+                        break;
+                    }
+                case "WeatherReport":
+                    {
+                        var delrec = this.WeatherReportRecords.FirstOrDefault(item => item.ID == id);
+                        this.WeatherReportRecords.Remove(delrec);
+                        break;
+                    }
+                default:
+                    break;
+            };
             return Task.FromResult(new DbTaskResult());
+        }
+
+
+        private string GetRecordType<TRecord>() where TRecord : class, IDbRecord<TRecord>, new()
+        {
+            var rec = new TRecord();
+            return rec.RecordInfo.RecordName ?? string.Empty;
         }
     }
 }

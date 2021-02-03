@@ -15,7 +15,7 @@ namespace CEC.Blazor.Server.Extensions
             // Singleton service for the Server Side version of WeatherForecast Data Service 
             // Dummy service produces a new recordset each time the application runs 
 
-            services.AddSingleton<IFactoryDataService<WeatherForecastDbContext>, FactoryServerDataService<WeatherForecastDbContext>>();
+            services.AddSingleton<IFactoryDataService<WeatherForecastDbContext>, WeatherDummyDataService>();
 
             // services.AddSingleton<IFactoryDataService<WeatherForecastDbContext>, WeatherDummyDataService<WeatherForecastDbContext>>();
 

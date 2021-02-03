@@ -18,7 +18,7 @@ namespace CEC.Blazor.WASM.Client.Extensions
             services.AddScoped<WeatherForecastControllerService>();
             services.AddScoped<WeatherStationControllerService>();
             services.AddScoped<WeatherReportControllerService>();
-            services.AddScoped<SalaryControllerService>();
+            // services.AddScoped<SalaryControllerService>();
             return services;
         }
     }
