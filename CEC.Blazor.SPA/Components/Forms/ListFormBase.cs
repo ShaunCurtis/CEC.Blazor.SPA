@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using CEC.Blazor.Core;
+using CEC.Blazor.Extensions;
 
 namespace CEC.Blazor.SPA.Components.Forms
 {
@@ -22,8 +23,7 @@ namespace CEC.Blazor.SPA.Components.Forms
         /// <summary>
         /// Boolean used by Filter set to true if you want empty recordset if no filter is set
         /// </summary>
-        [Parameter]
-        public bool OnlyLoadIfFilter { get; set; } = false;
+        public bool OnlyLoadIfFilter => this.Properties?.Get<bool>(PropertyConstants.OnlyListIfFiltered) ?? false;
 
         /// <summary>
         /// constructed Value for the List Title based on the RecordConfiguration

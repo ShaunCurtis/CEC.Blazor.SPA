@@ -15,7 +15,7 @@ using System.Reflection;
 namespace CEC.Weather.Services
 {
     public class WeatherDummyDataService :
-        IFactoryDataService<WeatherForecastDbContext>
+        FactoryDataService<WeatherForecastDbContext>
     {
 
         /// <summary>
@@ -27,13 +27,7 @@ namespace CEC.Weather.Services
 
         private List<DbWeatherReport> WeatherReportRecords { get; set; }
 
-        public HttpClient HttpClient { get; set; }
-
-        public IDbContextFactory<WeatherForecastDbContext> DBContext { get; set; }
-
-        public IConfiguration AppConfiguration { get; set; }
-
-        public WeatherDummyDataService(IConfiguration configuration)
+        public WeatherDummyDataService(IConfiguration configuration): base(configuration)
         {
             this.AppConfiguration = configuration;
             this.GetWeatherForecastRecords(100);
@@ -136,7 +130,7 @@ namespace CEC.Weather.Services
         /// Inherited IDataService Method
         /// </summary>
         /// <returns></returns>
-        public async Task<List<TRecord>> GetRecordListAsync<TRecord>() where TRecord : class, IDbRecord<TRecord>, new()
+        public override async Task<List<TRecord>> GetRecordListAsync<TRecord>()
         {
             var list = new List<TRecord>();
 
@@ -162,7 +156,7 @@ namespace CEC.Weather.Services
             return list; ;
         }
 
-        public async Task<List<TRecord>> GetFilteredRecordListAsync<TRecord>(IFilterList filterList) where TRecord : class, IDbRecord<TRecord>, new()
+        public override async Task<List<TRecord>> GetFilteredRecordListAsync<TRecord>(IFilterList filterList)
         {
             var list = await this.GetRecordListAsync<TRecord>();
             if (filterList != null && filterList.Filters.Count > 0)
@@ -178,7 +172,7 @@ namespace CEC.Weather.Services
             return list;
         }
 
-        public Task<int> GetRecordListCountAsync<TRecord>() where TRecord : class, IDbRecord<TRecord>, new()
+        public override Task<int> GetRecordListCountAsync<TRecord>()
         {
             var count = this.GetRecordType<TRecord>() switch
             {
@@ -190,7 +184,7 @@ namespace CEC.Weather.Services
             return Task.FromResult(count);
         }
 
-        public async Task<List<string>> GetDistinctListAsync<TLookup>(string fieldName) where TLookup : class, IDbRecord<TLookup>, new()
+        public override async Task<List<string>> GetDistinctListAsync<TLookup>(string fieldName)
         {
             var list = new List<string>();
             var baselist = await this.GetRecordListAsync<TLookup>();
@@ -203,7 +197,7 @@ namespace CEC.Weather.Services
             return list ?? new List<string>();
         }
 
-        public async Task<SortedDictionary<int, string>> GetLookupListAsync<TLookup>() where TLookup : class, IDbRecord<TLookup>, new()
+        public override async Task<SortedDictionary<int, string>> GetLookupListAsync<TLookup>()
         {
             var list = new SortedDictionary<int, string>();
             var baselist = await this.GetRecordListAsync<TLookup>();
@@ -217,7 +211,7 @@ namespace CEC.Weather.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<TRecord> GetRecordAsync<TRecord>(int id) where TRecord : class, IDbRecord<TRecord>, new()
+        public override Task<TRecord> GetRecordAsync<TRecord>(int id)
         {
             switch (this.GetRecordType<TRecord>())
             {
@@ -246,8 +240,7 @@ namespace CEC.Weather.Services
         /// </summary>
         /// <param name="record"></param>
         /// <returns></returns>
-        public Task<DbTaskResult> UpdateRecordAsync<TRecord>(TRecord record)
-            where TRecord : class, IDbRecord<TRecord>, new()
+        public override Task<DbTaskResult> UpdateRecordAsync<TRecord>(TRecord record)
         {
             switch (this.GetRecordType<TRecord>())
             {
@@ -286,8 +279,7 @@ namespace CEC.Weather.Services
         /// </summary>
         /// <param name="record"></param>
         /// <returns></returns>
-        public Task<DbTaskResult> CreateRecordAsync<TRecord>(TRecord record)
-            where TRecord : class, IDbRecord<TRecord>, new()
+        public override Task<DbTaskResult> CreateRecordAsync<TRecord>(TRecord record)
         {
             switch (this.GetRecordType<TRecord>())
             {
@@ -320,26 +312,25 @@ namespace CEC.Weather.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<DbTaskResult> DeleteRecordAsync<TRecord>(int id)
-            where TRecord : class, IDbRecord<TRecord>, new()
+        public override Task<DbTaskResult> DeleteRecordAsync<TRecord>(TRecord record)
         {
             switch (this.GetRecordType<TRecord>())
             {
                 case "WeatherForecast":
                     {
-                        var delrec = this.WeatherForecastRecords.FirstOrDefault(item => item.ID == id);
+                        var delrec = this.WeatherForecastRecords.FirstOrDefault(item => item.ID == record.ID);
                         this.WeatherForecastRecords.Remove(delrec);
                         break;
                     }
                 case "WeatherStation":
                     {
-                        var delrec = this.WeatherStationRecords.FirstOrDefault(item => item.ID == id);
+                        var delrec = this.WeatherStationRecords.FirstOrDefault(item => item.ID == record.ID);
                         this.WeatherStationRecords.Remove(delrec);
                         break;
                     }
                 case "WeatherReport":
                     {
-                        var delrec = this.WeatherReportRecords.FirstOrDefault(item => item.ID == id);
+                        var delrec = this.WeatherReportRecords.FirstOrDefault(item => item.ID == record.ID);
                         this.WeatherReportRecords.Remove(delrec);
                         break;
                     }

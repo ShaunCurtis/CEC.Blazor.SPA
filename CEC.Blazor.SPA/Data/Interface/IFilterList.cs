@@ -8,6 +8,13 @@ using System.Collections.Generic;
 
 namespace CEC.Blazor.Data
 {
+    public class ListFilter
+    {
+        public object Value { get; set; }
+
+        public Type ObjectType { get; set; }
+    }
+
     public interface IFilterList
     {
         public enum FilterViewState

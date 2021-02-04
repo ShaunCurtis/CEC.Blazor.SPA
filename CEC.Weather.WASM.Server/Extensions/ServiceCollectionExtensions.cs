@@ -1,4 +1,4 @@
-﻿using CEC.Blazor.Extensions;
+﻿using CEC.Blazor.Services;
 using CEC.Weather.Data;
 using CEC.Weather.Services;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +11,13 @@ namespace CEC.Blazor.WASM.Server.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            // services.AddSingleton<IWeatherForecastDataService, WeatherForecastServerDataService>();
-            services.AddSingleton<IWeatherForecastDataService, WeatherForecastDummyDataService>();
-            services.AddSingleton<IWeatherStationDataService, WeatherStationDummyDataService>();
-            services.AddSingleton<IWeatherReportDataService, WeatherReportDummyDataService>();
+            // Singleton service for the Server Side version of WeatherForecast Data Service 
+            // Dummy service produces a new recordset each time the application runs 
+
+            // services.AddSingleton<IFactoryDataService<WeatherForecastDbContext>, FactoryServerDataService<WeatherForecastDbContext>>();
+
+             services.AddSingleton<IFactoryDataService<WeatherForecastDbContext>, WeatherDummyDataService>();
+
             // Factory for building the DBContext 
             var dbContext = configuration.GetValue<string>("Configuration:DBContext");
             services.AddDbContextFactory<WeatherForecastDbContext>(options => options.UseSqlServer(dbContext), ServiceLifetime.Singleton);

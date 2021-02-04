@@ -35,35 +35,35 @@ namespace CEC.Blazor.Services
         /// Inherited IDataService Method
         /// </summary>
         /// <returns></returns>
-        public virtual async Task<List<TRecord>> GetRecordListAsync<TRecord>() where TRecord : class, IDbRecord<TRecord>, new() 
+        public override async Task<List<TRecord>> GetRecordListAsync<TRecord>()
             => await this.DBContext.CreateDbContext().GetRecordListAsync<TRecord>();
 
         /// <summary>
         /// Inherited IDataService Method
         /// </summary>
         /// <returns></returns>
-        public virtual async Task<List<TRecord>> GetFilteredRecordListAsync<TRecord>(IFilterList filterList) where TRecord : class, IDbRecord<TRecord>, new() 
+        public override async Task<List<TRecord>> GetFilteredRecordListAsync<TRecord>(IFilterList filterList)
             => await this.DBContext.CreateDbContext().GetRecordFilteredListAsync<TRecord>(filterList);
 
         /// <summary>
         /// Inherited IDataService Method
         /// </summary>
         /// <returns></returns>
-        public virtual async Task<TRecord> GetRecordAsync<TRecord>(int id) where TRecord : class, IDbRecord<TRecord>, new() 
+        public override async Task<TRecord> GetRecordAsync<TRecord>(int id)
             => await this.DBContext.CreateDbContext().GetRecordAsync<TRecord>(id);
 
         /// <summary>
         /// Inherited IDataService Method
         /// </summary>
         /// <returns></returns>
-        public virtual async Task<TRecord> GetRecordAsync<TRecord>(Guid guid) where TRecord : class, IDbRecord<TRecord>, new() 
+        public override async Task<TRecord> GetRecordAsync<TRecord>(Guid guid)
             => await this.DBContext.CreateDbContext().GetRecordAsync<TRecord>(guid);
 
         /// <summary>
         /// Inherited IDataService Method
         /// </summary>
         /// <returns></returns>
-        public virtual async Task<int> GetRecordListCountAsync<TRecord>() where TRecord : class, IDbRecord<TRecord>, new() 
+        public override async Task<int> GetRecordListCountAsync<TRecord>()
             => await this.DBContext.CreateDbContext().GetRecordListCountAsync<TRecord>();
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace CEC.Blazor.Services
         /// </summary>
         /// <param name="record"></param>
         /// <returns></returns>
-        public virtual async Task<DbTaskResult> UpdateRecordAsync<TRecord>(TRecord record) where TRecord : class, IDbRecord<TRecord>, new() 
+        public override async Task<DbTaskResult> UpdateRecordAsync<TRecord>(TRecord record)
             => await this.RunStoredProcedure<TRecord>(record, SPType.Update);
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace CEC.Blazor.Services
         /// </summary>
         /// <param name="record"></param>
         /// <returns></returns>
-        public async virtual Task<DbTaskResult> CreateRecordAsync<TRecord>(TRecord record) where TRecord : class, IDbRecord<TRecord>, new() 
+        public override async Task<DbTaskResult> CreateRecordAsync<TRecord>(TRecord record)
             => await this.RunStoredProcedure<TRecord>(record, SPType.Create);
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace CEC.Blazor.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public virtual async Task<DbTaskResult> DeleteRecordAsync<TRecord>(TRecord record) where TRecord : class, IDbRecord<TRecord>, new() 
+        public override async Task<DbTaskResult> DeleteRecordAsync<TRecord>(TRecord record)
             => await this.RunStoredProcedure<TRecord>(record, SPType.Delete);
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace CEC.Blazor.Services
         /// </summary>
         /// <typeparam name="TLookup"></typeparam>
         /// <returns></returns>
-        public virtual async Task<List<string>> GetDistinctListAsync<TRecord>(string fieldName) where TRecord : class, IDbRecord<TRecord>, new()
+        public override async Task<List<string>> GetDistinctListAsync<TRecord>(string fieldName)
             => await this.DBContext.CreateDbContext().GetDistinctListAsync<TRecord>(fieldName);
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace CEC.Blazor.Services
         /// </summary>
         /// <typeparam name="TLookup"></typeparam>
         /// <returns></returns>
-        public async Task<SortedDictionary<int, string>> GetLookupListAsync<TLookup>() where TLookup : class, IDbRecord<TLookup>, new()
+        public override async Task<SortedDictionary<int, string>> GetLookupListAsync<TLookup>()
             => await this.DBContext.CreateDbContext().GetLookupListAsync<TLookup>() ?? new SortedDictionary<int, string>();
 
         /// <summary>

@@ -15,6 +15,7 @@ namespace CEC.Blazor.Extensions
         public static readonly string ShowAdd = "ShowAdd";
         public static readonly string ShowEdit = "ShowEdit";
         public static readonly string MaxColumnPercent = "MaxColumnPercent";
+        public static readonly string OnlyListIfFiltered = "OnlyListIfFiltered";
         //public static readonly string m = "";
     }
 

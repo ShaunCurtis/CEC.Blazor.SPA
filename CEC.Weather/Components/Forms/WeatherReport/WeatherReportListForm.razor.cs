@@ -62,6 +62,7 @@ namespace CEC.Weather.Components
             if (this.IsService &&  this.WeatherStationID > 0)
             {
                 this.Service.FilterList.Filters.Clear();
+                this.Service.FilterList.OnlyLoadIfFilters = this.OnlyLoadIfFilter;
                 this.Service.FilterList.Filters.Add("WeatherStationID", this.WeatherStationID);
             }
             base.LoadFilter();

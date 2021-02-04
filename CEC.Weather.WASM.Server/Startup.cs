@@ -52,7 +52,7 @@ namespace CEC.Blazor.WASM.Server
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
-                endpoints.MapFallbackToFile("index.html");
+                endpoints.MapFallbackToFile("wasm.html");
             });
         }
     }
