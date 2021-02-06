@@ -61,7 +61,7 @@ namespace CEC.Blazor.Services
         /// <summary>
         /// Used by the list methods to filter the list contents.
         /// </summary>
-        public virtual IFilterList FilterList { get; set; } = new FilterList();
+        public virtual FilterListCollection FilterList { get; set; } = new FilterListCollection();
 
         #endregion
 

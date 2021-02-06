@@ -61,9 +61,9 @@ namespace CEC.Weather.Components
             // Before the call to base so the filter is set before the get the list
             if (this.IsService &&  this.WeatherStationID > 0)
             {
-                this.Service.FilterList.Filters.Clear();
+                this.Service.FilterList.Clear();
                 this.Service.FilterList.OnlyLoadIfFilters = this.OnlyLoadIfFilter;
-                this.Service.FilterList.Filters.Add("WeatherStationID", this.WeatherStationID);
+                this.Service.FilterList.SetFilter("WeatherStationID", this.WeatherStationID);
             }
             base.LoadFilter();
         }

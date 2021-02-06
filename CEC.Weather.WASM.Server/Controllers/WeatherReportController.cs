@@ -28,7 +28,7 @@ namespace CEC.Blazor.WASM.Server.Controllers
 
         [MVC.Route("weatherreport/filteredlist")]
         [HttpPost]
-        public async Task<List<DbWeatherReport>> GetFilteredRecordListAsync([FromBody]FilterList filterList) => await DataService.GetFilteredRecordListAsync<DbWeatherReport>(filterList);
+        public async Task<List<DbWeatherReport>> GetFilteredRecordListAsync([FromBody] FilterListCollection filterList) => await DataService.GetFilteredRecordListAsync<DbWeatherReport>(filterList);
 
         [MVC.Route("weatherreport/lookuplist")]
         [HttpGet]

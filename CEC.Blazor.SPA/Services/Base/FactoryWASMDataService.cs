@@ -71,12 +71,12 @@ namespace CEC.Blazor.Services
         /// Inherited IDataService Method
         /// </summary>
         /// <returns></returns>
-        public override async Task<List<TRecord>> GetFilteredRecordListAsync<TRecord>(IFilterList filterList)
+        public override async Task<List<TRecord>> GetFilteredRecordListAsync<TRecord>(FilterListCollection filterList)
         {
             var result = new List<TRecord>();
             if (TryGetRecordName<TRecord>(out string recName))
             {
-                var response = await this.HttpClient.PostAsJsonAsync<FilterList>($"{recName}/filteredlist?gid={Guid.NewGuid().ToString("D")}", (FilterList)filterList);
+                var response = await this.HttpClient.PostAsJsonAsync<FilterListCollection>($"{recName}/filteredlist?gid={Guid.NewGuid().ToString("D")}", filterList);
                 result = await response.Content.ReadFromJsonAsync<List<TRecord>>();
             }
             return result ?? default;

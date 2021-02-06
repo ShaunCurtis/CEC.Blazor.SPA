@@ -156,14 +156,14 @@ namespace CEC.Weather.Services
             return list; ;
         }
 
-        public override async Task<List<TRecord>> GetFilteredRecordListAsync<TRecord>(IFilterList filterList)
+        public override async Task<List<TRecord>> GetFilteredRecordListAsync<TRecord>(FilterListCollection filterList)
         {
             var list = await this.GetRecordListAsync<TRecord>();
-            if (filterList != null && filterList.Filters.Count > 0)
+            if (filterList != null && filterList.Count > 0)
             {
-                foreach (var filter in filterList.Filters)
+                foreach (var filter in filterList)
                 {
-                    var x = typeof(TRecord).GetProperty(filter.Key);
+                    var x = typeof(TRecord).GetProperty(filter.FieldName);
                     list = list.Where(item => x.GetValue(item).Equals(filter.Value)).ToList();
                 }
             }

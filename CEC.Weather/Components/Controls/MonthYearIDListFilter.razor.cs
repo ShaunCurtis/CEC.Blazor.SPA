@@ -40,7 +40,7 @@ namespace CEC.Weather.Components
             set
             {
                 if (value > 0) this.Service.FilterList.SetFilter("Month", value);
-                else this.Service.FilterList.ClearFilter("Month");
+                else this.Service.FilterList.DeleteFilter("Month");
                 if (this.Month != this.OldMonth)
                 {
                     this.OldMonth = this.Month;
@@ -55,7 +55,7 @@ namespace CEC.Weather.Components
             set
             {
                 if (value > 0) this.Service.FilterList.SetFilter("Year", value);
-                else this.Service.FilterList.ClearFilter("Year");
+                else this.Service.FilterList.DeleteFilter("Year");
                 if (this.Year != this.OldYear)
                 {
                     this.OldYear = this.Year;
@@ -70,7 +70,7 @@ namespace CEC.Weather.Components
             set
             {
                 if (value > 0) this.Service.FilterList.SetFilter("WeatherStationID", value);
-                else this.Service.FilterList.ClearFilter("WeatherStationID");
+                else this.Service.FilterList.DeleteFilter("WeatherStationID");
                 if (this.ID != this.OldID)
                 {
                     this.OldID = this.ID;

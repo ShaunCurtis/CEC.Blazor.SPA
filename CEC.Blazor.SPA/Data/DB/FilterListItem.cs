@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json.Linq;
+using System;
+using System.Text.Json;
 
 namespace CEC.Blazor.Data
 {
@@ -12,16 +10,47 @@ namespace CEC.Blazor.Data
 
         public object Value
         {
-            get => _Value;
+            get
+            {
+                if (this._Value is JsonElement)
+                    this.SetValue();
+                return _Value;
+            }
             set
             {
                 _Value = value;
             }
         }
 
+        private void SetValue()
+        {
+            if (this._Value is JsonElement)
+            {
+                var element = (JsonElement)_Value;
+                switch (this.ObjectType)
+                {
+                    case "System.Int32":
+                        if (element.TryGetInt32(out int ivalue)) _Value = ivalue;
+                        break;
+                    case "System.Int64":
+                        if (element.TryGetInt64(out long lvalue)) _Value = lvalue;
+                        break;
+                    case "System.Decimal":
+                        if (element.TryGetDecimal(out decimal dvalue)) _Value = dvalue;
+                        break;
+                    case "System.DateTime":
+                        if (element.TryGetDateTime(out DateTime dtvalue)) _Value = dtvalue;
+                        break;
+                    default:
+                        _Value = element.GetString();
+                        break;
+                };
+            }
+        }
+
         private object _Value = null;
 
-        public Type ObjectType { get; set; }
+        public string ObjectType { get; set; }
 
     }
 }

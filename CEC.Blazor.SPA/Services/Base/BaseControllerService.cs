@@ -84,7 +84,7 @@ namespace CEC.Blazor.Services
         /// </summary>
         public async virtual Task Reset()
         {
-            this.FilterList = new FilterList();
+            this.FilterList = new FilterListCollection();
             this.Record = new TRecord();
             this.ShadowRecord = new TRecord();
             this.Records = new List<TRecord>();

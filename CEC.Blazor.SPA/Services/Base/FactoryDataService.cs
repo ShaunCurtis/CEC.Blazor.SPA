@@ -71,7 +71,7 @@ namespace CEC.Blazor.Services
         /// Method to get a filtered Record List
         /// </summary>
         /// <returns></returns>
-        public virtual Task<List<TRecord>> GetFilteredRecordListAsync<TRecord>(IFilterList filterList) where TRecord : class, IDbRecord<TRecord>, new()
+        public virtual Task<List<TRecord>> GetFilteredRecordListAsync<TRecord>(FilterListCollection filterList) where TRecord : class, IDbRecord<TRecord>, new()
             => Task.FromResult(new List<TRecord>());
 
         /// <summary>

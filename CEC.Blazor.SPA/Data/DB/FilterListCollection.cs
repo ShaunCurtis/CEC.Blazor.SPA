@@ -3,12 +3,16 @@
 /// License: MIT
 /// ==================================
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace CEC.Blazor.Data
 {
-
+    /// <summary>
+    /// Enum for the State of the FilterListCollection
+    /// NotSet is important during Component Initialization.
+    /// </summary>
     public enum FilterListCollectionState
     {
         NotSet = 0,
@@ -16,10 +20,15 @@ namespace CEC.Blazor.Data
         Hide = 2
     }
 
-    public class FilterListCollection :IEnumerable<FilterListItem>
+    /// <summary>
+    /// Collection class for grouping all the filters to apply to a dataset when retriving from a data service
+    /// </summary>
+    public class FilterListCollection : ICollection<FilterListItem>
     {
-        private List<FilterListItem> filterList = new List<FilterListItem>();
 
+        /// <summary>
+        /// 
+        /// </summary>
         public FilterListCollectionState ShowState { get; set; } = FilterListCollectionState.NotSet;
 
         public bool OnlyLoadIfFilters { get; set; } = false;
@@ -34,13 +43,64 @@ namespace CEC.Blazor.Data
         /// </summary>
         public bool Load => this.filterList.Count > 0 || !this.OnlyLoadIfFilters;
 
+        /// <summary>
+        /// Count Property for the list
+        /// </summary>
+        public int Count => this.filterList.Count;
+
+        /// <summary>
+        /// IEnumerable Implementation
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<FilterListItem> GetEnumerator()
         {
             foreach (var item in filterList)
                 yield return item;
         }
 
-    public bool TryGetFilter(string name, out object value)
+        /// <summary>
+        /// IEnumerable Implementation
+        /// </summary>
+        ///// <returns></returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        /// <summary>
+        /// private list of the filters
+        /// </summary>
+        private List<FilterListItem> filterList = new List<FilterListItem>();
+
+        public FilterListCollection()
+        {
+        }
+
+        public void Add(FilterListItem item)
+            => filterList.Add(item);
+
+        public void Clear()
+            => filterList.Clear();
+
+        public bool Contains(FilterListItem item)
+            => filterList.Contains(item);
+
+        public void CopyTo(FilterListItem[] items, int index)
+            => filterList.CopyTo(items, index);
+
+        public bool IsReadOnly => false;
+
+        public bool Remove(FilterListItem item)
+            => filterList.Remove(item);
+
+
+        /// <summary>
+        /// Try Getter for a filter
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool TryGetFilter(string name, out object value)
         {
             value = null;
             var filter = filterList.FirstOrDefault(FilterListItem => FilterListItem.FieldName.Equals(name));
@@ -52,12 +112,31 @@ namespace CEC.Blazor.Data
             return false;
         }
 
+        /// <summary>
+        /// Getter for a filter
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public object GetFilter(string name)
+        {
+            if (this.TryGetFilter(name, out object value))
+                return value;
+            return null;
+        }
+
+        /// <summary>
+        /// Setter for a filter
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <param name="overwite"></param>
+        /// <returns></returns>
         public bool SetFilter(string name, object value, bool overwite = true)
         {
             var filter = filterList.FirstOrDefault(FilterListItem => FilterListItem.FieldName.Equals(name));
             if (filter == default)
             {
-                filterList.Add(new FilterListItem() { FieldName = name, Value = value, ObjectType = value.GetType()});
+                filterList.Add(new FilterListItem() { FieldName = name, Value = value, ObjectType = value.GetType().ToString()});
                 return true;
             }
             else
@@ -65,14 +144,19 @@ namespace CEC.Blazor.Data
                 if (overwite)
                 {
                     filter.Value = value;
-                    filter.ObjectType = value.GetType();
+                    filter.ObjectType = value.GetType().ToString();
                     return true;
                 }
                 return false;
             }
         }
 
-        public bool ClearFilter(string name)
+        /// <summary>
+        /// Method to delete a filter from the filter list
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public bool DeleteFilter(string name)
         {
             var filter = filterList.FirstOrDefault(FilterListItem => FilterListItem.FieldName.Equals(name));
             if (filter != default)
@@ -82,7 +166,5 @@ namespace CEC.Blazor.Data
             }
             return false;
         }
-
-
     }
 }

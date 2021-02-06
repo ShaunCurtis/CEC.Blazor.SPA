@@ -80,7 +80,7 @@ namespace CEC.Blazor.Services
         /// Method to get a filtered Record List
         /// </summary>
         /// <returns></returns>
-        public Task<List<TRecord>> GetFilteredRecordListAsync(IFilterList filterList) => Task.FromResult(new List<TRecord>());
+        public Task<List<TRecord>> GetFilteredRecordListAsync(FilterListCollection filterList) => Task.FromResult(new List<TRecord>());
 
         /// <summary>
         /// Method to get a dictionary of id/name for a record type

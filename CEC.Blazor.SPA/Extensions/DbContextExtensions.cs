@@ -86,7 +86,7 @@ namespace CEC.Blazor.Extensions
         /// <param name="filterList">List of Filter Parameters</param>
         /// <param name="dbSetName">DBSet Name to run the filters against</param>
         /// <returns></returns>
-        public async static Task<List<TRecord>> GetRecordFilteredListAsync<TRecord>(this DbContext context, IFilterList filterList, string dbSetName = null) where TRecord : class, IDbRecord<TRecord>, new()
+        public async static Task<List<TRecord>> GetRecordFilteredListAsync<TRecord>(this DbContext context, FilterListCollection filterList, string dbSetName = null) where TRecord : class, IDbRecord<TRecord>, new()
         {
             // Get the DbSet
             var dbset = GetDbSet<TRecord>(context, null);
@@ -95,12 +95,12 @@ namespace CEC.Blazor.Extensions
             // if we have a filter go through each filter
             // note that only the first filter runs a SQL query against the database
             // the rest are run against the dataset.  So do the biggest slice with the first filter for maximum efficiency.
-            if (filterList != null && filterList.Filters.Count > 0)
+            if (filterList != null && filterList.Count > 0)
             {
-                foreach (var filter in filterList.Filters)
+                foreach (var filter in filterList)
                 {
                     // Get the filter propertyinfo object
-                    var x = typeof(TRecord).GetProperty(filter.Key);
+                    var x = typeof(TRecord).GetProperty(filter.FieldName);
                     // We have records so need to filter on the list
                     if (list.Count > 0)
                         list = list.Where(item => x.GetValue(item).Equals(filter.Value)).ToList();

@@ -98,7 +98,7 @@ namespace CEC.Blazor.Services
         /// <summary>
         /// Filter List for applying to Records List
         /// </summary>
-        public IFilterList FilterList { get; set; }
+        public FilterListCollection FilterList { get; set; }
 
         /// <summary>
         /// Event raised when the Filter has Changed
