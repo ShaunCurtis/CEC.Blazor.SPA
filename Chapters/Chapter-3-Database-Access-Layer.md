@@ -45,13 +45,8 @@ public class DbTaskResult
 ```c#
 public class WeatherForecastDbContext : DbContext
 {
-    private readonly Guid _id;
-
     public WeatherForecastDbContext(DbContextOptions<WeatherForecastDbContext> options)
-        : base(options)
-        => _id = Guid.NewGuid();
-
-    public DbSet<DbDistinct> DistinctList { get; set; }
+        : base(options) {}
 
     public DbSet<DbWeatherForecast> WeatherForecast { get; set; }
 

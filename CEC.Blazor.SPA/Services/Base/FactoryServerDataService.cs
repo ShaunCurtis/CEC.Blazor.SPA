@@ -21,7 +21,6 @@ namespace CEC.Blazor.Services
     public class FactoryServerDataService<TContext> :
         FactoryDataService<TContext>,
         IFactoryDataService<TContext>
-        // where TRecord : class, new()
         where TContext : DbContext
     {
 

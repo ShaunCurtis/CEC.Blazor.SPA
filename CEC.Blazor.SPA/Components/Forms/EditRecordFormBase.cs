@@ -8,8 +8,6 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
-using System.Collections.Generic;
 
 namespace CEC.Blazor.SPA.Components.Forms
 {

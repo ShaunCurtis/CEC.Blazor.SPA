@@ -14,17 +14,13 @@ namespace CEC.Blazor.Server.Extensions
         {
             // Singleton service for the Server Side version of WeatherForecast Data Service 
             // Dummy service produces a new recordset each time the application runs 
-
             services.AddSingleton<IFactoryDataService<WeatherForecastDbContext>, WeatherDummyDataService>();
+            // services.AddSingleton<IFactoryDataService<WeatherForecastDbContext>, FactoryServerDataService<WeatherForecastDbContext>>();
 
-            // services.AddSingleton<IFactoryDataService<WeatherForecastDbContext>, WeatherDummyDataService<WeatherForecastDbContext>>();
-
-            //services.AddSingleton<SalaryDataService, SalaryDataService>();
             // Scoped service for the WeatherForecast Controller Service
             services.AddScoped<WeatherForecastControllerService>();
             services.AddScoped<WeatherStationControllerService>();
             services.AddScoped<WeatherReportControllerService>();
-            // services.AddScoped<SalaryControllerService>();
             // Factory for building the DBContext 
             var dbContext = configuration.GetValue<string>("Configuration:DBContext");
             services.AddDbContextFactory<WeatherForecastDbContext>(options => options.UseSqlServer(dbContext), ServiceLifetime.Singleton);

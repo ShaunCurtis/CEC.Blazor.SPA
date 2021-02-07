@@ -15,7 +15,6 @@ namespace CEC.Blazor.WASM.Server.Extensions
             // Dummy service produces a new recordset each time the application runs 
 
             // services.AddSingleton<IFactoryDataService<WeatherForecastDbContext>, FactoryServerDataService<WeatherForecastDbContext>>();
-
              services.AddSingleton<IFactoryDataService<WeatherForecastDbContext>, WeatherDummyDataService>();
 
             // Factory for building the DBContext 
