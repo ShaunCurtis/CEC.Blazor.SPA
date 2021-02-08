@@ -1,16 +1,13 @@
-﻿@using CEC.Blazor.SPA.Components
-@using CEC.Weather.Components
+﻿@using CEC.Weather.Components
 
 @namespace CEC.Weather.Components.Views
 @implements IView
 
-@inherits Component
+@inherits ViewBase
 
 <WeatherForecastViewerForm ID="this.ID"></WeatherForecastViewerForm>
 
 @code {
-
-    [CascadingParameter] public ViewManager ViewManager { get; set; }
 
     [Parameter] public int ID { get; set; } = 0;
 }

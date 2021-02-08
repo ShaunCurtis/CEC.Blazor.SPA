@@ -24,7 +24,8 @@ namespace CEC.Blazor.Data
 
         public bool IsDirty => _items.Any(item => item.IsDirty);
 
-        public void Clear() => _items.Clear();
+        public void Clear() 
+            => _items.Clear();
 
         public void CopyTo(Array array, int index)
         {
@@ -52,7 +53,8 @@ namespace CEC.Blazor.Data
         {
             return new RecordCollectionEnumerator(_items);
         }
-        public T Get<T>(RecordFieldInfo field) => Get<T>(field.FieldName);
+        public T Get<T>(RecordFieldInfo field) 
+            => Get<T>(field.FieldName);
 
         public T Get<T>(string FieldName) 
         {
@@ -61,7 +63,8 @@ namespace CEC.Blazor.Data
             return default;
         }
 
-        public T GetEditValue<T>(RecordFieldInfo field) => GetEditValue<T>(field.FieldName);
+        public T GetEditValue<T>(RecordFieldInfo field) 
+            => GetEditValue<T>(field.FieldName);
 
         public T GetEditValue<T>(string FieldName)
         {
@@ -70,7 +73,8 @@ namespace CEC.Blazor.Data
             return default;
         }
 
-        public RecordValue GetRecordValue(RecordFieldInfo field) => GetRecordValue(field.FieldName);
+        public RecordValue GetRecordValue(RecordFieldInfo field) 
+            => GetRecordValue(field.FieldName);
 
         public RecordValue GetRecordValue(string FieldName)
         {
@@ -83,7 +87,8 @@ namespace CEC.Blazor.Data
             return x;
         }
 
-        public bool TryGet<T>(RecordFieldInfo field, out T value) => this.TryGet<T>(field.FieldName, out value);
+        public bool TryGet<T>(RecordFieldInfo field, out T value) 
+            => this.TryGet<T>(field.FieldName, out value);
 
         public bool TryGet<T>(string FieldName, out T value)
         {
@@ -93,7 +98,8 @@ namespace CEC.Blazor.Data
             return x.Value != default;
         }
 
-        public bool TryGetEditValue<T>(RecordFieldInfo field, out T value) => this.TryGetEditValue<T>(field.FieldName, out value);
+        public bool TryGetEditValue<T>(RecordFieldInfo field, out T value) 
+            => this.TryGetEditValue<T>(field.FieldName, out value);
 
         public bool TryGetEditValue<T>(string FieldName, out T value)
         {
@@ -103,7 +109,8 @@ namespace CEC.Blazor.Data
             return x.EditedValue != default;
         }
 
-        public bool HasField(RecordFieldInfo field) => this.HasField(field.FieldName);
+        public bool HasField(RecordFieldInfo field) 
+            => this.HasField(field.FieldName);
 
         public bool HasField(string FieldName)
         {
@@ -112,7 +119,8 @@ namespace CEC.Blazor.Data
             return true;
         }
 
-        public bool SetField(RecordFieldInfo field, object value) => this.SetField(field.FieldName, value);
+        public bool SetField(RecordFieldInfo field, object value) 
+            => this.SetField(field.FieldName, value);
 
         public bool SetField(string FieldName, object value )
         {
@@ -150,7 +158,8 @@ namespace CEC.Blazor.Data
             return true;
         }
 
-        public bool RemoveField(RecordFieldInfo field) => RemoveField(field.FieldName);
+        public bool RemoveField(RecordFieldInfo field) 
+            => RemoveField(field.FieldName);
 
         public bool RemoveField(string FieldName)
         {

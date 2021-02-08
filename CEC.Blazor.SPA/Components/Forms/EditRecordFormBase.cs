@@ -182,7 +182,7 @@ namespace CEC.Blazor.SPA.Components.Forms
 
         private void SetViewManagerLock()
         {
-            if (this.Service.RecordValueCollection.IsDirty)
+            if (this.RecordEditorContext.IsDirty)
             {
                 this.ViewManager.LockView();
                 this.AlertMessage.SetAlert("The Record isn't Saved", MessageType.Warning);

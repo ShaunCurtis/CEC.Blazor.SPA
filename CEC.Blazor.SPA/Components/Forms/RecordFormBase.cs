@@ -98,8 +98,6 @@ namespace CEC.Blazor.SPA.Components.Forms
 
                 // Get the current record - this will check if the id is different from the current record and only update if it's changed
                 await this.Service.GetRecordAsync(this._ID, firstload);
-                //if (this._ID == 0 && firstload) await this.Service.SetToNewRecordAsync();
-                //else await this.Service.GetRecordAsync(this._ID, firstload);
 
                 // Set the error message - it will only be displayed if we have an error
                 this.RecordErrorMessage = $"The Application can't load the Record with ID: {this._ID}";

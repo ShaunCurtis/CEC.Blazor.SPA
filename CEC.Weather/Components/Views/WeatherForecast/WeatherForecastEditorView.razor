@@ -6,16 +6,14 @@
 @using CEC.Weather.Data
 @using CEC.Weather.Components
 
-@inherits Component
+@inherits ViewBase
 @implements IView
 
 @namespace CEC.Weather.Components.Views
+
 <WeatherForecastEditorForm ID="this.ID"></WeatherForecastEditorForm>
 
-
 @code {
-
-    [CascadingParameter] public ViewManager ViewManager { get; set; }
 
     [Parameter] public int ID { get; set; } = 0;
 
