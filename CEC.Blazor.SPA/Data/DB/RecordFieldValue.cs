@@ -1,9 +1,13 @@
-﻿
+﻿/// =================================
+/// Author: Shaun Curtis, Cold Elm
+/// License: MIT
+/// ==================================
+
 using System;
 
 namespace CEC.Blazor.Data
 {
-    public class RecordValue
+    public class RecordFieldValue
     {
         public string Field { get; }
 
@@ -23,7 +27,7 @@ namespace CEC.Blazor.Data
             }
         }
 
-        public RecordValue(string field, object value)
+        public RecordFieldValue(string field, object value)
         {
             this.Field = field;
             this.Value = value;
@@ -31,7 +35,7 @@ namespace CEC.Blazor.Data
             this.GUID = Guid.NewGuid();
         }
 
-        public RecordValue(RecordFieldInfo field, object value)
+        public RecordFieldValue(RecordFieldInfo field, object value)
         {
             this.Field = field.FieldName;
             this.Value = value;

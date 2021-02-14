@@ -66,6 +66,23 @@ namespace CEC.Blazor.SPA.Components.Forms
         /// </summary>
         public bool IsNewRecord => this.Service?.RecordID == 0 ? true : false;
 
+        /// <summary>
+        /// Boolean Property to control Save Button display
+        /// </summary>
+        public bool DisplaySave => this.IsLoaded && this.IsValidated && this.IsDirty;
+
+        public bool DisplayExit => !this.DisplayCheckExit;
+
+        /// <summary>
+        /// Boolean Properrty to control confirm exit 
+        /// </summary>
+        public bool DisplayCheckExit { get; protected set; } 
+        
+        /// <summary>
+        /// String Property to control Save Button Text
+        /// </summary>
+        public string SaveButtonText => DisplaySave && IsNewRecord ? "Save" : "Update";
+
         #endregion
 
         #region Protected Properties
@@ -151,6 +168,7 @@ namespace CEC.Blazor.SPA.Components.Forms
         {
             // Check if we are free to exit ot need confirmation
             if (this.IsClean) ConfirmExit();
+            else this.DisplayCheckExit = true;
         }
 
         /// <summary>
@@ -182,6 +200,7 @@ namespace CEC.Blazor.SPA.Components.Forms
 
         private void SetViewManagerLock()
         {
+            this.DisplayCheckExit = false;
             if (this.RecordEditorContext.IsDirty)
             {
                 this.ViewManager.LockView();

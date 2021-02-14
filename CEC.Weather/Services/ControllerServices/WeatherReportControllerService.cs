@@ -1,6 +1,5 @@
 ﻿using CEC.Weather.Data;
 using CEC.Blazor.Services;
-using CEC.Blazor.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;

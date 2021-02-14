@@ -37,7 +37,5 @@ namespace CEC.Weather.Data
         public static readonly RecordFieldInfo __WeatherReportDisplayName = new RecordFieldInfo("WeatherReportDisplayName");
         public static readonly RecordFieldInfo __WeatherReportMonth = new RecordFieldInfo("WeatherReportMonth");
         public static readonly RecordFieldInfo __WeatherReportYear = new RecordFieldInfo("WeatherReportYear");
-
-
     }
 }

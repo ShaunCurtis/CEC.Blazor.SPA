@@ -12,7 +12,7 @@ namespace CEC.Blazor.Data
 {
     public class RecordCollection : ICollection
     {
-        private List<RecordValue> _items = new List<RecordValue>() ;
+        private List<RecordFieldValue> _items = new List<RecordFieldValue>() ;
 
         public int Count => _items.Count;
 
@@ -31,7 +31,7 @@ namespace CEC.Blazor.Data
         {
             foreach (var i in array)
             {
-                if (i is RecordValue value) this.Add(value);
+                if (i is RecordFieldValue value) this.Add(value);
             }
         }
 
@@ -41,7 +41,7 @@ namespace CEC.Blazor.Data
             {
                 foreach (var i in collection)
                 {
-                    if (i is RecordValue value) this.Add(value);
+                    if (i is RecordFieldValue value) this.Add(value);
                 }
             }
         }
@@ -73,15 +73,15 @@ namespace CEC.Blazor.Data
             return default;
         }
 
-        public RecordValue GetRecordValue(RecordFieldInfo field) 
+        public RecordFieldValue GetRecordValue(RecordFieldInfo field) 
             => GetRecordValue(field.FieldName);
 
-        public RecordValue GetRecordValue(string FieldName)
+        public RecordFieldValue GetRecordValue(string FieldName)
         {
             var x = _items.FirstOrDefault(item => item.Field.Equals(FieldName, StringComparison.CurrentCultureIgnoreCase));
             if (x == default)
             {
-                x = new RecordValue(FieldName, null);
+                x = new RecordFieldValue(FieldName, null);
                 _items.Add(x);
             }
             return x;
@@ -130,7 +130,7 @@ namespace CEC.Blazor.Data
                 x.EditedValue = value;
                 this.FieldValueChanged?.Invoke(this.IsDirty);
             }
-            else _items.Add(new RecordValue(FieldName, value));
+            else _items.Add(new RecordFieldValue(FieldName, value));
             return true;
         }
 
@@ -138,7 +138,7 @@ namespace CEC.Blazor.Data
         {
             var x = _items.FirstOrDefault(item => item.Field.Equals(field.FieldName, StringComparison.CurrentCultureIgnoreCase));
             if (x != null && x != default) _items.Remove(x);
-            _items.Add(new RecordValue(field, value));
+            _items.Add(new RecordFieldValue(field, value));
             return true;
         }
 
@@ -146,11 +146,11 @@ namespace CEC.Blazor.Data
         {
             var x = _items.FirstOrDefault(item => item.Field.Equals(FieldName, StringComparison.CurrentCultureIgnoreCase));
             if (x != null && x != default) _items.Remove(x);
-            _items.Add(new RecordValue(FieldName, value));
+            _items.Add(new RecordFieldValue(FieldName, value));
             return true;
         }
 
-        public bool Add(RecordValue value)
+        public bool Add(RecordFieldValue value)
         {
             var x = _items.FirstOrDefault(item => item.Field.Equals(value.Field, StringComparison.CurrentCultureIgnoreCase));
             if (x != null && x != default) _items.Remove(x);
@@ -175,7 +175,7 @@ namespace CEC.Blazor.Data
 
     public class RecordCollectionEnumerator : IEnumerator
     {
-        private List<RecordValue> _items = new List<RecordValue>();
+        private List<RecordFieldValue> _items = new List<RecordFieldValue>();
         private int _cursor;
 
         object IEnumerator.Current
@@ -187,7 +187,7 @@ namespace CEC.Blazor.Data
                 return _items[_cursor];
             }
         }
-        public RecordCollectionEnumerator(List<RecordValue> items)
+        public RecordCollectionEnumerator(List<RecordFieldValue> items)
         {
             this._items = items;
             _cursor = -1;

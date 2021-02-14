@@ -14,146 +14,154 @@
         </Header>
 
         <Body>
+            <ModalEditForm EditContext="this.EditContext" IsError="this.IsError" IsLoaded="this.IsLoaded">
 
-            <UIErrorHandler IsError="@this.IsError" IsLoading="this.Loading" ErrorMessage="@this.RecordErrorMessage">
+                <ErrorContent>
+                    <UIContainer>
+                        <UIRow>
+                            <UIColumn>
+                                @this.RecordErrorMessage
+                            </UIColumn>
+                        </UIRow>
+                    </UIContainer>
+                </ErrorContent>
 
-                <ChildContent>
+                <LoadingContent>
+                    <UILoading/>
+                </LoadingContent>
 
-                    <CascadingValue Value="this.EditContext">
+                <EditorContent>
+                    <UIContainer>
 
-                        <UIContainer>
+                        <UIFormRow>
 
-                            <UIFormRow>
+                            <UILabelColumn Columns="4">
+                                Record ID:
+                            </UILabelColumn>
 
-                                <UILabelColumn Columns="4">
-                                    Record ID:
-                                </UILabelColumn>
+                            <UIColumn Columns="2">
+                                <InputReadOnlyText Value="@this.WeatherForecastEditorContext.WeatherForecastID.ToString()"></InputReadOnlyText>
+                            </UIColumn>
 
-                                <UIColumn Columns="2">
-                                    <InputReadOnlyText Value="@this.WeatherForecastEditorContext.WeatherForecastID.ToString()"></InputReadOnlyText>
-                                </UIColumn>
+                        </UIFormRow>
 
-                            </UIFormRow>
+                        <UIFormRow>
 
-                            <UIFormRow>
+                            <UILabelColumn Columns="4">
+                                Record Date:
+                            </UILabelColumn>
 
-                                <UILabelColumn Columns="4">
-                                    Record Date:
-                                </UILabelColumn>
+                            <UIColumn Columns="4">
+                                <InputDate class="form-control" @bind-Value="this.WeatherForecastEditorContext.WeatherForecastDate"></InputDate>
+                            </UIColumn>
 
-                                <UIColumn Columns="4">
-                                    <InputDate class="form-control" @bind-Value="this.WeatherForecastEditorContext.WeatherForecastDate"></InputDate>
-                                </UIColumn>
+                        </UIFormRow>
 
-                            </UIFormRow>
+                        <UIFormRow>
 
-                            <UIFormRow>
+                            <UILabelColumn Columns="4">
+                                Temperature &deg; C:
+                            </UILabelColumn>
 
-                                <UILabelColumn Columns="4">
-                                    Temperature &deg; C:
-                                </UILabelColumn>
+                            <UIColumn Columns="2">
+                                <InputNumber class="form-control" @bind-Value="this.WeatherForecastEditorContext.WeatherForecastTemperatureC"></InputNumber>
+                            </UIColumn>
 
-                                <UIColumn Columns="2">
-                                    <InputNumber class="form-control" @bind-Value="this.WeatherForecastEditorContext.WeatherForecastTemperatureC"></InputNumber>
-                                </UIColumn>
+                            <UIColumn Columns="6">
+                                <ValidationMessage For=@(() => this.WeatherForecastEditorContext.WeatherForecastTemperatureC) />
+                            </UIColumn>
 
-                                <UIColumn Columns="6">
-                                    <ValidationMessage For=@(() => this.WeatherForecastEditorContext.WeatherForecastTemperatureC) />
-                                </UIColumn>
+                        </UIFormRow>
 
-                            </UIFormRow>
+                        <UIFormRow>
 
-                            <UIFormRow>
+                            <UILabelColumn Columns="4">
+                                Post Code:
+                            </UILabelColumn>
 
-                                <UILabelColumn Columns="4">
-                                    Post Code:
-                                </UILabelColumn>
+                            <UIColumn Columns="4">
+                                <InputText class="form-control" @bind-Value="this.WeatherForecastEditorContext.WeatherForecastPostCode"></InputText>
+                            </UIColumn>
 
-                                <UIColumn Columns="4">
-                                    <InputText class="form-control" @bind-Value="this.WeatherForecastEditorContext.WeatherForecastPostCode"></InputText>
-                                </UIColumn>
+                            <UIColumn Columns="4">
+                                <ValidationMessage For=@(() => this.WeatherForecastEditorContext.WeatherForecastPostCode) />
+                            </UIColumn>
 
-                                <UIColumn Columns="4">
-                                    <ValidationMessage For=@(() => this.WeatherForecastEditorContext.WeatherForecastPostCode) />
-                                </UIColumn>
+                        </UIFormRow>
 
-                            </UIFormRow>
+                        <UIFormRow>
 
-                            <UIFormRow>
+                            <UILabelColumn Columns="4">
+                                Description:
+                            </UILabelColumn>
 
-                                <UILabelColumn Columns="4">
-                                    Description:
-                                </UILabelColumn>
+                            <UIColumn Columns="8">
+                                <InputText class="form-control" @bind-Value="this.WeatherForecastEditorContext.WeatherForecastDescription"></InputText>
+                                <ValidationMessage For=@(() => this.WeatherForecastEditorContext.WeatherForecastDescription) />
+                            </UIColumn>
 
-                                <UIColumn Columns="8">
-                                    <InputText class="form-control" @bind-Value="this.WeatherForecastEditorContext.WeatherForecastDescription"></InputText>
-                                    <ValidationMessage For=@(() => this.WeatherForecastEditorContext.WeatherForecastDescription) />
-                                </UIColumn>
+                        </UIFormRow>
 
-                            </UIFormRow>
+                        <UIFormRow>
 
-                            <UIFormRow>
+                            <UILabelColumn Columns="4">
+                                Frost?:
+                            </UILabelColumn>
 
-                                <UILabelColumn Columns="4">
-                                    Frost?:
-                                </UILabelColumn>
+                            <UIColumn Columns="2">
+                                <div class="form-check">
+                                    <InputCheckbox class="form-check-input position-static" @bind-Value="this.WeatherForecastEditorContext.WeatherForecastFrost"></InputCheckbox>
+                                </div>
+                            </UIColumn>
 
-                                <UIColumn Columns="2">
-                                    <div class="form-check">
-                                        <InputCheckbox class="form-check-input position-static" @bind-Value="this.WeatherForecastEditorContext.WeatherForecastFrost"></InputCheckbox>
-                                    </div>
-                                </UIColumn>
+                        </UIFormRow>
 
-                            </UIFormRow>
+                        <UIFormRow>
 
-                            <UIFormRow>
+                            <UILabelColumn Columns="4">
+                                Summary:
+                            </UILabelColumn>
 
-                                <UILabelColumn Columns="4">
-                                    Summary:
-                                </UILabelColumn>
+                            <UIColumn Columns="4">
+                                <InputSelect class="form-control" @bind-Value="this.WeatherForecastEditorContext.WeatherForecastSummary">
+                                    @foreach (var value in Enum.GetValues(typeof(WeatherSummary)))
+                                    {
+                                        <option value="@value">@value</option>
+                                    }
+                                </InputSelect>
+                            </UIColumn>
 
-                                <UIColumn Columns="4">
-                                    <InputSelect class="form-control" @bind-Value="this.WeatherForecastEditorContext.WeatherForecastSummary">
-                                        @foreach (var value in Enum.GetValues(typeof(WeatherSummary)))
-                                        {
-                                            <option value="@value">@value</option>
-                                        }
-                                    </InputSelect>
-                                </UIColumn>
+                        </UIFormRow>
 
-                            </UIFormRow>
+                        <UIFormRow>
 
-                            <UIFormRow>
+                            <UILabelColumn Columns="4">
+                                Outlook:
+                            </UILabelColumn>
 
-                                <UILabelColumn Columns="4">
-                                    Outlook:
-                                </UILabelColumn>
+                            <UIColumn Columns="8">
+                                <InputButtonGroup OptionList="this.ControllerService.OutlookOptionList" class="form-control" @bind-Value="@this.WeatherForecastEditorContext.WeatherForecastOutlookValue"></InputButtonGroup>
+                            </UIColumn>
 
-                                <UIColumn Columns="8">
-                                    <InputButtonGroup OptionList="this.ControllerService.OutlookOptionList" class="form-control" @bind-Value="@this.WeatherForecastEditorContext.WeatherForecastOutlookValue"></InputButtonGroup>
-                                </UIColumn>
+                        </UIFormRow>
 
-                            </UIFormRow>
+                        <UIFormRow>
 
-                            <UIFormRow>
+                            <UILabelColumn Columns="4">
+                                Detail:
+                            </UILabelColumn>
 
-                                <UILabelColumn Columns="4">
-                                    Detail:
-                                </UILabelColumn>
+                            <UIColumn Columns="8">
+                                <InputTextArea class="form-control" rows="6" @bind-Value="this.WeatherForecastEditorContext.WeatherForecastDetail"></InputTextArea>
+                            </UIColumn>
 
-                                <UIColumn Columns="8">
-                                    <InputTextArea class="form-control" rows="6" @bind-Value="this.WeatherForecastEditorContext.WeatherForecastDetail"></InputTextArea>
-                                </UIColumn>
+                        </UIFormRow>
 
-                            </UIFormRow>
+                    </UIContainer>
 
-                        </UIContainer>
+                </EditorContent>
 
-                    </CascadingValue>
-
-                </ChildContent>
-
-                <AlwaysDisplayContent>
+                <ButtonContent>
 
                     <UIContainer>
 
@@ -164,13 +172,13 @@
                             </UIColumn>
                             <UIButtonColumn Columns="5">
 
-                                <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.SaveAndExit" ColourCode="Bootstrap.ColourCode.save">Save &amp; Exit</UIButton>
+                                <UIButton Disabled="!this.DisplaySave" ClickEvent="this.SaveAndExit" ColourCode="Bootstrap.ColourCode.save">@this.SaveButtonText &amp; Exit</UIButton>
 
-                                <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.Save" ColourCode="Bootstrap.ColourCode.save">Save</UIButton>
+                                <UIButton Disabled="!this.DisplaySave" ClickEvent="this.Save" ColourCode="Bootstrap.ColourCode.save">@this.SaveButtonText</UIButton>
 
-                                <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.ConfirmExit" ColourCode="Bootstrap.ColourCode.danger_exit">Exit Without Saving</UIButton>
+                                <UIButton Show="this.DisplayCheckExit" ClickEvent="this.ConfirmExit" ColourCode="Bootstrap.ColourCode.danger_exit">Exit Without Saving</UIButton>
 
-                                <UIButton Show="this.IsClean" ClickEvent="this.TryExit" ColourCode="Bootstrap.ColourCode.nav">Exit</UIButton>
+                                <UIButton Show="this.DisplayExit" ClickEvent="this.TryExit" ColourCode="Bootstrap.ColourCode.nav">Exit</UIButton>
 
                             </UIButtonColumn>
 
@@ -178,10 +186,9 @@
 
                     </UIContainer>
 
-                </AlwaysDisplayContent>
+                </ButtonContent>
 
-
-            </UIErrorHandler>
+            </ModalEditForm>
 
         </Body>
 

@@ -15,8 +15,12 @@ namespace CEC.Blazor.SPA.Components.UIControls
         /// <summary>
         /// Property setting the button HTML attribute Type
         /// </summary>
-        [Parameter]
-        public string ButtonType { get; set; } = "button";
+        [Parameter] public string ButtonType { get; set; } = "button";
+
+        /// <summary>
+        /// Boolena Property to set the Disabled attribute on the control
+        /// </summary>
+        [Parameter] public bool Disabled { get; set; }
 
         /// <summary>
         /// Override the CssName
@@ -41,8 +45,9 @@ namespace CEC.Blazor.SPA.Components.UIControls
                 builder.OpenElement(0, this._Tag);
                 builder.AddAttribute(1, "type", this.ButtonType);
                 builder.AddAttribute(2, "class", this._Css);
-                builder.AddAttribute(3, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, this.ButtonClick));
-                builder.AddContent(4, ChildContent);
+                if (this.Disabled) builder.AddAttribute(3, "disabled");
+                builder.AddAttribute(4, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, this.ButtonClick));
+                builder.AddContent(5, ChildContent);
                 builder.CloseElement();
             }
         }
