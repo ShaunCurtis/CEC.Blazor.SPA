@@ -13,18 +13,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CEC.Weather.WASM.Server", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CEC.Weather.Server", "CEC.Weather.Server\CEC.Weather.Server.csproj", "{6B05B37B-8437-438B-AEB5-50B1152748B6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Building-Application-Frameworks-For-Blazor", "Building-Application-Frameworks-For-Blazor", "{DBF1AF4B-1B25-408D-9D31-FBAF909400DF}"
-	ProjectSection(SolutionItems) = preProject
-		Chapters\Chapter-1- Introduction.md = Chapters\Chapter-1- Introduction.md
-		Chapters\Chapter-2-Databases.md = Chapters\Chapter-2-Databases.md
-		Chapters\Chapter-3-Database-Access-Layer.md = Chapters\Chapter-3-Database-Access-Layer.md
-		Chapters\Chapter-4-Data-Controller-Layer.md = Chapters\Chapter-4-Data-Controller-Layer.md
-		Chapter-X-Data-Records.md = Chapter-X-Data-Records.md
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{16B11109-979E-4224-ADE3-301A1709C45B}"
 	ProjectSection(SolutionItems) = preProject
 		Images\SQL-Database-View.png = Images\SQL-Database-View.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Articles", "Articles", "{A025B91E-890E-4F48-AC23-291F0DFCE338}"
+	ProjectSection(SolutionItems) = preProject
+		Articles\Building a Database Application in Blazor - Part 1.md = Articles\Building a Database Application in Blazor - Part 1.md
+		Articles\Building a Database Application in Blazor - Part 2.md = Articles\Building a Database Application in Blazor - Part 2.md
+		Articles\Building a Database Application in Blazor - Part 3.md = Articles\Building a Database Application in Blazor - Part 3.md
+		Articles\Building a Database Application in Blazor - Part 4.md = Articles\Building a Database Application in Blazor - Part 4.md
+		Articles\Building a Database Application in Blazor - Part 5 .md = Articles\Building a Database Application in Blazor - Part 5 .md
+		Articles\Building a Database Application in Blazor - Part 6.md = Articles\Building a Database Application in Blazor - Part 6.md
 	EndProjectSection
 EndProject
 Global
