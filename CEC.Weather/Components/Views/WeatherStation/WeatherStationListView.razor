@@ -1,15 +1,9 @@
-﻿@using CEC.Blazor.SPA.Components
-@using CEC.Blazor.SPA.Components.Forms
-@using CEC.Blazor.SPA.Components.UIControls
-@using CEC.Weather.Data
-@using CEC.Weather.Components
-
-@namespace CEC.Weather.Components.Views
+﻿@namespace CEC.Weather.Components.Views
 
 @inherits ViewBase
 @implements IView
 
-<WeatherStationListForm  Properties="this.UIProperties"></WeatherStationListForm>
+<WeatherStationListForm Properties="this.UIProperties"></WeatherStationListForm>
 
 @code {
 
@@ -26,6 +20,4 @@
             return props;
         }
     }
-
-
 }

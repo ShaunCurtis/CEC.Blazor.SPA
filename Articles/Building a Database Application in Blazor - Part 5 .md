@@ -544,3 +544,4 @@ That wraps up this article.  Some key points to note:
 
 * 25-Sep-2020: Initial version.
 * 17-Nov-2020: Major Blazor.CEC library changes.  Change to ViewManager from Router and new Component base implementation.
+* 7-Feb-2021: Major updates to Services, project structure and data editing.

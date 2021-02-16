@@ -7,7 +7,7 @@ using CEC.Weather.Data;
 using CEC.Blazor.Data;
 using CEC.Blazor.Services;
 
-namespace CEC.Blazor.WASM.Server.Controllers
+namespace CEC.Blazor.Server.Controllers
 {
     [ApiController]
     public class WeatherForecastController : ControllerBase

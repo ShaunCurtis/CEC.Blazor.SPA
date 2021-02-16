@@ -1,136 +1,141 @@
-﻿@using CEC.Blazor.SPA.Components.Forms
-@using CEC.Blazor.SPA.Components.UIControls
-@using CEC.Weather.Data
-@using Microsoft.AspNetCore.Components.Forms
-
-@namespace CEC.Weather.Components
+﻿@namespace CEC.Weather.Components
 @inherits EditRecordFormBase<DbWeatherStation, WeatherForecastDbContext>
 
-    <UICard IsCollapsible="false">
-        <Header>
-            @this.PageTitle
-        </Header>
+<UICard IsCollapsible="false">
+    <Header>
+        @this.PageTitle
+    </Header>
 
-        <Body>
+    <Body>
+        <ModalEditForm EditContext="this.EditContext" IsError="this.IsError" IsLoaded="this.IsLoaded">
 
-            <UIErrorHandler IsError="@this.IsError" IsLoading="this.Loading" ErrorMessage="@this.RecordErrorMessage">
+            <ErrorContent>
+                <UIContainer>
+                    <UIRow>
+                        <UIColumn>
+                            @this.RecordErrorMessage
+                        </UIColumn>
+                    </UIRow>
+                </UIContainer>
+            </ErrorContent>
 
-                <ChildContent>
+            <LoadingContent>
+                <UILoading />
+            </LoadingContent>
 
-                    <CascadingValue Value="this.EditContext">
+            <EditorContent>
 
-                        <UIContainer>
+                <UIContainer>
 
-                            <UIFormRow>
+                    <UIFormRow>
 
-                                <UILabelColumn Columns="4">
-                                    Record ID:
-                                </UILabelColumn>
+                        <UILabelColumn Columns="4">
+                            Record ID:
+                        </UILabelColumn>
 
-                                <UIColumn Columns="2">
-                                    <InputReadOnlyText Value="@this.EditorContext.WeatherStationID.ToString()"></InputReadOnlyText>
-                                </UIColumn>
+                        <UIColumn Columns="2">
+                            <InputReadOnlyText Value="@this.EditorContext.WeatherStationID.ToString()"></InputReadOnlyText>
+                        </UIColumn>
 
-                            </UIFormRow>
+                    </UIFormRow>
 
-                            <UIFormRow>
+                    <UIFormRow>
 
-                                <UILabelColumn Columns="4">
-                                    Name:
-                                </UILabelColumn>
+                        <UILabelColumn Columns="4">
+                            Name:
+                        </UILabelColumn>
 
-                                <UIColumn Columns="4">
-                                    <InputText class="form-control" @bind-Value="this.EditorContext.WeatherStationName"></InputText>
-                                </UIColumn>
+                        <UIColumn Columns="4">
+                            <InputText class="form-control" @bind-Value="this.EditorContext.WeatherStationName"></InputText>
+                        </UIColumn>
 
-                                <UIColumn Columns="4">
-                                    <ValidationMessage For=@(() => this.EditorContext.WeatherStationName) />
-                                </UIColumn>
+                        <UIColumn Columns="4">
+                            <ValidationMessage For=@(() => this.EditorContext.WeatherStationName) />
+                        </UIColumn>
 
-                            </UIFormRow>
+                    </UIFormRow>
 
-                            <UIFormRow>
+                    <UIFormRow>
 
-                                <UILabelColumn Columns="4">
-                                    Latitude
-                                </UILabelColumn>
+                        <UILabelColumn Columns="4">
+                            Latitude
+                        </UILabelColumn>
 
-                                <UIColumn Columns="2">
-                                    <InputNumber class="form-control" @bind-Value="this.EditorContext.WeatherStationLatitude"></InputNumber>
-                                </UIColumn>
+                        <UIColumn Columns="2">
+                            <InputNumber class="form-control" @bind-Value="this.EditorContext.WeatherStationLatitude"></InputNumber>
+                        </UIColumn>
 
-                                <UIColumn Columns="6">
-                                    <ValidationMessage For=@(() => this.EditorContext.WeatherStationLatitude) />
-                                </UIColumn>
+                        <UIColumn Columns="6">
+                            <ValidationMessage For=@(() => this.EditorContext.WeatherStationLatitude) />
+                        </UIColumn>
 
-                            </UIFormRow>
+                    </UIFormRow>
 
-                            <UIFormRow>
+                    <UIFormRow>
 
-                                <UILabelColumn Columns="4">
-                                    Longitude
-                                </UILabelColumn>
+                        <UILabelColumn Columns="4">
+                            Longitude
+                        </UILabelColumn>
 
-                                <UIColumn Columns="2">
-                                    <InputNumber class="form-control" @bind-Value="this.EditorContext.WeatherStationLongitude"></InputNumber>
-                                </UIColumn>
+                        <UIColumn Columns="2">
+                            <InputNumber class="form-control" @bind-Value="this.EditorContext.WeatherStationLongitude"></InputNumber>
+                        </UIColumn>
 
-                                <UIColumn Columns="6">
-                                    <ValidationMessage For=@(() => this.EditorContext.WeatherStationLongitude) />
-                                </UIColumn>
+                        <UIColumn Columns="6">
+                            <ValidationMessage For=@(() => this.EditorContext.WeatherStationLongitude) />
+                        </UIColumn>
 
-                            </UIFormRow>
+                    </UIFormRow>
 
-                            <UIFormRow>
+                    <UIFormRow>
 
-                                <UILabelColumn Columns="4">
-                                    Elevation
-                                </UILabelColumn>
+                        <UILabelColumn Columns="4">
+                            Elevation
+                        </UILabelColumn>
 
-                                <UIColumn Columns="2">
-                                    <InputNumber class="form-control" @bind-Value="this.EditorContext.WeatherStationElevation"></InputNumber>
-                                </UIColumn>
+                        <UIColumn Columns="2">
+                            <InputNumber class="form-control" @bind-Value="this.EditorContext.WeatherStationElevation"></InputNumber>
+                        </UIColumn>
 
-                                <UIColumn Columns="6">
-                                    <ValidationMessage For=@(() => this.EditorContext.WeatherStationElevation) />
-                                </UIColumn>
+                        <UIColumn Columns="6">
+                            <ValidationMessage For=@(() => this.EditorContext.WeatherStationElevation) />
+                        </UIColumn>
 
-                            </UIFormRow>
+                    </UIFormRow>
 
-                        </UIContainer>
+                </UIContainer>
 
-                    </CascadingValue>
+            </EditorContent>
 
-                </ChildContent>
+            <ButtonContent>
 
-                <AlwaysDisplayContent>
+                <UIContainer>
 
-                    <UIContainer>
-                        <UIRow>
+                    <UIRow>
 
-                            <UIColumn Columns="7">
-                                <UIAlert Alert="this.AlertMessage" SizeCode="Bootstrap.SizeCode.sm"></UIAlert>
-                            </UIColumn>
-                            <UIButtonColumn Columns="5">
+                        <UIColumn Columns="7">
+                            <UIAlert Alert="this.AlertMessage" SizeCode="Bootstrap.SizeCode.sm"></UIAlert>
+                        </UIColumn>
+                        <UIButtonColumn Columns="5">
 
-                                <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.SaveAndExit" ColourCode="Bootstrap.ColourCode.save">Save &amp; Exit</UIButton>
+                            <UIButton Disabled="!this.DisplaySave" ClickEvent="this.SaveAndExit" ColourCode="Bootstrap.ColourCode.save">@this.SaveButtonText &amp; Exit</UIButton>
 
-                                <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.Save" ColourCode="Bootstrap.ColourCode.save">Save</UIButton>
+                            <UIButton Disabled="!this.DisplaySave" ClickEvent="this.Save" ColourCode="Bootstrap.ColourCode.save">@this.SaveButtonText</UIButton>
 
-                                <UIButton Show="(!this.IsClean) && this.IsLoaded" ClickEvent="this.ConfirmExit" ColourCode="Bootstrap.ColourCode.danger_exit">Exit Without Saving</UIButton>
+                            <UIButton Show="this.DisplayCheckExit" ClickEvent="this.ConfirmExit" ColourCode="Bootstrap.ColourCode.danger_exit">Exit Without Saving</UIButton>
 
-                                <UIButton Show="this.IsClean" ClickEvent="this.TryExit" ColourCode="Bootstrap.ColourCode.nav">Exit</UIButton>
+                            <UIButton Show="this.DisplayExit" ClickEvent="this.TryExit" ColourCode="Bootstrap.ColourCode.nav">Exit</UIButton>
 
-                            </UIButtonColumn>
+                        </UIButtonColumn>
 
-                        </UIRow>
+                    </UIRow>
 
-                    </UIContainer>
+                </UIContainer>
 
-                </AlwaysDisplayContent>
+            </ButtonContent>
 
-            </UIErrorHandler>
+        </ModalEditForm>
 
-        </Body>
+    </Body>
 
-    </UICard>
+</UICard>
