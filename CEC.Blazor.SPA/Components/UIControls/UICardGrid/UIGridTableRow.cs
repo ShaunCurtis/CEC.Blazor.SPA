@@ -14,7 +14,7 @@ namespace CEC.Blazor.SPA.Components.UIControls
         protected override string _Tag => "tr";
 
 
-        protected override string _Css => $"grid-row {AddOnCss.Trim()}".Trim();
+        protected override string _CssClass => $"grid-row {this._AddOnCss.Trim()}".Trim();
 
     }
 }

@@ -24,11 +24,11 @@ namespace CEC.Blazor.SPA.Components.UIControls
 
         protected override string _Tag => "th";
 
-        protected override string _Css
+        protected override string _CssClass
         {
             get
             {
-                var css = this.CleanUpCss($"grid-col {this.CssAlignment} {this.CssHeader} {this.MaxRowCss} {this.AddOnCss}");
+                var css = this.CleanUpCss($"grid-col {this.CssAlignment} {this.CssHeader} {this.MaxRowCss} {this._AddOnCss}");
                 return this.Sorted ? $"{css}  column-sort cursor-hand" : css;
             }
         }
@@ -42,10 +42,8 @@ namespace CEC.Blazor.SPA.Components.UIControls
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
-            if (this.Show)
-            {
                 builder.OpenElement(0, this._Tag);
-                builder.AddAttribute(1, "class", this._Css);
+                builder.AddAttribute(1, "class", this._CssClass);
                 if (!string.IsNullOrEmpty(this.Style)) builder.AddAttribute(2, "style", this.Style);
                 if (this.ColumnSpan > 1) builder.AddAttribute(3, "colspan", this.ColumnSpan);
                 builder.AddAttribute(4, "scope", "col");
@@ -66,7 +64,6 @@ namespace CEC.Blazor.SPA.Components.UIControls
                     this.AddContent(ref builder);
                 }
                 builder.CloseElement();
-            }
         }
 
         private void AddSorting(ref RenderTreeBuilder builder)

@@ -4,23 +4,23 @@
 @typeparam TRecord
 
 <CascadingValue Value="(this)">
-        <UITag Css="@this.CardCSS">
+        <UITag class="@this.CardCSS">
 
-            <UITag Css="@this.CardHeaderCSS">
+            <UITag class="@this.CardHeaderCSS">
 
                 <UITag>
 
-                    <UITag Css="@HeaderFontSize" Tag="span">
+                    <UITag class="@HeaderFontSize" Tag="span">
                         @Title
                     </UITag>
 
-                    <UIButton ColourCode="Bootstrap.ColourCode.outline_light" SizeCode="Bootstrap.SizeCode.sm" AddOnCss="@this.CollapseButtonCSS" ClickEvent="(e => this.Toggle())">@this.CollapseText</UIButton>
+                    <UIButton class="@this.CollapseButtonCSS" ClickEvent="(e => this.Toggle())">@this.CollapseText</UIButton>
 
                 </UITag>
 
             </UITag>
 
-            <UITag Css="@this.CardBodyCSS">
+            <UITag class="@this.CardBodyCSS">
 
                 @Navigation
 

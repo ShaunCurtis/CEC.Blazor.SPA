@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CEC.Blazor.SPA.Components.UIControls
@@ -17,7 +18,7 @@ namespace CEC.Blazor.SPA.Components.UIControls
     /// will force the component tag to be a div. 
     /// </summary>
 
-    public abstract class UIBase : Component, IDisposable
+    public abstract class UIBase : BaseBlazorComponent, IDisposable
     {
 
         #region Public Properties
@@ -25,13 +26,7 @@ namespace CEC.Blazor.SPA.Components.UIControls
         /// <summary>
         /// Gets or sets a collection of additional attributes that will be applied to the created <c>form</c> element.
         /// </summary>
-        [Parameter(CaptureUnmatchedValues = true)] public IDictionary<string, object> AdditionalAttributes { get; set; }
-
-        /// <summary>
-        /// Child Content to add to Component
-        /// </summary>
-        [Parameter]
-        public RenderFragment ChildContent { get; set; }
+        [Parameter(CaptureUnmatchedValues = true)] public IDictionary<string, object> AdditionalAttributes { get; set; } = new Dictionary<string, object>();
 
         /// <summary>
         /// Css for component - can be overridden and fixed in inherited components
@@ -40,22 +35,10 @@ namespace CEC.Blazor.SPA.Components.UIControls
         public virtual string Tag { get; set; } = "div";
 
         /// <summary>
-        /// Css for component - can be overridden and fixed in inherited components
+        /// Property to set the HTML value if appropriate
         /// </summary>
         [Parameter]
-        public virtual string Css { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Additional Css to tag on the end of the base Css
-        /// </summary>
-        [Parameter]
-        public string AddOnCss { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Boolean property that dictates if the componet is rendered
-        /// </summary>
-        [Parameter]
-        public virtual bool Show { get; set; } = true;
+        public string Value { get; set; } = "";
 
         #endregion
 
@@ -65,7 +48,7 @@ namespace CEC.Blazor.SPA.Components.UIControls
         /// Html attributes that need to be removed if set on the control
         /// default is only the class attribute
         /// </summary>
-        protected List<string> UsedAttributes { get; set; } = new List<string>() { "class" };
+        protected List<string> UsedAttributes { get; set; } = new List<string>();
 
 
         /// <summary>
@@ -77,27 +60,25 @@ namespace CEC.Blazor.SPA.Components.UIControls
         /// <summary>
         /// Property for fixing the base Css.  Base returns the Parameter Css, but can be overridden in inherited classes
         /// </summary>
-        protected virtual string _BaseCss => this.Css;
+        protected virtual string _BaseCss { get; set; }
 
         /// <summary>
-        /// Property for fixing the Add On Css.  Base returns the Parameter AddOnCss, but can be overridden say to String.Empty in inherited classes
+        /// Property for fixing the Add On Css.  By default gets the Class value from the Additional Attributes
         /// </summary>
-        protected virtual string _AddOnCss => this.AddOnCss;
+        protected virtual string _AddOnCss => AdditionalAttributes.TryGetValue("class", out object value) ? value.ToString() : string.Empty;
 
         /// <summary>
         /// Actual calculated Css string used in the component
         /// </summary>
-        protected virtual string _Css => this.CleanUpCss($"{this._BaseCss} {this._AddOnCss}");
-
-        /// <summary>
-        /// Show Property used by the builder - allows override of the Parameter set version
-        /// </summary>
-        protected virtual bool _Show => this.Show;
+        protected virtual string _CssClass => this.CleanUpCss($"{this._BaseCss} {this._AddOnCss}");
 
         /// <summary>
         /// Property to override the content of the component
         /// </summary>
         protected virtual string _Content => string.Empty;
+
+        protected Dictionary<string, object> AttributesToRender
+            => ClearDuplicateAttributes();
 
         #endregion
 
@@ -109,30 +90,28 @@ namespace CEC.Blazor.SPA.Components.UIControls
         /// <param name="builder"></param>
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
-            if (this._Show)
-            {
-                this.ClearDuplicateAttributes();
-                builder.OpenElement(0, this._Tag);
-                builder.AddMultipleAttributes(1, AdditionalAttributes);
-                builder.AddAttribute(2, "class", this._Css);
-                if (!string.IsNullOrEmpty(this._Content)) builder.AddContent(3, (MarkupString)this._Content);
-                else if (this.ChildContent != null) builder.AddContent(4, ChildContent);
-                builder.CloseElement();
-            }
+            builder.OpenElement(0, this._Tag);
+            builder.AddMultipleAttributes(1, this.AttributesToRender);
+            if (!string.IsNullOrWhiteSpace(this._CssClass)) builder.AddAttribute(2, "class", this._CssClass);
+            if (!string.IsNullOrEmpty(this._Content)) builder.AddContent(3, (MarkupString)this._Content);
+            else if (this.ChildContent != null) builder.AddContent(4, ChildContent);
+            builder.CloseElement();
         }
 
         /// <summary>
         /// Method to clean up the Additional Attributes
         /// </summary>
-        protected void ClearDuplicateAttributes()
+        protected Dictionary<string, object> ClearDuplicateAttributes()
         {
+            var attributes = AdditionalAttributes.Keys.ToDictionary(_ => _, _ => AdditionalAttributes[_]);
             if (this.AdditionalAttributes != null && this.UsedAttributes != null)
             {
                 foreach (var item in this.UsedAttributes)
                 {
-                    if (this.AdditionalAttributes.ContainsKey(item)) this.AdditionalAttributes.Remove(item);
+                    if (attributes.ContainsKey(item)) attributes.Remove(item);
                 }
             }
+            return attributes;
         }
 
         /// <summary>
@@ -146,7 +125,7 @@ namespace CEC.Blazor.SPA.Components.UIControls
             return css.Trim();
         }
 
-        public virtual void Dispose() {}
+        public virtual void Dispose() { }
 
         #endregion
     }

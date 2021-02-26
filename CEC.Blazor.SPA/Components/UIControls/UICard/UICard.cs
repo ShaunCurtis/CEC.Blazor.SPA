@@ -92,12 +92,10 @@ namespace CEC.Blazor.SPA.Components.UIControls
         /// <param name="builder"></param>
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
-            if (this.Show)
-            {
-                this.ClearDuplicateAttributes();
-                builder.OpenElement(0, "div");
-                builder.AddMultipleAttributes(2, AdditionalAttributes);
-                builder.AddAttribute(2, "class", this._Css);
+            var attributes = this.ClearDuplicateAttributes();
+            builder.OpenElement(0, "div");
+                builder.AddMultipleAttributes(2, this.AttributesToRender);
+                builder.AddAttribute(2, "class", this._CssClass);
                 builder.OpenElement(3, "div");
                 builder.AddAttribute(4, "class", this._HeaderCss);
                 if (this.Header != null)
@@ -122,7 +120,6 @@ namespace CEC.Blazor.SPA.Components.UIControls
                 if (this.Buttons != null) builder.AddContent(15, this.Buttons);
                 builder.CloseElement();
                 builder.CloseElement();
-            }
         }
 
         /// <summary>

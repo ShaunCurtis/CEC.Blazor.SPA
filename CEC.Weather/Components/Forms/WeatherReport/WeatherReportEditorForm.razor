@@ -167,17 +167,17 @@
                     <UIRow>
 
                         <UIColumn Columns="7">
-                            <UIAlert Alert="this.AlertMessage" SizeCode="Bootstrap.SizeCode.sm"></UIAlert>
+                            <UIAlert Alert="this.AlertMessage" class="alert-sm"></UIAlert>
                         </UIColumn>
                         <UIButtonColumn Columns="5">
 
-                            <UIButton Disabled="!this.DisplaySave" ClickEvent="this.SaveAndExit" ColourCode="Bootstrap.ColourCode.save">@this.SaveButtonText &amp; Exit</UIButton>
+                            <UIButton Disabled="!this.DisplaySave" ClickEvent="this.SaveAndExit" class="btn-save">@this.SaveButtonText &amp; Exit</UIButton>
 
-                            <UIButton Disabled="!this.DisplaySave" ClickEvent="this.Save" ColourCode="Bootstrap.ColourCode.save">@this.SaveButtonText</UIButton>
+                            <UIButton Disabled="!this.DisplaySave" ClickEvent="this.Save" class="btn-save">@this.SaveButtonText</UIButton>
 
-                            <UIButton Show="this.DisplayCheckExit" ClickEvent="this.ConfirmExit" ColourCode="Bootstrap.ColourCode.danger_exit">Exit Without Saving</UIButton>
+                            <UIButton Display="this.DisplayCheckExit" ClickEvent="this.ConfirmExit" class="btn-danger-exit">Exit Without Saving</UIButton>
 
-                            <UIButton Show="this.DisplayExit" ClickEvent="this.TryExit" ColourCode="Bootstrap.ColourCode.nav">Exit</UIButton>
+                            <UIButton Display="this.DisplayExit" ClickEvent="this.TryExit" class="btn-nav">Exit</UIButton>
 
                         </UIButtonColumn>
 

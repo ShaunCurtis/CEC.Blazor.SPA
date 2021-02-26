@@ -11,7 +11,8 @@ namespace CEC.Blazor.SPA.Components.UIControls
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             builder.OpenElement(2, "div");
-            builder.AddAttribute(3, "class", this._Css);
+            builder.AddAttribute(3, "class", this._CssClass);
+            builder.AddMultipleAttributes(1, this.AttributesToRender);
             builder.OpenElement(4, "button");
             builder.AddAttribute(5, "class", "btn btn-primary");
             builder.AddAttribute(6, "type", "button");

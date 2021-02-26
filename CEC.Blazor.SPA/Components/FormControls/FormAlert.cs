@@ -8,11 +8,11 @@ namespace CEC.Blazor.SPA.Components.Forms
     {
         public string Message { get; set; } = string.Empty;
 
-        public bool IsAlert => !string.IsNullOrWhiteSpace(this.Message); 
+        public bool IsAlert => !string.IsNullOrWhiteSpace(this.Message);
 
-        public MessageType FormMessageType { get; set; }
+        public MessageType FormMessageType { get; set; } = MessageType.None;
 
-                public void SetAlert(string message, MessageType type)
+        public void SetAlert(string message, MessageType type)
         {
             this.Message = message;
             this.FormMessageType = type;
@@ -30,14 +30,14 @@ namespace CEC.Blazor.SPA.Components.Forms
             this.FormMessageType = MessageType.None;
         }
 
-        public Bootstrap.ColourCode GetCode()
-        {
-            var x = Enum.GetName(typeof(MessageType), FormMessageType);
-            if (Enum.TryParse(typeof(Bootstrap.ColourCode), x, true, out object code))
+        public string GetCode()
+            => (FormMessageType switch
             {
-                return (Bootstrap.ColourCode)code;
+                MessageType.None => "alert-info",
+                MessageType.NotImplemented => "alert-info",
+                _ => $"alert-{(Enum.GetName(typeof(MessageType), FormMessageType)).ToLower()}"
             }
-            return Bootstrap.ColourCode.dark;
-        }
+        );
+          
     }
 }

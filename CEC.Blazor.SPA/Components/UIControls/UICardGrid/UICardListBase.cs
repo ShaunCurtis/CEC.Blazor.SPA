@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using CEC.Blazor.SPA.Components.UIControls;
 
 namespace CEC.Blazor.SPA.Components.UIControls
 {
@@ -42,7 +41,7 @@ namespace CEC.Blazor.SPA.Components.UIControls
         /// <summary>
         /// Css for the Row
         /// </summary>
-        protected string RowCss => string.IsNullOrEmpty(this.AddOnCss) ? _RowCss : string.Concat(_RowCss, " ", this.AddOnCss);
+        protected string RowCss => string.IsNullOrEmpty(this._AddOnCss) ? _RowCss : string.Concat(_RowCss, " ", this._AddOnCss);
 
         /// <summary>
         /// View Navigation hanlder

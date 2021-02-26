@@ -27,7 +27,7 @@ namespace CEC.Blazor.SPA.Components.UIControls
             this.ClearDuplicateAttributes();
             builder.OpenElement(0, this._Tag);
             builder.AddMultipleAttributes(1, AdditionalAttributes);
-            builder.AddAttribute(2, "class", this._Css);
+            builder.AddAttribute(2, "class", this._CssClass);
             builder.OpenComponent<CascadingValue<int>>(3);
             builder.AddAttribute(4, "Name", "MaxColumn");
             builder.AddAttribute(5, "Value", this.MaxColumn);

@@ -40,32 +40,28 @@ namespace CEC.Blazor.SPA.Components.UIControls
         /// <summary>
         /// Inherited
         /// </summary>
-        protected override string _Css => this.CleanUpCss($"grid-col text-right {this.AddOnCss}");
+        protected override string _CssClass => this.CleanUpCss($"grid-col text-right {this._AddOnCss}");
 
         /// <summary>
         /// Button CSS
         /// </summary>
         private string _BadgeCss => "badge badge-primary p-2 text-white cursor-hand";
 
-        /// <summary>
-        /// Overridden Show
-        /// </summary>
-        protected override bool _Show => this.RecordID > 0 && this.UIWrapper.Properties.Get<bool>("ShowEdit") && this.Card != null;
-
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
-            if (this._Show)
-            {
-                builder.OpenElement(0, this._Tag);
-                builder.AddAttribute(1, "class", this._Css);
-                if (this.ColumnSpan > 1) builder.AddAttribute(2, "colspan", this.ColumnSpan);
-                builder.OpenElement(3, "a");
-                builder.AddAttribute(4, "class", this._BadgeCss);
-                builder.AddAttribute(5, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, (e => this.Card.ShowEditor(this.RecordID))));
-                builder.AddContent(6, "Edit");
-                builder.CloseElement();
-                builder.CloseElement();
-            }
+            builder.OpenElement(0, this._Tag);
+            builder.AddAttribute(1, "class", this._CssClass);
+            if (this.ColumnSpan > 1) 
+                builder.AddAttribute(2, "colspan", this.ColumnSpan);
+            builder.OpenElement(3, "a");
+            builder.AddAttribute(4, "class", this._BadgeCss);
+            builder.AddAttribute(5, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, (e => this.Card.ShowEditor(this.RecordID))));
+            builder.AddContent(6, "Edit");
+            builder.CloseElement();
+            builder.CloseElement();
         }
+
+        protected override bool? _Display 
+            => this.RecordID > 0 && this.UIWrapper.Properties.Get<bool>("ShowEdit") && this.Card != null;
     }
 }

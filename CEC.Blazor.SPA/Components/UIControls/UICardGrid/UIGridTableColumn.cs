@@ -58,7 +58,7 @@ namespace CEC.Blazor.SPA.Components.UIControls
 
         protected string Style => this.IsMaxColumn ? $"width:{_maxcolumnpercent}%" : string.Empty;
 
-        protected override string _Css => this.CleanUpCss($"grid-col {this.CssAlignment} {this.CssHeader} {this.MaxRowCss} {this.AddOnCss} {this.CssCursor}");
+        protected override string _CssClass => this.CleanUpCss($"grid-col {this.CssAlignment} {this.CssHeader} {this.MaxRowCss} {this._AddOnCss} {this.CssCursor}");
 
         private int _maxColumn => this.MaxColumn > 0 ? this.MaxColumn : (this.UIWrapper?.Properties?.Get<int>(PropertyConstants.MaxColumn) ?? 1 );
 
@@ -82,7 +82,7 @@ namespace CEC.Blazor.SPA.Components.UIControls
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             builder.OpenElement(0, this._Tag);
-            builder.AddAttribute(1, "class", this._Css);
+            builder.AddAttribute(1, "class", this._CssClass);
             if (!string.IsNullOrEmpty(this.Style)) builder.AddAttribute(2, "style", this.Style);
             if (this.ColumnSpan > 1) builder.AddAttribute(3, "colspan", this.ColumnSpan);
             if (this.IsRowNavigateToViewer) builder.AddAttribute(4, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, (e => this.Card.ShowView(this.RecordID))));

@@ -79,7 +79,7 @@ namespace CEC.Blazor.SPA.Components.UIControls
                     else
                     {
                         builder.OpenElement(2, "div");
-                        builder.AddAttribute(3, "class", this._Css);
+                        builder.AddAttribute(3, "class", this._CssClass);
                         builder.OpenElement(4, "button");
                         builder.AddAttribute(5, "class", "btn btn-primary");
                         builder.AddAttribute(6, "type", "button");
@@ -100,7 +100,7 @@ namespace CEC.Blazor.SPA.Components.UIControls
                     {
                         builder.OpenElement(101, "div");
                         builder.OpenElement(102, "span");
-                        builder.AddAttribute(103, "class", this._Css);
+                        builder.AddAttribute(103, "class", this._CssClass);
                         builder.AddContent(104, ErrorMessage);
                         builder.CloseElement();
                         builder.CloseElement();
@@ -112,7 +112,7 @@ namespace CEC.Blazor.SPA.Components.UIControls
                     {
                         builder.OpenElement(201, "div");
                         builder.OpenElement(202, "span");
-                        builder.AddAttribute(203, "class", this._Css);
+                        builder.AddAttribute(203, "class", this._CssClass);
                         builder.AddContent(304, "You currently don't have permissions to access this record");
                         builder.CloseElement();
                         builder.CloseElement();

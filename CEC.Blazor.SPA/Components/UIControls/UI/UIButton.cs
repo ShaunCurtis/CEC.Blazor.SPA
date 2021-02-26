@@ -10,8 +10,9 @@ namespace CEC.Blazor.SPA.Components.UIControls
     /// The properties are pretty self explanatory and therefore not decorated with summaries
     /// </summary>
 
-    public class UIButton : UIBootstrapBase
+    public class UIButton : UIBase
     {
+
         /// <summary>
         /// Property setting the button HTML attribute Type
         /// </summary>
@@ -25,7 +26,7 @@ namespace CEC.Blazor.SPA.Components.UIControls
         /// <summary>
         /// Override the CssName
         /// </summary>
-        protected override string CssName => "btn";
+        protected override string _BaseCss => "btn";
 
         /// <summary>
         /// Override the Tag
@@ -40,16 +41,14 @@ namespace CEC.Blazor.SPA.Components.UIControls
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
-            if (this.Show)
-            {
-                builder.OpenElement(0, this._Tag);
-                builder.AddAttribute(1, "type", this.ButtonType);
-                builder.AddAttribute(2, "class", this._Css);
-                if (this.Disabled) builder.AddAttribute(3, "disabled");
-                builder.AddAttribute(4, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, this.ButtonClick));
-                builder.AddContent(5, ChildContent);
-                builder.CloseElement();
-            }
+            builder.OpenElement(0, this._Tag);
+            builder.AddMultipleAttributes(1, this.AttributesToRender);
+            builder.AddAttribute(1, "type", this.ButtonType);
+            if (!string.IsNullOrWhiteSpace(this._CssClass)) builder.AddAttribute(2, "class", this._CssClass);
+            if (this.Disabled) builder.AddAttribute(3, "disabled");
+            builder.AddAttribute(4, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, this.ButtonClick));
+            builder.AddContent(5, ChildContent);
+            builder.CloseElement();
         }
 
         /// <summary>

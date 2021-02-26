@@ -16,39 +16,39 @@
 <div class="@NavMenuCssClass" onclick="() => ToggleNavMenu()">
     <ul class="nav flex-column">
         <li class="nav-item px-3">
-            <UIViewLink class="nav-link" ViewType="typeof(CEC.Weather.Components.Views.Index)">
+            <ViewLink class="nav-link" ViewType="typeof(CEC.Weather.Components.Views.Index)">
                 <span class="oi oi-home" aria-hidden="true"></span> Home
-            </UIViewLink>
+            </ViewLink>
         </li>
         <li class="nav-item px-3">
-            <UIViewLink class="nav-link" ViewType="typeof(CEC.Weather.Components.Views.Counter)">
+            <ViewLink class="nav-link" ViewType="typeof(CEC.Weather.Components.Views.Counter)">
                 <span class="oi oi-cloudy" aria-hidden="true"></span> Counter
-            </UIViewLink>
+            </ViewLink>
         </li>
         <li class="nav-item px-3">
-            <UIViewLink class="nav-link" ViewType="typeof(CEC.Weather.Components.Views.AsyncView)">
+            <ViewLink class="nav-link" ViewType="typeof(CEC.Weather.Components.Views.AsyncView)">
                 <span class="oi oi-cloudy" aria-hidden="true"></span> Async Demo Page
-            </UIViewLink>
+            </ViewLink>
         </li>
         <li class="nav-item px-3">
-            <UIViewLink class="nav-link" ViewType="typeof(CEC.Weather.Components.Views.WeatherForecastListView)">
+            <ViewLink class="nav-link" ViewType="typeof(CEC.Weather.Components.Views.WeatherForecastListView)">
                 <span class="oi oi-cloudy" aria-hidden="true"></span> Normal Weather
-            </UIViewLink>
+            </ViewLink>
         </li>
         <li class="nav-item px-3">
-            <UIViewLink class="nav-link" ViewType="typeof(WeatherForecastListModalView)">
+            <ViewLink class="nav-link" ViewType="typeof(WeatherForecastListModalView)">
                 <span class="oi oi-cloud-upload" aria-hidden="true"></span> Modal Weather
-            </UIViewLink>
+            </ViewLink>
         </li>
         <li class="nav-item px-3">
-            <UIViewLink class="nav-link" ViewType="typeof(WeatherStationListView)">
+            <ViewLink class="nav-link" ViewType="typeof(WeatherStationListView)">
                 <span class="oi oi-cloud-upload" aria-hidden="true"></span> Weather Stations
-            </UIViewLink>
+            </ViewLink>
         </li>
         <li class="nav-item px-3">
-            <UIViewLink class="nav-link" ViewType="typeof(WeatherReportListView)">
+            <ViewLink class="nav-link" ViewType="typeof(WeatherReportListView)">
                 <span class="oi oi-cloud-upload" aria-hidden="true"></span> Weather Report
-            </UIViewLink>
+            </ViewLink>
         </li>
         <li class="nav-item px-3">
             @if (IsWASM)
