@@ -2,13 +2,12 @@
 
 This is the sixth article in the series and walks through adding new records to the Weather Application.  The articles so far are:
 
-
-1. [Project Structure and Framework](https://www.codeproject.com/Articles/5279560/Building-a-Database-Application-in-Blazor-Part-1-P)
-2. [Services - Building the CRUD Data Layers](https://www.codeproject.com/Articles/5279596/Building-a-Database-Application-in-Blazor-Part-2-S)
-3. [View Components - CRUD Edit and View Operations in the UI](https://www.codeproject.com/Articles/5279963/Building-a-Database-Application-in-Blazor-Part-3-C)
-4. [UI Components - Building HTML/CSS Controls](https://www.codeproject.com/Articles/5280090/Building-a-Database-Application-in-Blazor-Part-4-U)
-5. [View Components - CRUD List Operations in the UI](https://www.codeproject.com/Articles/5280391/Building-a-Database-Application-in-Blazor-Part-5-V)
-6. Adding New Record Types and the UI to Weather Projects
+1. Project Structure and Framework.
+2. Services - Building the CRUD Data Layers.
+3. View Components - CRUD Edit and View Operations in the UI.
+4. UI Components - Building HTML/CSS Controls.
+5. View Components - CRUD List Operations in the UI.
+6. A walk through detailing how to add weather stations and weather station data to the application.
 
 The purpose of the exercise is to import station data from the UK Met Office.  There's an command line importer project included in the solution to fetch and import the data - review the code to see how it works.  The data is in the form of monthly records from British Weather Stations going back to 1928.  We'll add two record types:
 
