@@ -3,6 +3,17 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <LangVersion>latest</LangVersion>
+    <Version>0.0.2.2</Version>
+    <Title>CEC Blazor SPA Framework Components</Title>
+    <Authors>Shaun Curtis</Authors>
+    <Company>Cold Elm</Company>
+    <Copyright>Shaun Curtis</Copyright>
+    <RepositoryUrl>https://github.com/ShaunCurtis/CEC.Blazor.SPA</RepositoryUrl>
+    <PackageIcon>ColdElm.png</PackageIcon>
+    <PackageReleaseNotes>Pre Release Development Version</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>This package contains the core components for the CEC Blazor SPA Framework.</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="ColdElm.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="wwwroot\site.js" />
   </ItemGroup>
 
@@ -23,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CEC.Blazor.Core" Version="1.0.1.1" />
+    <PackageReference Include="CEC.Blazor.Core" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.3" />

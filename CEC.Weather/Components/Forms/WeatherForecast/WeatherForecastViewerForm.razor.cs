@@ -14,10 +14,10 @@ namespace CEC.Weather.Components
 
         public override string PageTitle => $"Weather Forecast Viewer {this.Service?.Record?.Date.AsShortDate() ?? string.Empty}".Trim();
 
-        protected override Task OnRenderAsync(bool firstRender)
+        protected override Task OnUpdateAsync(bool firstRender)
         {
             if (firstRender) this.Service = this.ControllerService;
-            return base.OnRenderAsync(firstRender);
+            return base.OnUpdateAsync(firstRender);
         }
     }
 }

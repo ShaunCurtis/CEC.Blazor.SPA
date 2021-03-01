@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace CEC.Blazor.SPA.Components.FormControls
 {
-    public partial class FormControlMarkup : Component
+    public partial class FormControlMarkup : BaseBlazorComponent
     {
 
         [Parameter]

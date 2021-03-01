@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components.Forms;
 
 namespace CEC.Blazor.SPA.Components.FormControls
 {
-    public partial class ButtonStack : Component
+    public partial class ButtonStack : BaseBlazorComponent
     {
         [Parameter]
         public string ButtonCss { get; set; } = "btn btn-secondary";
@@ -22,9 +22,9 @@ namespace CEC.Blazor.SPA.Components.FormControls
         public SortedDictionary<Guid, string> OptionList { get; set; } = new SortedDictionary<Guid, string>();
 
         [Parameter]
-        public EventCallback<Guid> DeSelect { get; set; } 
+        public EventCallback<Guid> DeSelect { get; set; }
 
-        public void ReRender() => this.RenderAsync();
+        public async void ReRender() => await this.RenderAsync();
 
         private void ButtonClick(Guid guid) => this.DeSelect.InvokeAsync(guid);
 

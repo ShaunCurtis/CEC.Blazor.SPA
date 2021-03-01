@@ -16,7 +16,7 @@ namespace CEC.Weather.Components
 
         private WeatherReportEditContext EditorContext { get; set; }
 
-        protected async override Task OnRenderAsync(bool firstRender)
+        protected async override Task OnUpdateAsync(bool firstRender)
         {
             // Assign the correct controller service
             if (firstRender)
@@ -26,7 +26,7 @@ namespace CEC.Weather.Components
                 this.RecordEditorContext = this.EditorContext;
             }
             StationLookupList = await this.Service.GetLookUpListAsync<DbWeatherStation>();
-            await base.OnRenderAsync(firstRender);
+            await base.OnUpdateAsync(firstRender);
         }
     }
 }

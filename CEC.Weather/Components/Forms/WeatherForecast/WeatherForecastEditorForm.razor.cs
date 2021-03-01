@@ -14,7 +14,7 @@ namespace CEC.Weather.Components
         private WeatherForecastEditContext WeatherForecastEditorContext { get; set; }
        
 
-        protected override Task OnRenderAsync(bool firstRender)
+        protected override Task OnUpdateAsync(bool firstRender)
         {
             // Assign the correct controller service
             if (firstRender)
@@ -23,7 +23,7 @@ namespace CEC.Weather.Components
                 this.WeatherForecastEditorContext = new WeatherForecastEditContext(this.ControllerService.RecordValueCollection);
                 this.RecordEditorContext = this.WeatherForecastEditorContext;
             }
-            return base.OnRenderAsync(firstRender);
+            return base.OnUpdateAsync(firstRender);
         }
     }
 }

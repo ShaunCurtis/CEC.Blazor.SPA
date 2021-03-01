@@ -63,7 +63,7 @@ namespace CEC.Blazor.SPA.Components.Forms
         /// </summary>
         /// <param name="firstRender"></param>
         /// <returns></returns>
-        protected async override Task OnRenderAsync(bool firstRender)
+        protected async override Task OnUpdateAsync(bool firstRender)
         {
             // On first load reset the Service record to make sure we're clean
             if (firstRender && this.IsService)
@@ -75,10 +75,10 @@ namespace CEC.Blazor.SPA.Components.Forms
             // Load the Record
             await this.LoadRecordAsync(firstRender);
             //  Call down the hierachy
-            await base.OnRenderAsync(firstRender);
+            await base.OnUpdateAsync(firstRender);
         }
 
-        protected void Render_Async(object sender, EventArgs e) => this.RenderAsync();
+        protected async void Render_Async(object sender, EventArgs e) => await this.RenderAsync();
 
         /// <summary>
         /// Method to Load Record

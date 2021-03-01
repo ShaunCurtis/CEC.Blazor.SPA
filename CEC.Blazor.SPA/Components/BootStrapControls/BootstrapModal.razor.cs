@@ -16,7 +16,7 @@ namespace CEC.Blazor.SPA.Components.UIControls
     ///  -  ModalHeaderCSS
     ///  -  ModalBodyCSS
     /// </summary>
-    public partial class BootstrapModal : Component, IModal
+    public partial class BootstrapModal : BlazorComponent, IModal
     {
         /// <summary>
         /// Modal Options Property
@@ -27,11 +27,6 @@ namespace CEC.Blazor.SPA.Components.UIControls
         /// Render Fragment for the control content
         /// </summary>
         private RenderFragment _Content { get; set; }
-
-        /// <summary>
-        /// Property to track the modal state
-        /// </summary>
-        private bool _ShowModal { get; set; }
 
         /// <summary>
         /// Bootstrap CSS specific properties 
@@ -45,6 +40,9 @@ namespace CEC.Blazor.SPA.Components.UIControls
 
         private string _ModalBodyCss => $"modal-body {this.Options.Parameters.Get<string>("ModalBodyCSS")}".Trim();
 
+
+        public BootstrapModal() =>
+            this._Display = false;
         /// <summary>
         /// Independant Task passed to Show callers to track component state
         /// </summary>
@@ -66,7 +64,7 @@ namespace CEC.Blazor.SPA.Components.UIControls
                 builder.OpenComponent(i++, typeof(TModal));
                 builder.CloseComponent();
             });
-            this._ShowModal = true;
+            this._Display = true;
             InvokeAsync(Render);
             return _modalcompletiontask.Task;
         }
@@ -88,7 +86,7 @@ namespace CEC.Blazor.SPA.Components.UIControls
         public async void Dismiss()
         {
             _ = _modalcompletiontask.TrySetResult(ModalResult.Cancel());
-            this._ShowModal = false;
+            this._Display = false;
             this._Content = null;
             await InvokeAsync(Render);
         }
@@ -101,7 +99,7 @@ namespace CEC.Blazor.SPA.Components.UIControls
         public async void Close(ModalResult result)
         {
             _ = _modalcompletiontask.TrySetResult(result);
-            this._ShowModal = false;
+            this._Display = false;
             this._Content = null;
             await InvokeAsync(Render);
         }

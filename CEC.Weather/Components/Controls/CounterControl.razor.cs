@@ -7,7 +7,7 @@ using CEC.Blazor.Core;
 
 namespace CEC.Weather.Components
 {
-    public partial class CounterControl : Component
+    public partial class CounterControl : BlazorComponent
     {
         public class CounterInfo
         {
@@ -43,12 +43,12 @@ namespace CEC.Weather.Components
             this.ViewManager.LoadViewAsync(this.ViewManager.ViewData);
         }
 
-        protected override Task OnRenderAsync(bool firstRender)
+        protected override Task OnUpdateAsync(bool firstRender)
         {
             if (firstRender) renderType = "First Render";
             else renderType = "Subsequent Render";
             ParameterSetRequests++;
-            return base.OnRenderAsync(firstRender);
+            return base.OnUpdateAsync(firstRender);
         }
 
         protected override Task OnAfterRenderAsync(bool firstRender)

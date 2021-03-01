@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace CEC.Blazor.SPA.Components
 {
-    public class ModalEditForm : Component
+    public class ModalEditForm : BaseBlazorComponent
     {
 
         [Parameter] public RenderFragment EditorContent { get; set; }

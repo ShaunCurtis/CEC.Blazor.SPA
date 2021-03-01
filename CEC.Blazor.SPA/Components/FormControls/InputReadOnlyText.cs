@@ -7,7 +7,7 @@ namespace CEC.Blazor.SPA.Components.FormControls
     /// <summary>
     /// A display only Input box for formatted text
     /// </summary>
-    public class InputReadOnlyText : Component
+    public class InputReadOnlyText : BaseBlazorComponent
     {
         /// <summary>
         /// The string value that will be displayed

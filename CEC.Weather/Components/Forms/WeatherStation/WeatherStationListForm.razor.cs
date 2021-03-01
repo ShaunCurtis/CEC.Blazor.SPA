@@ -18,7 +18,7 @@ namespace CEC.Weather.Components
 
         private bool UseModal => this.Properties?.Get<bool>(PropertyConstants.UseModalViewer) ?? false;
 
-        protected override Task OnRenderAsync(bool firstRender)
+        protected override Task OnUpdateAsync(bool firstRender)
         {
             if (firstRender)
             {
@@ -27,7 +27,7 @@ namespace CEC.Weather.Components
                 // Sets the max column
                 this.Properties.Set(PropertyConstants.MaxColumn, 2);
             }
-            return base.OnRenderAsync(firstRender);
+            return base.OnUpdateAsync(firstRender);
         }
 
         /// <summary>

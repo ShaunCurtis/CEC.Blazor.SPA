@@ -11,7 +11,7 @@ using CEC.Blazor.Core;
 
 namespace CEC.Blazor.SPA.Components
 {
-    public partial class PagingControl<TRecord> : Component 
+    public partial class PagingControl<TRecord> : BaseBlazorComponent 
         where TRecord : class, IDbRecord<TRecord>, new()
     {
         [CascadingParameter] public IControllerPagingService<TRecord> _Paging { get; set; }
@@ -26,7 +26,7 @@ namespace CEC.Blazor.SPA.Components
 
         private bool IsPagination => this.Paging != null && this.Paging.IsPagination;
 
-        protected override Task OnRenderAsync(bool firstRender)
+        protected override Task OnUpdateAsync(bool firstRender)
         {
             if (firstRender)
             {
@@ -39,7 +39,7 @@ namespace CEC.Blazor.SPA.Components
                 if (this.DisplayType == PagingDisplayType.Narrow) Paging.PagingBlockSize = 4;
                 if (BlockSize > 0) Paging.PagingBlockSize = this.BlockSize;
             }
-            return base.OnRenderAsync(firstRender);
+            return Task.CompletedTask;
         }
 
         protected async void UpdateUI(object sender, int recordno) => await RenderAsync();

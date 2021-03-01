@@ -11,10 +11,10 @@ namespace CEC.Weather.Components
         [Inject]
         private WeatherReportControllerService ControllerService { get; set; }
 
-        protected override Task OnRenderAsync(bool firstRender)
+        protected override Task OnUpdateAsync(bool firstRender)
         {
             if (firstRender) this.Service = this.ControllerService;
-            return base.OnRenderAsync(firstRender);
+            return base.OnUpdateAsync(firstRender);
         }
     }
 }

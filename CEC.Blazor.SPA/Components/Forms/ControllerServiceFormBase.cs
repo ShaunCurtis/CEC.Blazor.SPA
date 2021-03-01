@@ -21,7 +21,7 @@ namespace CEC.Blazor.SPA.Components.Forms
     /// <typeparam name="TRecord"></typeparam>
     /// <typeparam name="TDbContext"></typeparam>
     public abstract class ControllerServiceFormBase<TRecord, TDbContext> :
-        FormBase
+        BlazorFormBase
         where TRecord : class, IDbRecord<TRecord>, new()
         where TDbContext : DbContext
     {

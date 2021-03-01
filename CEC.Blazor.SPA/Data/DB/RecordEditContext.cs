@@ -118,13 +118,9 @@ namespace CEC.Blazor.Data
 
         protected ValidationMessageStore ValidationMessageStore;
 
-        #endregion
+        protected bool Validating;
 
-        #region Private
-
-        private bool Validating;
-
-        private void ValidationRequested(object sender, ValidationRequestedEventArgs args)
+        protected virtual void ValidationRequested(object sender, ValidationRequestedEventArgs args)
         {
             // using Validating to stop being called multiple times
             if (ValidationMessageStore != null && !this.Validating)

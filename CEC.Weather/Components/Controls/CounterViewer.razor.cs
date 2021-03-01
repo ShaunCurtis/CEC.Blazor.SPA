@@ -1,13 +1,12 @@
 ﻿using CEC.Blazor.SPA.Components;
 using CEC.Weather.Components.Views;
 using Microsoft.AspNetCore.Components;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using CEC.Blazor.Core;
 
 namespace CEC.Weather.Components
 {
-    public partial class CounterViewer : Component
+    public partial class CounterViewer : BlazorComponent
     {
         [CascadingParameter]
         public ViewManager ViewManager { get; set; }
@@ -22,13 +21,12 @@ namespace CEC.Weather.Components
 
         private string renderType = "None";
 
-
-        protected override Task OnRenderAsync(bool firstRender)
+        protected override Task OnUpdateAsync(bool firstRender)
         {
             if (firstRender) renderType = "First Render";
             else renderType = "Subsequent Render";
             ParameterSetRequests++;
-            return base.OnRenderAsync(firstRender);
+            return base.OnUpdateAsync(firstRender);
         }
 
         protected override Task OnAfterRenderAsync(bool firstRender)

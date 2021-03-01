@@ -11,10 +11,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using CEC.Blazor.Core;
+using CEC.Blazor.SPA.Components;
 
 namespace CEC.Weather.Components
 {
-    public partial class MonthYearIDListFilter : Component
+    public partial class MonthYearIDListFilter : BaseBlazorComponent
     {
         [Inject]
         private WeatherReportControllerService Service { get; set; }
@@ -79,7 +80,7 @@ namespace CEC.Weather.Components
             }
         }
 
-        protected async override Task OnRenderAsync(bool firstRender)
+        protected async override Task OnUpdateAsync(bool firstRender)
         {
             this.OldYear = this.Year;
             this.OldMonth = this.Month;

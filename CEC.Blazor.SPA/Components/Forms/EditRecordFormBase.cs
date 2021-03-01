@@ -120,10 +120,10 @@ namespace CEC.Blazor.SPA.Components.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void onFieldChanged(object sender, EventArgs e)
+        protected async void onFieldChanged(object sender, EventArgs e)
         {
             this.SetViewManagerLock();
-            this.RenderAsync();
+            await this.RenderAsync();
         }
 
         /// <summary>
@@ -195,8 +195,8 @@ namespace CEC.Blazor.SPA.Components.Forms
 
         #region Private Methods
 
-        private void OnValidationStateChanged(object sender, ValidationStateChangedEventArgs e) 
-            => this.RenderAsync();
+        private async void OnValidationStateChanged(object sender, ValidationStateChangedEventArgs e) 
+            => await this.RenderAsync();
 
         private void SetViewManagerLock()
         {

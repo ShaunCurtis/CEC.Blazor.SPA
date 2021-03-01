@@ -1,9 +1,16 @@
-﻿using System;
-using CEC.Blazor.SPA.Components.UIControls;
+﻿/// =================================
+/// Author: Shaun Curtis, Cold Elm
+/// License: MIT
+/// ==================================
+
+using System;
 using CEC.Blazor.Data;
 
 namespace CEC.Blazor.SPA.Components.Forms
 {
+    /// <summary>
+    /// Data class for an alert UI component
+    /// </summary>
     public class FormAlert
     {
         public string Message { get; set; } = string.Empty;

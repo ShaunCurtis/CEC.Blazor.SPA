@@ -7,7 +7,7 @@ using CEC.Blazor.Core;
 
 namespace CEC.Weather.Components
 {
-    public partial class StaticViewer : Component
+    public partial class StaticViewer : BlazorComponent
     {
         [CascadingParameter]
         public ViewManager ViewManager { get; set; }
@@ -23,12 +23,12 @@ namespace CEC.Weather.Components
         private string renderType { get; set; } = "None";
 
 
-        protected override Task OnRenderAsync(bool firstRender)
+        protected override Task OnUpdateAsync(bool firstRender)
         {
             if (firstRender) renderType = "First Render";
             else renderType = "Subsequent Render";
             ParameterSetRequests++;
-            return base.OnRenderAsync(firstRender);
+            return base.OnUpdateAsync(firstRender);
         }
 
         protected override Task OnAfterRenderAsync(bool firstRender)

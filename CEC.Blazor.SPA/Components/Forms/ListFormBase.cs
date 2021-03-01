@@ -31,7 +31,7 @@ namespace CEC.Blazor.SPA.Components.Forms
         [Parameter]
         public string ListTitle { get; set; }
 
-        protected async override Task OnRenderAsync(bool firstRender)
+        protected async override Task OnUpdateAsync(bool firstRender)
         {
             var page = 1;
             if (this.IsService)
@@ -51,7 +51,7 @@ namespace CEC.Blazor.SPA.Components.Forms
                 await this.Paging.GoToPageAsync(page);
                 this.Loading = false;
             }
-            await base.OnRenderAsync(firstRender);
+            await base.OnUpdateAsync(firstRender);
 
         }
 
